@@ -3,6 +3,8 @@ import AuthProvider from "../providers/AuthProvider";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { useEffect } from "react";
+import { StatusBar } from "expo-status-bar";
+import QueryProvider from "../providers/QueryProvider";
 
 const RootLayout = () => {
   const [fontsLoaded, error] = useFonts({
@@ -23,9 +25,12 @@ const RootLayout = () => {
 
   return (
     <AuthProvider>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
+      <QueryProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+        <StatusBar backgroundColor="#0f141e" style="light" />
+      </QueryProvider>
     </AuthProvider>
   );
 };

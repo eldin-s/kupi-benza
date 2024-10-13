@@ -7,9 +7,7 @@ import PrimaryButton from "../ui/PrimaryButton";
 import { useState } from "react";
 import { Link, Stack, useRouter } from "expo-router";
 import { supabase } from "../../lib/supabase";
-
-const fontScale = PixelRatio.getFontScale();
-const getFontSize = (size) => size / fontScale;
+import { getFontSize } from "../../utils.js/getFontSize";
 
 const SigninForm = () => {
   const [loading, setLoading] = useState(false);

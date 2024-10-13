@@ -12,9 +12,7 @@ import Input from "../ui/Input";
 import PrimaryButton from "../ui/PrimaryButton";
 import { Link } from "expo-router";
 import { supabase } from "../../lib/supabase";
-
-const fontScale = PixelRatio.getFontScale();
-const getFontSize = (size) => size / fontScale;
+import { getFontSize } from "../../utils.js/getFontSize";
 
 const SignupForm = () => {
   const [loading, setLoading] = useState(false);

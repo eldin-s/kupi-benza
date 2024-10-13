@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Redirect } from "expo-router";
 import { useAuth } from "../../../providers/AuthProvider";
@@ -7,11 +7,6 @@ import { supabase } from "../../../lib/supabase";
 
 const Profile = () => {
   const { session, loading } = useAuth();
-
-  const logout = async () => {
-    const { data, error } = await supabase.auth.signOut();
-    console.log(data);
-  };
 
   if (loading) {
     return <ActivityIndicator />;
