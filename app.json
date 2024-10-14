@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "KupiBenza",
-    "slug": "KupiBenza",
-    "scheme": "KupiBenza",
+    "name": "kupi-benza-app",
+    "slug": "kupi-benza-app",
+    "scheme": "kupi-benza-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
