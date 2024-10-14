@@ -76,7 +76,7 @@ const DropdownSearches = ({
             onValueChange={(value) => setVrstaGoriva(value)}
             style={styles.picker}
           >
-            <Picker.Item label="Vrsta goriva" value="V" />
+            <Picker.Item label="Vrsta goriva" value="" />
             <Picker.Item label="Benzin" value="Benzin" />
             <Picker.Item label="Dizel" value="Dizel" />
             <Picker.Item label="Hibrid" value="Hibrid" />

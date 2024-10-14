@@ -1,6 +1,7 @@
 import { StyleSheet, TextInput, View } from "react-native";
 import { moderateScale } from "react-native-size-matters";
 import { useController } from "react-hook-form";
+import { getFontSize } from "../../utils.js/getFontSize";
 
 const Input = ({
   name,
@@ -42,10 +43,11 @@ export default Input;
 const styles = StyleSheet.create({
   input: {
     width: "100%",
-    padding: moderateScale(6),
+    padding: moderateScale(4.6),
     borderWidth: 1,
     borderColor: "#d1d5db",
     borderRadius: 5,
     color: "white",
+    fontSize: getFontSize(16),
   },
 });

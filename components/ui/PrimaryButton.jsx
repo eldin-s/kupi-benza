@@ -13,7 +13,6 @@ export default PrimaryButton;
 
 const styles = StyleSheet.create({
   button: {
-    width: "100%",
     backgroundColor: "#ff4605",
     borderRadius: moderateScale(14),
     paddingVertical: moderateScale(12),

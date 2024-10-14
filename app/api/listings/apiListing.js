@@ -18,3 +18,21 @@ export function use5CarsList() {
     },
   });
 }
+
+export const useListingsForUser = (userId) => {
+  return useQuery({
+    queryKey: ["listings", userId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("cars")
+        .select("*")
+        .eq("profile_id", userId);
+
+      if (error) {
+        throw new Error("Trenutno nije moguće pokazati oglase");
+      }
+
+      return data;
+    },
+  });
+};

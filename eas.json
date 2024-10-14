@@ -1,0 +1,15 @@
+{
+  "build": {
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://api.production.com",
+        "EXPO_PUBLIC_SUPABASE_ANON": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlreWVkZ2prdGptZ3JqZXhwb2tjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjYxNDQxNTAsImV4cCI6MjA0MTcyMDE1MH0.JS3b_Hj3sHZVP1VhhecV3BMCF7EAJbYfnCS0h23SUk4"
+      }
+    },
+    "test": {
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://api.test.com"
+      }
+    }
+  }
+}

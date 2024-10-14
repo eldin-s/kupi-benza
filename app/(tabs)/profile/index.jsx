@@ -1,9 +1,9 @@
-import { ActivityIndicator, StyleSheet, Text } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Redirect } from "expo-router";
 import { useAuth } from "../../../providers/AuthProvider";
-import PrimaryButton from "../../../components/ui/PrimaryButton";
-import { supabase } from "../../../lib/supabase";
+import { scale } from "react-native-size-matters";
+import Dashboard from "../../../components/dashboard/dashboard";
 
 const Profile = () => {
   const { session, loading } = useAuth();
@@ -17,16 +17,20 @@ const Profile = () => {
   }
 
   return (
-    <SafeAreaView>
-      <Text>Profile</Text>
-
-      <PrimaryButton onPress={() => supabase.auth.signOut()}>
-        Odloguj se
-      </PrimaryButton>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
+        <Dashboard userId={session.user.id} />
+      </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default Profile;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#0f141e",
+    paddingHorizontal: scale(14),
+  },
+});

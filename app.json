@@ -38,6 +38,12 @@
             "./assets/Montserrat-SemiBold"
           ]
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Aplikacija pristupa vašim fotografijama da bi vam omogućila da ih objavite na KupiBenza."
+        }
       ]
     ]
   }
