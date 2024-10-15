@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0F141E"
     },
     "ios": {
       "supportsTablet": true
@@ -18,8 +18,10 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundColor": "#0F141E"
+      },
+      "permissions": ["android.permission.RECORD_AUDIO"],
+      "package": "com.eldins.KupiBenza"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -30,12 +32,12 @@
         "expo-font",
         {
           "fonts": [
-            "./assets/Montserrat-Black",
-            "./assets/Montserrat-Bold",
-            "./assets/Montserrat-Light",
-            "./assets/Montserrat-Medium",
-            "./assets/Montserrat-Regular",
-            "./assets/Montserrat-SemiBold"
+            "./assets/fonts/Montserrat-Black.ttf",
+            "./assets/fonts/Montserrat-Bold.ttf",
+            "./assets/fonts/Montserrat-Light.ttf",
+            "./assets/fonts/Montserrat-Medium.ttf",
+            "./assets/fonts/Montserrat-Regular.ttf",
+            "./assets/fonts/Montserrat-SemiBold.ttf"
           ]
         }
       ],
@@ -45,6 +47,11 @@
           "photosPermission": "Aplikacija pristupa vašim fotografijama da bi vam omogućila da ih objavite na KupiBenza."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "13bfc9aa-8ca7-43ee-b564-dcfffc65dac9"
+      }
+    }
   }
 }

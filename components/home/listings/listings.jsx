@@ -1,11 +1,5 @@
-import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { use5CarsList } from "../../../app/api/listings/apiListing";
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native";
+import { use5CarsList } from "../../../app/api/listings";
 import CarCard from "../../ui/car-card";
 import { scale } from "react-native-size-matters";
 
@@ -21,8 +15,7 @@ const Listing = () => {
   }
 
   if (error) {
-    console.log(error);
-    return <Text>Trenutno je nemoguće učitati</Text>;
+    Alert.alert(error);
   }
 
   return (

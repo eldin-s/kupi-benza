@@ -12,7 +12,7 @@ export function useCurrentUser(userId) {
         .single();
 
       if (error) {
-        console.log(error);
+        throw new Error(error.message);
       }
 
       return data;

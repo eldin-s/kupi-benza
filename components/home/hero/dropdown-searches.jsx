@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginVertical: verticalScale(6),
+    marginVertical: verticalScale(10),
   },
   pickerWrapper: {
     flex: 1,

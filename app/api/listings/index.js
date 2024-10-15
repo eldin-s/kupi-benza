@@ -11,7 +11,7 @@ export function use5CarsList() {
         .range(0, 4);
 
       if (error) {
-        console.log(error);
+        throw new Error(error.message);
       }
 
       return data;
@@ -29,7 +29,7 @@ export const useListingsForUser = (userId) => {
         .eq("profile_id", userId);
 
       if (error) {
-        throw new Error("Trenutno nije moguće pokazati oglase");
+        throw new Error(error.message);
       }
 
       return data;

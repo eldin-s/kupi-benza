@@ -1,5 +1,5 @@
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { useCurrentUser } from "../../app/api/user/apiUsers";
+import { useCurrentUser } from "../../app/api/user";
 import UserListings from "./user-listings";
 import OutlineButton from "../ui/OutlineButton";
 import { moderateScale, scale } from "react-native-size-matters";
@@ -15,7 +15,7 @@ const Dashboard = ({ userId }) => {
     return <ActivityIndicator />;
   }
   if (error) {
-    return <Text>{error.message}</Text>;
+    Alert.alert(error.message);
   }
 
   return (

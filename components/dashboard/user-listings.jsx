@@ -1,5 +1,5 @@
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { useListingsForUser } from "../../app/api/listings/apiListing";
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native";
+import { useListingsForUser } from "../../app/api/listings";
 import CarCard from "../ui/car-card";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { verticalScale } from "react-native-size-matters";
@@ -11,7 +11,7 @@ const UserListings = ({ userId }) => {
     return <ActivityIndicator />;
   }
   if (error) {
-    return <Text>{error.message}</Text>;
+    Alert.alert(error);
   }
 
   return (
