@@ -36,3 +36,22 @@ export const useListingsForUser = (userId) => {
     },
   });
 };
+
+export const useSingleListing = (id) => {
+  return useQuery({
+    queryKey: ["cars", id],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("cars")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        throw new Error("Trenutno nije moguće pokazati detalje oglasa");
+      }
+
+      return data;
+    },
+  });
+};

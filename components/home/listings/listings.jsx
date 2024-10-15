@@ -1,10 +1,20 @@
-import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+} from "react-native";
+import { useRouter } from "expo-router";
 import { use5CarsList } from "../../../app/api/listings";
 import CarCard from "../../ui/car-card";
-import { scale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
+import { getFontSize } from "../../../utils.js/getFontSize";
 
 const Listing = () => {
   const { data: cars, error, isLoading } = use5CarsList();
+  const router = useRouter();
 
   if (isLoading) {
     return (
@@ -20,8 +30,14 @@ const Listing = () => {
 
   return (
     <View style={{ paddingHorizontal: scale(14) }}>
+      <Text style={styles.heading}>Istaknuti Oglasi</Text>
+
       {cars?.length > 0 && !isLoading ? (
-        cars.map((car, index) => <CarCard key={index} listing={car} />)
+        cars.map((car) => (
+          <Pressable key={car.id} onPress={() => router.push(`/${car.id}`)}>
+            <CarCard listing={car} />
+          </Pressable>
+        ))
       ) : (
         <Text>Trenutno oglasi nisu dostupni</Text>
       )}
@@ -31,4 +47,13 @@ const Listing = () => {
 
 export default Listing;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  heading: {
+    color: "#fff",
+    fontFamily: "Montserrat-Black",
+    marginBottom: verticalScale(10),
+    fontSize: getFontSize(18),
+    textAlign: "center",
+    textTransform: "uppercase",
+  },
+});

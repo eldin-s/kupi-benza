@@ -1,54 +1,30 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  ActivityIndicator,
-  PixelRatio,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native";
 import { moderateScale } from "react-native-size-matters";
 import Input from "../ui/Input";
 import PrimaryButton from "../ui/PrimaryButton";
-import { Link } from "expo-router";
-import { supabase } from "../../lib/supabase";
+import { Link, useRouter } from "expo-router";
 import { getFontSize } from "../../utils.js/getFontSize";
+import { signup } from "../../app/api/auth";
 
 const SignupForm = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+
+  const router = useRouter();
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
+  } = useForm();
 
   const handleFormSubmit = async (data) => {
     try {
-      setError("");
-      setLoading(true);
-
-      const { error } = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: data.password,
-      });
-      // const response = await login(data);
-
-      if (error) {
-        console.log(error);
-        setError(error.message);
-      }
-
+      signup(data);
       router.replace("/(tabs)/profile");
     } catch (err) {
-      console.log(err.message);
-      setError("Prijava je neuspešna! Proverite podatke i probajte ponovo.");
+      Alert.alert(err.message);
     } finally {
       setLoading(false);
     }

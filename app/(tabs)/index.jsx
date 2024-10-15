@@ -11,7 +11,7 @@ const Home = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <Hero />
-        <Facts />
+        {/* <Facts /> */}
         <Listing />
         <Cards />
         <Track />

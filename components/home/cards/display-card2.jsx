@@ -7,8 +7,6 @@ import OutlineButton from "../../ui/OutlineButton";
 import { getFontSize } from "../../../utils.js/getFontSize";
 
 const DisplayCard2 = () => {
-  const data = [{ key: "Finansiski" }, { key: "Operativni" }];
-
   return (
     <ImageBackground
       source={shape2}
@@ -60,7 +58,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: -1,
     left: scale(64),
-    top: scale(48),
+    top: scale(10),
   },
   content: {
     flex: 1,
@@ -76,8 +74,8 @@ const styles = StyleSheet.create({
     fontFamily: "Montserrat-Regular",
   },
   iconSize: {
-    width: scale(40),
-    height: scale(40),
+    width: scale(43),
+    height: scale(43),
   },
   imageSize: {
     width: scale(120),

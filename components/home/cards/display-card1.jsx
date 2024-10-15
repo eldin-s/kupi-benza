@@ -25,11 +25,19 @@ const DisplayCard1 = () => {
         <Text style={styles.text}>
           Nudimo mogucnostu {"\n"}kupovine putem lizinga
         </Text>
-        {data.map((item, index) => (
-          <View key={index}>
-            <Text style={styles.textList}>{item.key}</Text>
-          </View>
-        ))}
+        <View
+          style={{
+            flexDirection: "row",
+            gap: scale(6),
+            paddingTop: verticalScale(6),
+          }}
+        >
+          {data.map((item, index) => (
+            <Text style={styles.textList} key={index}>
+              {item.key}
+            </Text>
+          ))}
+        </View>
 
         <OutlineButton>Saznajte više</OutlineButton>
       </View>
@@ -61,7 +69,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     zIndex: -1,
     left: scale(64),
-    top: scale(48),
+    top: scale(38),
   },
   content: {
     flex: 1,
@@ -79,7 +87,6 @@ const styles = StyleSheet.create({
   textList: {
     color: "#fff",
     fontFamily: "Montserrat-Regular",
-    paddingLeft: scale(10),
   },
   iconSize: {
     width: scale(40),

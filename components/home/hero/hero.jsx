@@ -1,12 +1,13 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import SearchCard from "./search-card";
 import Slider from "./slider";
+import { verticalScale } from "react-native-size-matters";
 
 const Hero = () => {
   return (
-    <View>
+    <View style={{ marginTop: verticalScale(14) }}>
       <SearchCard />
-      <Slider />
+      {/* <Slider /> */}
     </View>
   );
 };

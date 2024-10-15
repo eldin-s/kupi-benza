@@ -5,7 +5,7 @@ import OutlineButton from "../ui/OutlineButton";
 import { moderateScale, scale } from "react-native-size-matters";
 import Entypo from "@expo/vector-icons/Entypo";
 import { supabase } from "../../lib/supabase";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 const Dashboard = ({ userId }) => {
   const { data: user, error, isLoading } = useCurrentUser(userId);

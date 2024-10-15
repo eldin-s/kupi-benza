@@ -1,11 +1,20 @@
-import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useListingsForUser } from "../../app/api/listings";
 import CarCard from "../ui/car-card";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { verticalScale } from "react-native-size-matters";
+import { useRouter } from "expo-router";
 
 const UserListings = ({ userId }) => {
   const { data, error, isLoading } = useListingsForUser(userId);
+  const router = useRouter();
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -27,11 +36,19 @@ const UserListings = ({ userId }) => {
         Vaši oglasi:
       </Text>
       {data && data.length > 0 ? (
-        data.map((listing, index) => (
-          <CarCard listing={listing} key={listing.id} />
+        data.map((listing) => (
+          <Pressable
+            key={listing.id}
+            onPress={() => router.push(`/${listing.id}`)}
+          >
+            <CarCard listing={listing} />
+          </Pressable>
         ))
       ) : (
-        <Text>No listings available.</Text>
+        <Text style={{ color: "#fff" }}>
+          Trenutno nemate objavljenih oglasa. Kliknite na "+ DODAJ OGLAS" da bi
+          ste objavili oglas.
+        </Text>
       )}
     </View>
   );

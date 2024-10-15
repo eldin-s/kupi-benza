@@ -3,7 +3,7 @@ import { Tabs } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-const TabIcon = ({ icon, color, focused }) => {
+const TabIcon = ({ icon, focused }) => {
   return (
     <View style={[styles.container, focused && styles.focusedContainer]}>
       {icon}

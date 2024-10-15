@@ -35,7 +35,6 @@ const SigninForm = () => {
         email: data.email,
         password: data.password,
       });
-      // const response = await login(data);
 
       if (error) {
         console.log(error);
@@ -56,6 +55,8 @@ const SigninForm = () => {
       <Stack.Screen options={{ headerShown: false }} />
 
       <Text style={styles.heading}>Prijavi se</Text>
+
+      {error && <Text style={{ color: "#d66f6f" }}>{error}</Text>}
 
       <View style={styles.inputBox}>
         {/* Email Input */}
