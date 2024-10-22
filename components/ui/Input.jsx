@@ -9,7 +9,7 @@ const Input = ({
   placeholder,
   secureTextEntry,
   keyboardType = "default",
-  autoCapitalize = "none",
+  autoCapitalize,
   rules,
 }) => {
   const {

@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../../lib/supabase";
+import { Alert } from "react-native";
 
 export function use5CarsList() {
   return useQuery({
@@ -39,7 +40,7 @@ export const useListingsForUser = (userId) => {
 
 export const useSingleListing = (id) => {
   return useQuery({
-    queryKey: ["cars", id],
+    queryKey: ["listings", id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("cars")
@@ -52,6 +53,30 @@ export const useSingleListing = (id) => {
       }
 
       return data;
+    },
+  });
+};
+
+export const useCreateListing = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    async mutationFn(data) {
+      const { data: newListing, error } = await supabase
+        .from("cars")
+        .insert(data)
+        .single();
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return newListing;
+    },
+
+    async onSuccess() {
+      Alert.alert("Oglas uspješno objavljen");
+      await queryClient.invalidateQueries({ queryKey: ["listings"] });
     },
   });
 };
