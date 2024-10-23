@@ -62,9 +62,7 @@ const AddListingForm = () => {
       };
 
       const newCar = createListing(newCarData);
-      console.log(newCar);
     } catch (error) {
-      console.log("catch", error);
       Alert.alert("Failed to create listing", error.message);
     }
   };

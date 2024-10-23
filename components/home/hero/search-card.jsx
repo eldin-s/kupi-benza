@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  Image,
-  PixelRatio,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import React, { useState } from "react";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import mercedesLogo from "../../../assets/images/Mercedes-Logo.png";
@@ -17,6 +10,7 @@ import sside from "../../../assets/images/cars/s-side.png";
 import gside from "../../../assets/images/cars/g-side.png";
 import gleside from "../../../assets/images/cars/gle-side.png";
 import { getFontSize } from "../../../utils.js/getFontSize";
+import { useNavigation } from "@react-navigation/native";
 
 const SearchCard = () => {
   const [carState, setCarState] = useState("Sve");
@@ -28,6 +22,42 @@ const SearchCard = () => {
   const [odCene, setOdCene] = useState("");
   const [doCene, setDoCene] = useState("");
   const [karoserija, setKaroserija] = useState("");
+
+  const navigation = useNavigation();
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+
+    if (odGodine) {
+      params.set("odGodine", odGodine);
+    }
+
+    if (doGodine) {
+      params.set("doGodine", doGodine);
+    }
+
+    if (vrstaGoriva) {
+      params.set("vrstaGoriva", vrstaGoriva);
+    }
+
+    if (odCene) {
+      params.set("odCene", odCene);
+    }
+
+    if (doCene) {
+      params.set("doCene", doCene);
+    }
+
+    if (karoserija) {
+      params.set("karoserija", karoserija);
+    }
+
+    // Convert params to string
+    const queryString = params.toString();
+
+    // Navigate to the Search screen and pass the query parameters
+    navigation.navigate("search", { queryString });
+  };
 
   return (
     <View style={styles.mainContainer}>
@@ -120,7 +150,7 @@ const SearchCard = () => {
           setKaroserija={setKaroserija}
         />
 
-        <PrimaryButton>PRETRAŽI</PrimaryButton>
+        <PrimaryButton onPress={handleSearch}>PRETRAŽI</PrimaryButton>
 
         <View style={styles.cardFooter}>
           <Text style={styles.searchButton}>BRZA PRETRAGA</Text>

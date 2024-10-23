@@ -37,13 +37,11 @@ const SigninForm = () => {
       });
 
       if (error) {
-        console.log(error);
         setError(error.message);
       }
 
       router.replace("/(tabs)/profile");
     } catch (err) {
-      console.log(err.message);
       setError("Prijava je neuspešna! Proverite podatke i probajte ponovo.");
     } finally {
       setLoading(false);

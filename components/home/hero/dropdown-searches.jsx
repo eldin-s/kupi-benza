@@ -96,7 +96,7 @@ const DropdownSearches = ({
             <Picker.Item label="Karavan" value="Karavan" />
             <Picker.Item label="Kupe" value="Kupe" />
             <Picker.Item label="Kabrio" value="Kabrio" />
-            <Picker.Item label="Suv" value="Suv" />
+            <Picker.Item label="Suv" value="SUV" />
           </Picker>
         </View>
       </View>
