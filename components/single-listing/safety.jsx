@@ -6,7 +6,7 @@ import { getFontSize } from "../../utils.js/getFontSize";
 const Safety = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>SIGURNOST</Text>
+      <Text style={styles.title}>Sigurnost:</Text>
 
       <View style={styles.column}>
         <Text style={styles.label}>Airbag za vozaca</Text>
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     marginTop: verticalScale(10),
     backgroundColor: "#19212f",
     borderRadius: moderateScale(14),
-    padding: moderateScale(16),
+    paddingHorizontal: scale(20),
   },
   title: {
     fontSize: getFontSize(20),

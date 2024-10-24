@@ -35,21 +35,30 @@ const UserListings = ({ userId }) => {
       >
         Vaši oglasi:
       </Text>
-      {data && data.length > 0 ? (
-        data.map((listing) => (
-          <Pressable
-            key={listing.id}
-            onPress={() => router.push(`/${listing.id}`)}
-          >
-            <CarCard listing={listing} />
-          </Pressable>
-        ))
-      ) : (
-        <Text style={{ color: "#fff" }}>
-          Trenutno nemate objavljenih oglasa. Kliknite na "+ DODAJ OGLAS" da bi
-          ste objavili oglas.
-        </Text>
-      )}
+
+      <View
+        style={{
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          rowGap: verticalScale(6),
+        }}
+      >
+        {data && data.length > 0 ? (
+          data.map((listing) => (
+            <View key={car.id} style={{ width: "49%" }} key={listing.id}>
+              <Pressable onPress={() => router.push(`/${listing.id}`)}>
+                <CarCard listing={listing} />
+              </Pressable>
+            </View>
+          ))
+        ) : (
+          <Text style={{ color: "#fff" }}>
+            Trenutno nemate objavljenih oglasa. Kliknite na "+ DODAJ OGLAS" da
+            bi ste objavili oglas.
+          </Text>
+        )}
+      </View>
     </View>
   );
 };

@@ -32,15 +32,26 @@ const Listing = () => {
     <View style={{ paddingHorizontal: scale(14) }}>
       <Text style={styles.heading}>Istaknuti Oglasi</Text>
 
-      {cars?.length > 0 && !isLoading ? (
-        cars.map((car) => (
-          <Pressable key={car.id} onPress={() => router.push(`/${car.id}`)}>
-            <CarCard listing={car} />
-          </Pressable>
-        ))
-      ) : (
-        <Text>Trenutno oglasi nisu dostupni</Text>
-      )}
+      <View
+        style={{
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          rowGap: verticalScale(6),
+        }}
+      >
+        {cars?.length > 0 && !isLoading ? (
+          cars.map((car) => (
+            <View key={car.id} style={{ width: "49%" }}>
+              <Pressable onPress={() => router.push(`/${car.id}`)}>
+                <CarCard listing={car} />
+              </Pressable>
+            </View>
+          ))
+        ) : (
+          <Text>Trenutno oglasi nisu dostupni</Text>
+        )}
+      </View>
     </View>
   );
 };

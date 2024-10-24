@@ -29,7 +29,7 @@ const DisplayCard1 = () => {
           style={{
             flexDirection: "row",
             gap: scale(6),
-            paddingTop: verticalScale(6),
+            paddingVertical: verticalScale(10),
           }}
         >
           {data.map((item, index) => (

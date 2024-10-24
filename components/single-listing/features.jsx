@@ -6,7 +6,7 @@ import { getFontSize } from "../../utils.js/getFontSize";
 const Features = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>OPREMA</Text>
+      <Text style={styles.title}>Oprema:</Text>
 
       <View style={styles.column}>
         <Text style={styles.label}>Branici u boji auta</Text>
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     marginVertical: verticalScale(10),
     backgroundColor: "#19212f",
     borderRadius: moderateScale(14),
-    padding: moderateScale(16),
+    paddingHorizontal: scale(20),
   },
   title: {
     fontSize: getFontSize(20),

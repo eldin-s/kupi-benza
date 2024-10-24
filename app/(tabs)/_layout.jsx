@@ -2,6 +2,8 @@ import { StyleSheet, View } from "react-native";
 import { Tabs } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { moderateScale, scale, verticalScale } from "react-native-size-matters";
+import TabBarBackground from "../../components/ui/TabBarBackground";
 
 const TabIcon = ({ icon, focused }) => {
   return (
@@ -18,8 +20,16 @@ const TabsLayout = () => {
         screenOptions={{
           tabBarShowLabel: false,
           tabBarStyle: {
-            backgroundColor: "#19212f",
+            backgroundColor: "transparent",
+            borderTopWidth: 0,
+            height: verticalScale(42),
+            position: "absolute",
+            left: scale(3),
+            right: scale(3),
+            bottom: verticalScale(6),
+            borderRadius: moderateScale(14),
           },
+          tabBarBackground: () => <TabBarBackground />,
         }}
       >
         <Tabs.Screen
@@ -29,13 +39,7 @@ const TabsLayout = () => {
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
-                icon={
-                  <MaterialIcons
-                    name="home"
-                    size={32}
-                    color={focused ? "#19212f" : "#fff"}
-                  />
-                }
+                icon={<MaterialIcons name="home" size={28} color={"#fff"} />}
                 color={color}
                 focused={focused}
               />
@@ -52,8 +56,8 @@ const TabsLayout = () => {
                 icon={
                   <MaterialCommunityIcons
                     name="parking"
-                    size={32}
-                    color={focused ? "#19212f" : "#fff"}
+                    size={28}
+                    color={"#fff"}
                   />
                 }
                 color={color}
@@ -67,18 +71,25 @@ const TabsLayout = () => {
           options={{
             title: "Search",
             headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={
-                  <MaterialIcons
-                    name="search"
-                    size={32}
-                    color={focused ? "#19212f" : "#fff"}
-                  />
-                }
-                color={color}
-                focused={focused}
-              />
+            tabBarIcon: ({ color }) => (
+              <View
+                style={{
+                  position: "absolute",
+                  top: verticalScale(-10),
+                  borderRadius: 40,
+                  padding: moderateScale(10),
+                  backgroundColor: "#fff",
+                  borderRadius: 60,
+                }}
+              >
+                <TabIcon
+                  icon={
+                    <MaterialIcons name="search" size={30} color={"#19212f"} />
+                  }
+                  color={color}
+                  // focused={focused}
+                />
+              </View>
             ),
           }}
         />
@@ -90,11 +101,7 @@ const TabsLayout = () => {
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={
-                  <MaterialIcons
-                    name="settings"
-                    size={32}
-                    color={focused ? "#19212f" : "#fff"}
-                  />
+                  <MaterialIcons name="settings" size={28} color={"#fff"} />
                 }
                 color={color}
                 focused={focused}
@@ -112,8 +119,8 @@ const TabsLayout = () => {
                 icon={
                   <MaterialIcons
                     name="account-circle"
-                    size={32}
-                    color={focused ? "#19212f" : "#fff"}
+                    size={28}
+                    color={"#fff"}
                   />
                 }
                 color={color}
@@ -131,12 +138,12 @@ export default TabsLayout;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 4,
+    padding: 0,
     alignItems: "center",
     justifyContent: "center",
   },
   focusedContainer: {
-    backgroundColor: "white",
-    borderRadius: 100,
+    borderBottomWidth: 2,
+    borderBottomColor: "#fff",
   },
 });

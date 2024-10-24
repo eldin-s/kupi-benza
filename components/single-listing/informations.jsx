@@ -6,7 +6,7 @@ import { getFontSize } from "../../utils.js/getFontSize";
 const Informations = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>INFORMACIJE</Text>
+      <Text style={styles.title}>Opšte informacije:</Text>
 
       <View style={styles.column}>
         <View style={styles.row}>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     marginTop: verticalScale(10),
     backgroundColor: "#19212f",
     borderRadius: moderateScale(14),
-    padding: moderateScale(16),
+    paddingHorizontal: scale(20),
   },
   title: {
     fontSize: getFontSize(20),

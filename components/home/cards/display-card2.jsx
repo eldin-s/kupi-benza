@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#fff",
     fontFamily: "Montserrat-Regular",
+    paddingBottom: verticalScale(10),
   },
   iconSize: {
     width: scale(43),

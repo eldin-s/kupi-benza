@@ -52,28 +52,39 @@ const ListingSingle = () => {
         )}
 
         <View style={styles.detailsContainer}>
-          <View style={{ borderBottomWidth: 2, borderColor: "#ff4605" }}>
+          <View style={{ borderBottomWidth: 1, borderColor: "#ff4605" }}>
             <Text
               style={{
                 color: "#fff",
                 fontFamily: "Montserrat-Bold",
-                fontSize: getFontSize(28),
+                fontSize: getFontSize(20),
                 textAlign: "center",
+                paddingBottom: verticalScale(10),
               }}
             >
               {listing.model}
             </Text>
-            <Text
+
+            <View
               style={{
-                color: "#fff",
-                fontFamily: "Montserrat-Regular",
-                fontSize: getFontSize(36),
-                textAlign: "center",
-                paddingTop: verticalScale(12),
+                backgroundColor: "#ff4605",
+                paddingTop: verticalScale(10),
+                paddingBottom: verticalScale(18),
+                borderTopLeftRadius: moderateScale(14),
+                borderTopRightRadius: moderateScale(14),
               }}
             >
-              198.000 €
-            </Text>
+              <Text
+                style={{
+                  color: "#fff",
+                  fontFamily: "Montserrat-SemiBold",
+                  fontSize: getFontSize(20),
+                  textAlign: "center",
+                }}
+              >
+                Upit
+              </Text>
+            </View>
           </View>
 
           <View style={styles.shortDetails}>
@@ -173,14 +184,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#0f141e",
     alignItems: "center",
-    paddingHorizontal: scale(14),
+    // paddingHorizontal: scale(14),
   },
   detailsContainer: {
     width: "100%",
     marginTop: verticalScale(10),
     backgroundColor: "#19212f",
     borderRadius: moderateScale(14),
-    padding: moderateScale(16),
+    paddingVertical: verticalScale(10),
   },
   shortDetails: {
     flexDirection: "row",
@@ -191,7 +202,15 @@ const styles = StyleSheet.create({
     rowGap: verticalScale(10),
 
     paddingVertical: verticalScale(10),
-    borderBottomWidth: 2,
+    paddingHorizontal: scale(20),
+    marginTop: scale(-10),
+    borderTopLeftRadius: moderateScale(14),
+    borderTopRightRadius: moderateScale(14),
+
+    backgroundColor: "#19212f",
+    zIndex: 1,
+
+    borderBottomWidth: 0.2,
     borderColor: "#ff4605",
   },
   shortDetail: {
