@@ -57,6 +57,27 @@ export const useSingleListing = (id) => {
   });
 };
 
+export const useParkedListings = (parkedIds) => {
+  return useQuery({
+    queryKey: ["parkedListings", parkedIds],
+    queryFn: async () => {
+      if (!parkedIds || parkedIds.length === 0) return [];
+
+      const { data, error } = await supabase
+        .from("cars")
+        .select("*")
+        .in("id", parkedIds);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
+    },
+    enabled: !!parkedIds && parkedIds.length > 0,
+  });
+};
+
 export const useCreateListing = () => {
   const queryClient = useQueryClient();
 

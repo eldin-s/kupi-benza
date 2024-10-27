@@ -1,11 +1,12 @@
 import {
   ActivityIndicator,
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { useSingleListing } from "../api/listings";
 import ImageSlider from "../../components/ui/image-slider";
@@ -18,10 +19,43 @@ import OutlineButton from "../../components/ui/OutlineButton";
 import Informations from "../../components/single-listing/informations";
 import Safety from "../../components/single-listing/safety";
 import Features from "../../components/single-listing/features";
+import { useAuth } from "../../providers/AuthProvider";
+import { useCurrentUser, useSetParking } from "../api/user";
 
 const ListingSingle = () => {
-  const { id } = useLocalSearchParams();
-  const { data: listing, error, isLoading } = useSingleListing(id);
+  const { id: listingId } = useLocalSearchParams();
+  const [isParking, setIsParking] = useState(false);
+
+  const { session } = useAuth();
+  const { data: user } = useCurrentUser(session?.user?.id);
+  const { data: listing, error, isLoading } = useSingleListing(listingId);
+
+  const setParkingMutation = useSetParking();
+
+  useEffect(() => {
+    if (user && user.parkings) {
+      setIsParking(user.parkings.includes(listingId));
+    }
+  }, [user, listingId]);
+
+  const handleToggleParking = () => {
+    if (!user) Alert.alert("Morate biti prijavljeni da bi parkirali vozilo");
+
+    setParkingMutation.mutate(
+      {
+        userId: user?.id,
+        listingId,
+      },
+      {
+        onSuccess: (updatedProfile) => {
+          setIsParking(updatedProfile.parkings.includes(listingId));
+        },
+        onError: (error) => {
+          console.log("Failed to update", error);
+        },
+      }
+    );
+  };
 
   if (isLoading) {
     return <ActivityIndicator color={"#fff"} />;
@@ -152,19 +186,20 @@ const ListingSingle = () => {
                   />
                 }
               >
-                Pozovite
+                Email
               </OutlineButton>
               <OutlineButton
                 icon={
                   <MaterialIcons
                     name="local-parking"
                     size={24}
-                    color="#ff4605"
+                    color={isParking ? "#fff" : "#ff4605"}
                   />
                 }
-              >
-                Pozovite
-              </OutlineButton>
+                background={isParking ? "#ff4605" : "transparent"}
+                onPress={handleToggleParking}
+                disable={isLoading || setParkingMutation.isPending}
+              />
             </View>
           </View>
         </View>

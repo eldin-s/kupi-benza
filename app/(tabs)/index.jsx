@@ -5,6 +5,7 @@ import Listing from "../../components/home/listings/listings";
 import Cards from "../../components/home/cards/cards";
 import Track from "../../components/home/track/track";
 import Logo from "../../components/home/logo";
+import { verticalScale } from "react-native-size-matters";
 
 const Home = () => {
   return (
@@ -26,5 +27,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#0f141e",
+    paddingTop: verticalScale(14),
   },
 });

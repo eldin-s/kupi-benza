@@ -1,16 +1,26 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import SigninForm from "../components/forms/signin-form";
-import { moderateScale } from "react-native-size-matters";
+import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, Stack } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const Login = () => {
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
-      <Link href={"/"} style={{ color: "#fff", textAlign: "center" }}>
-        {"<"}- Vrati se na pocetnu
-      </Link>
+      <View
+        style={{
+          position: "absolute",
+          top: verticalScale(30),
+          left: scale(10),
+        }}
+      >
+        <Link href={"/"} style={{ color: "#fff", textAlign: "center" }}>
+          <Ionicons name="arrow-back" size={24} color="#fff" />
+        </Link>
+      </View>
+
       <SigninForm />
     </SafeAreaView>
   );
@@ -25,5 +35,6 @@ const styles = StyleSheet.create({
     alignContent: "center",
     backgroundColor: "#0f141e",
     padding: moderateScale(10),
+    position: "relative",
   },
 });

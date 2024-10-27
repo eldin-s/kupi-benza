@@ -24,7 +24,12 @@ const UserListings = ({ userId }) => {
   }
 
   return (
-    <View style={{ paddingBottom: verticalScale(70) }}>
+    <View
+      style={{
+        paddingBottom: verticalScale(70),
+        paddingTop: verticalScale(10),
+      }}
+    >
       <Text
         style={{
           color: "#fff",

@@ -3,7 +3,7 @@ import { useSearch } from "../../hooks/useSearch";
 import CarCard from "../ui/car-card";
 import { useRouter } from "expo-router";
 import SearchSingleCard from "./search-single-card";
-import { verticalScale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 
 const ListingsCard = () => {
   const { data, isLoading } = useSearch();
@@ -25,7 +25,7 @@ const ListingsCard = () => {
     <View
       style={{
         flex: 1,
-        paddingHorizontal: 14,
+        paddingHorizontal: scale(14),
         rowGap: verticalScale(10),
         paddingBottom: verticalScale(70),
       }}
