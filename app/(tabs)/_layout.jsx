@@ -87,7 +87,6 @@ const TabsLayout = () => {
                     <MaterialIcons name="search" size={30} color={"#19212f"} />
                   }
                   color={color}
-                  // focused={focused}
                 />
               </View>
             ),
@@ -144,6 +143,6 @@ const styles = StyleSheet.create({
   },
   focusedContainer: {
     borderBottomWidth: 2,
-    borderBottomColor: "#fff",
+    borderBottomColor: "#ff4605",
   },
 });

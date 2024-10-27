@@ -4,14 +4,8 @@ import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
 
 const CarCard = ({ listing }) => {
-  const {
-    car_images = [],
-    model = "",
-    power = "",
-    car_state = "",
-    production_year = "",
-    price = "",
-  } = listing || {};
+  const { car_images = [], model = "" } = listing || {};
+  const modelName = model.replace("Mercedes-Benz", "");
 
   return (
     <View style={styles.container}>
@@ -31,6 +25,8 @@ const CarCard = ({ listing }) => {
           padding: moderateScale(10),
           flexDirection: "row",
           justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: moderateScale(4),
         }}
       >
         <Text
@@ -40,7 +36,7 @@ const CarCard = ({ listing }) => {
             textTransform: "uppercase",
           }}
         >
-          {model}
+          {modelName}
         </Text>
 
         <Text

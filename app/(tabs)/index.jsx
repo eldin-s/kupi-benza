@@ -1,17 +1,17 @@
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Hero from "../../components/home/hero/hero";
-import Facts from "../../components/home/facts";
 import Listing from "../../components/home/listings/listings";
 import Cards from "../../components/home/cards/cards";
 import Track from "../../components/home/track/track";
+import Logo from "../../components/home/logo";
 
 const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        <Logo />
         <Hero />
-        {/* <Facts /> */}
         <Listing />
         <Cards />
         <Track />

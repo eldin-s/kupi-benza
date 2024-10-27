@@ -8,10 +8,20 @@ import {
 } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
+import FullScreenImage from "./FullScreenImage";
 
 const ImageSlider = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const slideIntervalRef = useRef(null);
+
+  const handleClose = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleOpen = () => {
+    setIsModalVisible(true);
+  };
 
   // Function to start the autoplay
   const startSlideInterval = () => {
@@ -56,22 +66,33 @@ const ImageSlider = ({ images }) => {
 
   // Start the autoplay when the component mounts
   useEffect(() => {
-    startSlideInterval();
+    if (isModalVisible) {
+      stopSlideInterval();
+    } else {
+      startSlideInterval();
+    }
 
-    // Clean up the interval on component unmount
+    // Clean up on unmount
     return () => stopSlideInterval();
-  }, []);
+  }, [isModalVisible]);
 
   return (
     <View style={styles.container}>
       {/* Main Image */}
-      <View style={styles.imageContainer}>
+      <TouchableOpacity onPress={handleOpen} style={styles.imageContainer}>
         <Image
           source={{ uri: images[currentIndex] }}
           style={styles.mainImage}
           resizeMode="contain"
         />
-      </View>
+      </TouchableOpacity>
+
+      {/* Full screen modal */}
+      <FullScreenImage
+        visible={isModalVisible}
+        onClose={handleClose}
+        imageSource={{ uri: images[currentIndex] }}
+      />
 
       {/* Left and Right buttons */}
       <View style={styles.buttonContainer}>
@@ -117,13 +138,13 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: "100%",
     height: verticalScale(200),
-    borderRadius: moderateScale(20),
     overflow: "hidden",
   },
   mainImage: {
     width: "100%",
     height: "100%",
   },
+
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",

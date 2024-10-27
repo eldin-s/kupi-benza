@@ -9,7 +9,7 @@ export function use5CarsList() {
       const { data, error } = await supabase
         .from("cars")
         .select("*")
-        .range(0, 4);
+        .range(0, 5);
 
       if (error) {
         throw new Error(error.message);

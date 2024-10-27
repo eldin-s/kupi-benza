@@ -24,7 +24,7 @@ const UserListings = ({ userId }) => {
   }
 
   return (
-    <View>
+    <View style={{ paddingBottom: verticalScale(70) }}>
       <Text
         style={{
           color: "#fff",
@@ -46,7 +46,7 @@ const UserListings = ({ userId }) => {
       >
         {data && data.length > 0 ? (
           data.map((listing) => (
-            <View key={car.id} style={{ width: "49%" }} key={listing.id}>
+            <View key={listing.id} style={{ width: "49%" }}>
               <Pressable onPress={() => router.push(`/${listing.id}`)}>
                 <CarCard listing={listing} />
               </Pressable>
