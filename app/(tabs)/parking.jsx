@@ -4,6 +4,7 @@ import {
   View,
   ActivityIndicator,
   Text,
+  ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { scale, verticalScale } from "react-native-size-matters";
@@ -40,20 +41,10 @@ const Parking = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Logo />
+      <ScrollView>
+        <Logo />
 
-      <View style={styles.innerContainer}>
-        <Text
-          style={{
-            color: "#fff",
-            fontFamily: "Montserrat-Medium",
-            fontSize: getFontSize(18),
-          }}
-        >
-          Vaša parkirana vozila:
-        </Text>
-
-        {!parkedCards || parkedCards.length === 0 || !user ? (
+        <View style={styles.innerContainer}>
           <Text
             style={{
               color: "#fff",
@@ -61,19 +52,31 @@ const Parking = () => {
               fontSize: getFontSize(18),
             }}
           >
-            Trenutno nemate parkiranih vozila
+            Vaša parkirana vozila:
           </Text>
-        ) : (
-          parkedCards?.map((listing) => (
-            <Pressable
-              onPress={() => router.push(`/${listing.id}`)}
-              key={listing.id}
+
+          {!parkedCards || parkedCards.length === 0 || !user ? (
+            <Text
+              style={{
+                color: "#fff",
+                fontFamily: "Montserrat-Medium",
+                fontSize: getFontSize(18),
+              }}
             >
-              <SearchSingleCard listing={listing} />
-            </Pressable>
-          ))
-        )}
-      </View>
+              Trenutno nemate parkiranih vozila
+            </Text>
+          ) : (
+            parkedCards?.map((listing) => (
+              <Pressable
+                onPress={() => router.push(`/${listing.id}`)}
+                key={listing.id}
+              >
+                <SearchSingleCard listing={listing} />
+              </Pressable>
+            ))
+          )}
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -89,6 +92,7 @@ const styles = StyleSheet.create({
   },
 
   innerContainer: {
+    flex: 1,
     rowGap: verticalScale(10),
     paddingHorizontal: scale(14),
   },

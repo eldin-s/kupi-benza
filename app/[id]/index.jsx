@@ -219,7 +219,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#0f141e",
     alignItems: "center",
-    // paddingHorizontal: scale(14),
   },
   detailsContainer: {
     width: "100%",
@@ -258,6 +257,8 @@ const styles = StyleSheet.create({
   buttons: {
     flexDirection: "row",
     alignItems: "center",
+
+    paddingHorizontal: scale(14),
     justifyContent: "center",
     flexWrap: "wrap",
     gap: scale(10),

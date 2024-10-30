@@ -4,7 +4,7 @@ import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { useForm } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import PrimaryButton from "../ui/PrimaryButton";
 import { supabase, supabaseUrl } from "../../lib/supabase";
@@ -12,6 +12,7 @@ import { useCreateListing } from "../../app/api/listings";
 import { useAuth } from "../../providers/AuthProvider";
 import { decode } from "base64-arraybuffer";
 import * as FileSystem from "expo-file-system";
+import { mercedesModels } from "../../utils.js/models";
 
 const AddListingForm = () => {
   const [vrstaGoriva, setVrstaGoriva] = useState("");
@@ -100,18 +101,25 @@ const AddListingForm = () => {
 
       <View style={styles.inputBox}>
         {/* Model Input */}
-        <Text style={styles.label}>Model:</Text>
-        <Input
-          control={control}
-          name="model"
-          placeholder="Unesite model vozila"
-          rules={{
-            required: "Model je obavezan.",
-          }}
-        />
-        {errors.model && (
-          <Text style={styles.error}>{errors.model.message}</Text>
-        )}
+        <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Model:</Text>
+          <View style={styles.pickerWrapper}>
+            <Picker
+              selectedValue={line}
+              onValueChange={(value) => {
+                setLine(value);
+                setValue("line", value);
+              }}
+              style={styles.picker}
+              dropdownIconColor={"#fff"}
+            >
+              <Picker.Item label="Odaberi..." value="" />
+              {mercedesModels.map((model) => (
+                <Picker.Item key={model} label={model} value={model} />
+              ))}
+            </Picker>
+          </View>
+        </View>
       </View>
 
       <View style={styles.row}>

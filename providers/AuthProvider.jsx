@@ -10,7 +10,7 @@ export default function AuthProvider({ children }) {
   useEffect(() => {
     const fetchSession = async () => {
       const { data, error } = await supabase.auth.getSession();
-      setSession(data.session);
+      setSession(data.session || null);
       setLoading(false);
     };
 
