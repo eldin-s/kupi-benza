@@ -11,8 +11,11 @@ import gside from "../../../assets/images/cars/g-side.png";
 import gleside from "../../../assets/images/cars/gle-side.png";
 import { getFontSize } from "../../../utils.js/getFontSize";
 import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "../../../providers/ThemeProvider";
+import DefaultText from "../../ui/DefaultText";
 
 const SearchCard = () => {
+  const { theme } = useTheme();
   const [carState, setCarState] = useState("Sve");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -60,44 +63,44 @@ const SearchCard = () => {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={[styles.mainContainer, { backgroundColor: theme.bgShade }]}>
       {/* CARD HEADER */}
       <View style={styles.cardHeader}>
         <Pressable onPress={() => setCarState("Sve")}>
-          <Text
+          <DefaultText
             style={[
               styles.text,
-              carState === "Sve" ? styles.primary : styles.black,
+              carState === "Sve" && { color: theme.primary },
             ]}
           >
             Sve
-          </Text>
+          </DefaultText>
         </Pressable>
 
         <View style={styles.devider} />
 
-        <Pressable onPress={() => setCarState("Sve")}>
-          <Text
+        <Pressable onPress={() => setCarState("Novo")}>
+          <DefaultText
             style={[
               styles.text,
-              carState === "Novo" ? styles.primary : styles.black,
+              carState === "Novo" && { color: theme.primary },
             ]}
           >
             Novo
-          </Text>
+          </DefaultText>
         </Pressable>
 
         <View style={styles.devider} />
 
-        <Pressable onPress={() => setCarState("Sve")}>
-          <Text
+        <Pressable onPress={() => setCarState("Polovno")}>
+          <DefaultText
             style={[
               styles.text,
-              carState === "Polovno" ? styles.primary : styles.black,
+              carState === "Polovno" && { color: theme.primary },
             ]}
           >
             Polovno
-          </Text>
+          </DefaultText>
         </Pressable>
       </View>
 
@@ -115,22 +118,40 @@ const SearchCard = () => {
             />
           </View>
 
-          <Text style={styles.buttonText}>GLA</Text>
-          <Text style={styles.arrowIcon}>
-            <MaterialIcons name="keyboard-arrow-down" size={24} />
-          </Text>
+          <DefaultText
+            style={{
+              paddingHorizontal: scale(14),
+              fontSize: getFontSize(18),
+              color: theme.primary,
+            }}
+            weight="bold"
+          >
+            GLA
+          </DefaultText>
+          <DefaultText style={styles.arrowIcon}>
+            <MaterialIcons
+              name={isOpen ? "keyboard-arrow-up" : "keyboard-arrow-down"}
+              size={24}
+            />
+          </DefaultText>
         </Pressable>
 
         {isOpen && (
           <View style={styles.dropdownMenu}>
             <Pressable style={styles.dropdownElements}>
-              <Text>GLE</Text>
+              <DefaultText color="#000" weight="medium">
+                GLE
+              </DefaultText>
             </Pressable>
             <Pressable style={styles.dropdownElements}>
-              <Text>G-SQUARED</Text>
+              <DefaultText color="#000" weight="medium">
+                G-SQUARED
+              </DefaultText>
             </Pressable>
             <Pressable style={styles.dropdownElements}>
-              <Text>S-Class 550</Text>
+              <DefaultText color="#000" weight="medium">
+                S-Class 550
+              </DefaultText>
             </Pressable>
           </View>
         )}
@@ -153,7 +174,9 @@ const SearchCard = () => {
         <PrimaryButton onPress={handleSearch}>PRETRAŽI</PrimaryButton>
 
         <View style={styles.cardFooter}>
-          <Text style={styles.searchButton}>BRZA PRETRAGA</Text>
+          <DefaultText weight="medium" color="#fff" style={styles.searchButton}>
+            BRZA PRETRAGA
+          </DefaultText>
           <View style={styles.searchImages}>
             <Image
               source={sside}
@@ -181,7 +204,6 @@ export default SearchCard;
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: "#d1d5db",
     borderRadius: moderateScale(14),
     marginBottom: moderateScale(20),
     marginHorizontal: moderateScale(14),
@@ -283,9 +305,8 @@ const styles = StyleSheet.create({
   searchButton: {
     width: "100%",
     backgroundColor: "#ff4605",
-    color: "#fff",
+
     textAlign: "center",
-    fontFamily: "Montserrat-SemiBold",
 
     paddingHorizontal: scale(4),
     paddingVertical: verticalScale(10),

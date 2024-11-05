@@ -6,10 +6,15 @@ import Cards from "../../components/home/cards/cards";
 import Track from "../../components/home/track/track";
 import Logo from "../../components/home/logo";
 import { verticalScale } from "react-native-size-matters";
+import { useTheme } from "../../providers/ThemeProvider";
 
 const Home = () => {
+  const { theme } = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.bgColor }]}
+    >
       <ScrollView>
         <Logo />
         <Hero />
@@ -26,7 +31,6 @@ export default Home;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f141e",
     paddingTop: verticalScale(14),
   },
 });

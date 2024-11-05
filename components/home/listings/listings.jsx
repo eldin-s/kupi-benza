@@ -11,8 +11,11 @@ import { use5CarsList } from "../../../app/api/listings";
 import CarCard from "../../ui/car-card";
 import { scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../../utils.js/getFontSize";
+import { useTheme } from "../../../providers/ThemeProvider";
+import DefaultText from "../../ui/DefaultText";
 
 const Listing = () => {
+  const { theme } = useTheme();
   const { data: cars, error, isLoading } = use5CarsList();
   const router = useRouter();
 
@@ -30,7 +33,9 @@ const Listing = () => {
 
   return (
     <View style={{ paddingHorizontal: scale(14) }}>
-      <Text style={styles.heading}>Istaknuti Oglasi</Text>
+      <DefaultText style={styles.heading} weight="black">
+        Istaknuti Oglasi
+      </DefaultText>
 
       <View
         style={{
@@ -60,8 +65,6 @@ export default Listing;
 
 const styles = StyleSheet.create({
   heading: {
-    color: "#fff",
-    fontFamily: "Montserrat-Black",
     marginBottom: verticalScale(10),
     fontSize: getFontSize(18),
     textAlign: "center",

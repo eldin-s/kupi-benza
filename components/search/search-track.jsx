@@ -3,8 +3,11 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
+import DefaultText from "../ui/DefaultText";
+import { useTheme } from "../../providers/ThemeProvider";
 
 const SearchTrack = ({ carState, setCarState }) => {
+  const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [sortBy, setSortBy] = useState({
     value: "priceAsc",
@@ -39,35 +42,46 @@ const SearchTrack = ({ carState, setCarState }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.buttonContainer}>
+      <View
+        style={[styles.buttonContainer, { backgroundColor: theme.bgShade }]}
+      >
         <TouchableOpacity
           style={[styles.button, carState === "Sve" && styles.activeButton]}
           onPress={() => handleClickState("Sve")}
         >
-          <Text style={styles.buttonText}>Sve</Text>
+          <DefaultText weight="medium">Sve</DefaultText>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, carState === "Novo" && styles.activeButton]}
           onPress={() => handleClickState("Novo")}
         >
-          <Text style={styles.buttonText}>Novo</Text>
+          <DefaultText weight="medium">Novo</DefaultText>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.button, carState === "Polovno" && styles.activeButton]}
           onPress={() => handleClickState("Polovno")}
         >
-          <Text style={styles.buttonText}>Polovno</Text>
+          <DefaultText weight="medium">Polovno</DefaultText>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.sortContainer}>
-        <Text style={styles.sortLabel}>Sortiraj po:</Text>
-        <TouchableOpacity style={styles.sortButton} onPress={toggleDropdown}>
-          <Text style={styles.sortButtonText}>{sortBy.label}</Text>
-          <FontAwesome5 name="angle-down" size={18} color="#fff" />
+      <View style={[styles.sortContainer]}>
+        <DefaultText>Sortiraj po:</DefaultText>
+        <TouchableOpacity
+          style={[styles.sortButton, { backgroundColor: theme.bgShade }]}
+          onPress={toggleDropdown}
+        >
+          <DefaultText style={styles.sortButtonText}>
+            {sortBy.label}
+          </DefaultText>
+          <FontAwesome5
+            name={isOpen ? "angle-up" : "angle-down"}
+            size={18}
+            color={theme.text}
+          />
         </TouchableOpacity>
         {isOpen && (
-          <View style={styles.dropdown}>
+          <View style={[styles.dropdown, { backgroundColor: theme.bgShade }]}>
             <TouchableOpacity
               style={styles.dropdownItem}
               onPress={() => {
@@ -75,7 +89,7 @@ const SearchTrack = ({ carState, setCarState }) => {
                 setSortBy({ value: "priseAsc", label: "Cena: Nize" });
               }}
             >
-              <Text style={styles.dropdownItemText}>Cena: Niže</Text>
+              <DefaultText>Cena: Niže</DefaultText>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.dropdownItem}
@@ -84,7 +98,7 @@ const SearchTrack = ({ carState, setCarState }) => {
                 setSortBy({ value: "priseDesc", label: "Cena: Više" });
               }}
             >
-              <Text style={styles.dropdownItemText}>Cena: Više</Text>
+              <DefaultText>Cena: Više</DefaultText>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.dropdownItem}
@@ -93,7 +107,7 @@ const SearchTrack = ({ carState, setCarState }) => {
                 handleClickDate({ value: "dateAsc", label: "Datum: Nize" });
               }}
             >
-              <Text style={styles.dropdownItemText}>Datum: Niže</Text>
+              <DefaultText>Datum: Niže</DefaultText>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.dropdownItem}
@@ -102,7 +116,7 @@ const SearchTrack = ({ carState, setCarState }) => {
                 handleClickDate({ value: "dateDesc", label: "Datum: Više" });
               }}
             >
-              <Text style={styles.dropdownItemText}>Datum: Više</Text>
+              <DefaultText>Datum: Više</DefaultText>
             </TouchableOpacity>
           </View>
         )}
@@ -118,7 +132,6 @@ const styles = StyleSheet.create({
     marginVertical: verticalScale(14),
   },
   buttonContainer: {
-    backgroundColor: "#19212f",
     borderRadius: moderateScale(14),
     flexDirection: "row",
     justifyContent: "center",
@@ -135,10 +148,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "#ff4605",
   },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "light",
-  },
+
   sortContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -147,11 +157,7 @@ const styles = StyleSheet.create({
     gap: moderateScale(14),
     zIndex: 10,
   },
-  sortLabel: {
-    color: "#fff",
-  },
   sortButton: {
-    backgroundColor: "#19212f",
     borderRadius: moderateScale(14),
     paddingVertical: verticalScale(8),
     paddingHorizontal: scale(12),
@@ -159,14 +165,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   sortButtonText: {
-    color: "#fff",
     marginRight: scale(8),
   },
   dropdown: {
     position: "absolute",
     top: verticalScale(35),
     right: 0,
-    backgroundColor: "#19212f",
     borderRadius: 8,
     shadowColor: "#fff",
     shadowOffset: {
@@ -181,10 +185,6 @@ const styles = StyleSheet.create({
   dropdownItem: {
     paddingVertical: verticalScale(8),
     paddingHorizontal: scale(16),
-  },
-  dropdownItemText: {
-    fontWeight: "light",
-    color: "#fff",
   },
 });
 

@@ -4,8 +4,10 @@ import { Redirect } from "expo-router";
 import { useAuth } from "../../../providers/AuthProvider";
 import { scale } from "react-native-size-matters";
 import Dashboard from "../../../components/dashboard/dashboard";
+import { useTheme } from "../../../providers/ThemeProvider";
 
 const Profile = () => {
+  const { theme } = useTheme();
   const { session, loading } = useAuth();
 
   if (loading) {
@@ -17,7 +19,9 @@ const Profile = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.bgColor }]}
+    >
       <ScrollView>
         <Dashboard userId={session.user.id} />
       </ScrollView>
@@ -30,7 +34,6 @@ export default Profile;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f141e",
     paddingHorizontal: scale(14),
   },
 });

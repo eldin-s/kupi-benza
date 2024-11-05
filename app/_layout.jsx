@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import QueryProvider from "../providers/QueryProvider";
+import { ThemeProvider, useTheme } from "../providers/ThemeProvider";
 
 const RootLayout = () => {
   const [fontsLoaded, error] = useFonts({
@@ -26,10 +27,12 @@ const RootLayout = () => {
   return (
     <AuthProvider>
       <QueryProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        </Stack>
-        <StatusBar backgroundColor="#0f141e" style="light" />
+        <ThemeProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          </Stack>
+          <StatusBar backgroundColor="#0f141e" style="light" />
+        </ThemeProvider>
       </QueryProvider>
     </AuthProvider>
   );

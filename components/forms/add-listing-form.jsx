@@ -4,7 +4,7 @@ import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { useForm } from "react-hook-form";
 import { Picker } from "@react-native-picker/picker";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import PrimaryButton from "../ui/PrimaryButton";
 import { supabase, supabaseUrl } from "../../lib/supabase";
@@ -12,14 +12,18 @@ import { useCreateListing } from "../../app/api/listings";
 import { useAuth } from "../../providers/AuthProvider";
 import { decode } from "base64-arraybuffer";
 import * as FileSystem from "expo-file-system";
-import { mercedesModels } from "../../utils.js/models";
+import { carColors, mercedesModels } from "../../utils.js/models";
+import { useTheme } from "../../providers/ThemeProvider";
+import DefaultText from "../ui/DefaultText";
 
 const AddListingForm = () => {
+  const { theme } = useTheme();
   const [vrstaGoriva, setVrstaGoriva] = useState("");
   const [driveTrain, setDriveTrain] = useState("");
   const [carType, setCarType] = useState("");
   const [carState, setCarState] = useState("");
   const [line, setLine] = useState("");
+  const [color, setColor] = useState("");
   const [images, setImages] = useState(null);
 
   const { session } = useAuth();
@@ -58,6 +62,7 @@ const AddListingForm = () => {
         car_type: carType,
         car_state: carState,
         line: line,
+        color,
         car_images: imagesPath,
         profile_id: session.user.id,
       };
@@ -97,21 +102,23 @@ const AddListingForm = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Dodaj oglas</Text>
+      <DefaultText style={styles.heading}>Dodaj oglas</DefaultText>
 
       <View style={styles.inputBox}>
         {/* Model Input */}
         <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Model:</Text>
-          <View style={styles.pickerWrapper}>
+          <DefaultText style={styles.label}>Model:</DefaultText>
+          <View
+            style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
+          >
             <Picker
               selectedValue={line}
               onValueChange={(value) => {
                 setLine(value);
                 setValue("line", value);
               }}
-              style={styles.picker}
-              dropdownIconColor={"#fff"}
+              style={[styles.picker, { color: theme.text }]}
+              dropdownIconColor={theme.text}
             >
               <Picker.Item label="Odaberi..." value="" />
               {mercedesModels.map((model) => (
@@ -124,16 +131,18 @@ const AddListingForm = () => {
 
       <View style={styles.row}>
         <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Linija:</Text>
-          <View style={styles.pickerWrapper}>
+          <DefaultText style={styles.label}>Linija:</DefaultText>
+          <View
+            style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
+          >
             <Picker
               selectedValue={line}
               onValueChange={(value) => {
                 setLine(value);
                 setValue("line", value);
               }}
-              style={styles.picker}
-              dropdownIconColor={"#fff"}
+              style={[styles.picker, { color: theme.text }]}
+              dropdownIconColor={theme.text}
             >
               <Picker.Item label="Odaberi..." value="" />
               <Picker.Item label="Običan" value="Običan" />
@@ -145,16 +154,18 @@ const AddListingForm = () => {
         </View>
 
         <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Vrsta Goriva:</Text>
-          <View style={styles.pickerWrapper}>
+          <DefaultText style={styles.label}>Vrsta Goriva:</DefaultText>
+          <View
+            style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
+          >
             <Picker
               selectedValue={vrstaGoriva}
               onValueChange={(value) => {
                 setVrstaGoriva(value);
                 setValue("fuel_type", value);
               }}
-              style={styles.picker}
-              dropdownIconColor={"#fff"}
+              style={[styles.picker, { color: theme.text }]}
+              dropdownIconColor={theme.text}
             >
               <Picker.Item label="Vrsta goriva" value="" />
               <Picker.Item label="Benzin" value="Benzin" />
@@ -169,7 +180,7 @@ const AddListingForm = () => {
       <View style={styles.row}>
         <View style={styles.inputBox}>
           {/* Engine Size Input */}
-          <Text style={styles.label}>Kubikaža:</Text>
+          <DefaultText style={styles.label}>Kubikaža:</DefaultText>
           <Input
             control={control}
             name="engine_size"
@@ -180,13 +191,15 @@ const AddListingForm = () => {
             }}
           />
           {errors.engine_size && (
-            <Text style={styles.error}>{errors.engine_size.message}</Text>
+            <DefaultText style={styles.error}>
+              {errors.engine_size.message}
+            </DefaultText>
           )}
         </View>
 
         <View style={styles.inputBox}>
           {/* Engine Size Input */}
-          <Text style={styles.label}>Obrtni moment:</Text>
+          <DefaultText style={styles.label}>Obrtni moment:</DefaultText>
           <Input
             control={control}
             name="torque"
@@ -196,24 +209,28 @@ const AddListingForm = () => {
               required: "Obrtni moment je obavezan.",
             }}
           />
-          {errors.engine_size && (
-            <Text style={styles.error}>{errors.engine_size.message}</Text>
+          {errors.torque && (
+            <DefaultText style={styles.error}>
+              {errors.torque.message}
+            </DefaultText>
           )}
         </View>
       </View>
 
       <View style={styles.row}>
         <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Pogon:</Text>
-          <View style={styles.pickerWrapper}>
+          <DefaultText style={styles.label}>Pogon:</DefaultText>
+          <View
+            style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
+          >
             <Picker
               selectedValue={driveTrain}
               onValueChange={(value) => {
                 setDriveTrain(value);
                 setValue("drivetrain", value);
               }}
-              style={styles.picker}
-              dropdownIconColor={"#fff"}
+              style={[styles.picker, { color: theme.text }]}
+              dropdownIconColor={theme.text}
             >
               <Picker.Item label="Odaberi..." value="" />
               <Picker.Item label="Prednji" value="Prednji" />
@@ -225,7 +242,7 @@ const AddListingForm = () => {
 
         <View style={styles.inputBox}>
           {/* Engine Size Input */}
-          <Text style={styles.label}>Snaga:</Text>
+          <DefaultText style={styles.label}>Snaga:</DefaultText>
           <Input
             control={control}
             name="power"
@@ -236,7 +253,9 @@ const AddListingForm = () => {
             }}
           />
           {errors.pwoer && (
-            <Text style={styles.error}>{errors.pwoer.message}</Text>
+            <DefaultText style={styles.error}>
+              {errors.power.message}
+            </DefaultText>
           )}
         </View>
       </View>
@@ -244,7 +263,7 @@ const AddListingForm = () => {
       <View style={styles.row}>
         <View style={styles.inputBox}>
           {/* Engine Size Input */}
-          <Text style={styles.label}>Godina proizvodnje:</Text>
+          <DefaultText style={styles.label}>Godina proizvodnje:</DefaultText>
           <Input
             control={control}
             name="production_year"
@@ -254,40 +273,50 @@ const AddListingForm = () => {
               required: "Godina proizvodnja je obavezna.",
             }}
           />
-          {errors.pwoer && (
-            <Text style={styles.error}>{errors.pwoer.message}</Text>
+          {errors.production_year && (
+            <DefaultText style={styles.error}>
+              {errors.production_year.message}
+            </DefaultText>
           )}
         </View>
 
-        <View style={styles.inputBox}>
-          {/* Engine Size Input */}
-          <Text style={styles.label}>Boja:</Text>
-          <Input
-            control={control}
-            name="color"
-            placeholder="Unesite boju vozila"
-            rules={{
-              required: "Boja je obavezna.",
-            }}
-          />
-          {errors.color && (
-            <Text style={styles.error}>{errors.color.message}</Text>
-          )}
+        <View style={styles.pickerContainer}>
+          <DefaultText style={styles.label}>Boja:</DefaultText>
+          <View
+            style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
+          >
+            <Picker
+              selectedValue={line}
+              onValueChange={(value) => {
+                setColor(value);
+                setValue("color", value);
+              }}
+              style={[styles.picker, { color: theme.text }]}
+              dropdownIconColor={theme.text}
+            >
+              <Picker.Item label="Odaberi boju" value="" />
+              {carColors.map((color) => (
+                <Picker.Item key={color} label={color} value={color} />
+              ))}
+            </Picker>
+          </View>
         </View>
       </View>
 
       <View style={styles.row}>
         <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Tip:</Text>
-          <View style={styles.pickerWrapper}>
+          <DefaultText style={styles.label}>Tip:</DefaultText>
+          <View
+            style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
+          >
             <Picker
               selectedValue={carType}
               onValueChange={(value) => {
                 setCarType(value);
                 setValue("car_type", value);
               }}
-              style={styles.picker}
-              dropdownIconColor={"#fff"}
+              style={[styles.picker, { color: theme.text }]}
+              dropdownIconColor={theme.text}
             >
               <Picker.Item label="Sedan" value="Sedan" />
               <Picker.Item label="Hatchback" value="Hatchback" />
@@ -300,7 +329,7 @@ const AddListingForm = () => {
         </View>
 
         <View style={styles.pickerContainer}>
-          <Text style={styles.label}>Stanje:</Text>
+          <DefaultText style={styles.label}>Stanje:</DefaultText>
           <View style={styles.pickerWrapper}>
             <Picker
               selectedValue={carState}
@@ -308,8 +337,8 @@ const AddListingForm = () => {
                 setCarState(value);
                 setValue("car_state", value);
               }}
-              style={styles.picker}
-              dropdownIconColor={"#fff"}
+              style={[styles.picker, { color: theme.text }]}
+              dropdownIconColor={theme.text}
             >
               <Picker.Item label="Novo" value="Novo" />
               <Picker.Item label="Polovno" value="Polovno" />
@@ -319,14 +348,14 @@ const AddListingForm = () => {
         </View>
       </View>
 
-      <Text onPress={pickImage} style={styles.imagePick}>
+      <DefaultText onPress={pickImage} style={styles.imagePick}>
         {images
           ? `${images.length} fotografija otpremljeno`
           : "Otpremite fotografije"}
-      </Text>
+      </DefaultText>
 
       <PrimaryButton onPress={handleSubmit(onCreate)}>
-        {isPending ? <ActivityIndicator color="#fff" /> : "Dodaj oglas"}
+        {isPending ? <ActivityIndicator color={theme.text} /> : "Dodaj oglas"}
       </PrimaryButton>
     </View>
   );
@@ -362,31 +391,26 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     padding: 0,
-    borderColor: "#d1d5db",
+    borderColor: "#a1a1a1",
     overflow: "hidden",
-    backgroundColor: "#19212f",
   },
   picker: {
     margin: moderateScale(-8),
-    color: "#fff",
   },
   label: {
-    color: "#fff",
     marginBottom: moderateScale(6),
   },
   imagePick: {
-    color: "#fff",
     textAlign: "center",
     paddingVertical: verticalScale(6),
-    backgroundColor: "#19212f",
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: "#fff",
+    borderColor: "#a1a1a1",
     borderStyle: "dashed",
   },
   error: {
     position: "absolute",
-    bottom: moderateScale(-5),
+    bottom: moderateScale(-18),
     color: "#f87171",
   },
 });

@@ -4,21 +4,28 @@ import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
 import ListingsCard from "../../components/search/listings-card";
 import SearchingCard from "../../components/search/searching-card";
+import DefaultText from "../../components/ui/DefaultText";
+import { useTheme } from "../../providers/ThemeProvider";
 
 const Search = () => {
+  const { theme } = useTheme();
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.bgColor }]}
+    >
       <ScrollView>
         <View style={styles.headingCard}>
-          <Text
+          <DefaultText
             style={{
               padding: moderateScale(24),
-              fontFamily: "Montserrat-SemiBold",
               fontSize: getFontSize(18),
             }}
+            color="#000"
+            weight="semibold"
           >
             Zakažite vaš servis bez čekanja!
-          </Text>
+          </DefaultText>
         </View>
 
         <SearchingCard />
@@ -33,7 +40,6 @@ export default Search;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f141e",
     paddingTop: verticalScale(10),
   },
   headingCard: {

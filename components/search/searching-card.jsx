@@ -15,8 +15,11 @@ import { useNavigation } from "@react-navigation/native";
 import DropdownSearches from "../home/hero/dropdown-searches";
 import { getFontSize } from "../../utils.js/getFontSize";
 import SearchTrack from "./search-track";
+import DefaultText from "../ui/DefaultText";
+import { useTheme } from "../../providers/ThemeProvider";
 
 const SearchingCard = () => {
+  const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const params = new URLSearchParams();
 
@@ -77,22 +80,40 @@ const SearchingCard = () => {
               />
             </View>
 
-            <Text style={styles.buttonText}>GLA</Text>
+            <DefaultText
+              style={{
+                paddingHorizontal: scale(14),
+                fontSize: getFontSize(18),
+                color: theme.primary,
+              }}
+              weight="bold"
+            >
+              GLA
+            </DefaultText>
             <Text style={styles.arrowIcon}>
-              <MaterialIcons name="keyboard-arrow-down" size={24} />
+              <MaterialIcons
+                name={isOpen ? "keyboard-arrow-up" : "keyboard-arrow-down"}
+                size={24}
+              />
             </Text>
           </Pressable>
 
           {isOpen && (
             <View style={styles.dropdownMenu}>
               <Pressable style={styles.dropdownElements}>
-                <Text>GLE</Text>
+                <DefaultText color="#000" weight="medium">
+                  GLE
+                </DefaultText>
               </Pressable>
               <Pressable style={styles.dropdownElements}>
-                <Text>G-SQUARED</Text>
+                <DefaultText color="#000" weight="medium">
+                  G-SQUARED
+                </DefaultText>
               </Pressable>
               <Pressable style={styles.dropdownElements}>
-                <Text>S-Class 550</Text>
+                <DefaultText color="#000" weight="medium">
+                  S-Class 550
+                </DefaultText>
               </Pressable>
             </View>
           )}

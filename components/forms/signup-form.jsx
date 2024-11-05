@@ -7,8 +7,11 @@ import PrimaryButton from "../ui/PrimaryButton";
 import { Link, useRouter } from "expo-router";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { signup } from "../../app/api/auth";
+import { useTheme } from "../../providers/ThemeProvider";
+import DefaultText from "../ui/DefaultText";
 
 const SignupForm = () => {
+  const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -32,11 +35,17 @@ const SignupForm = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Registruj se</Text>
+      <DefaultText
+        style={styles.heading}
+        color={theme.primary}
+        weight="semibold"
+      >
+        Registruj se
+      </DefaultText>
 
       <View style={styles.inputBox}>
         {/* Name Input */}
-        <Text style={styles.label}>Ime i Prezime:</Text>
+        <DefaultText style={styles.label}>Ime i Prezime:</DefaultText>
         <Input
           control={control}
           name="fullName"
@@ -52,7 +61,7 @@ const SignupForm = () => {
 
       <View style={styles.inputBox}>
         {/* Email Input */}
-        <Text style={styles.label}>Email:</Text>
+        <DefaultText style={styles.label}>Email:</DefaultText>
         <Input
           control={control}
           name="email"
@@ -68,13 +77,13 @@ const SignupForm = () => {
           }}
         />
         {errors.email && (
-          <Text style={styles.error}>{errors.email.message}</Text>
+          <DefaultText style={styles.error}>{errors.email.message}</DefaultText>
         )}
       </View>
 
       <View style={styles.inputBox}>
         {/* Password Input */}
-        <Text style={styles.label}>Lozinka:</Text>
+        <DefaultText style={styles.label}>Lozinka:</DefaultText>
         <Input
           control={control}
           name="password"
@@ -101,18 +110,16 @@ const SignupForm = () => {
         )}
       </PrimaryButton>
 
-      <Text
+      <DefaultText
         style={{
           textAlign: "center",
-          color: "#fff",
-          fontFamily: "Montserrat-Regular",
         }}
       >
         Već ste registrovani?{" "}
         <Link href={"/log-in"}>
-          <Text style={{ color: "#ff4605" }}>Prijavi se</Text>
+          <DefaultText color={theme.primary}>Prijavi se</DefaultText>
         </Link>
-      </Text>
+      </DefaultText>
     </View>
   );
 };
@@ -124,8 +131,6 @@ const styles = StyleSheet.create({
     gap: moderateScale(20),
   },
   heading: {
-    fontFamily: "Montserrat-SemiBold",
-    color: "#ff4605",
     textAlign: "center",
     fontSize: getFontSize(28),
     paddingVertical: moderateScale(10),
@@ -134,7 +139,6 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   label: {
-    color: "#fff",
     marginBottom: moderateScale(6),
   },
   error: {

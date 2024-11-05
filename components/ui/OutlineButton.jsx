@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { moderateScale, scale } from "react-native-size-matters";
 
-const OutlineButton = ({ children, icon, onPress, background }) => {
+const OutlineButton = ({ children, icon, onPress, background, textColor }) => {
   return (
     <TouchableOpacity
       style={[
@@ -12,7 +12,9 @@ const OutlineButton = ({ children, icon, onPress, background }) => {
       onPress={onPress}
     >
       {icon && <>{icon}</>}
-      {children && <Text style={styles.text}>{children}</Text>}
+      {children && (
+        <Text style={[styles.text, { color: textColor }]}>{children}</Text>
+      )}
     </TouchableOpacity>
   );
 };

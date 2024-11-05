@@ -7,8 +7,11 @@ import Entypo from "@expo/vector-icons/Entypo";
 import { supabase } from "../../lib/supabase";
 import { useRouter } from "expo-router";
 import { getFontSize } from "../../utils.js/getFontSize";
+import { useTheme } from "../../providers/ThemeProvider";
+import DefaultText from "../ui/DefaultText";
 
 const Dashboard = ({ userId }) => {
+  const { theme } = useTheme();
   const { data: user, error, isLoading } = useCurrentUser(userId);
   const router = useRouter();
 
@@ -31,25 +34,26 @@ const Dashboard = ({ userId }) => {
           gap: scale(6),
         }}
       >
-        <Text
+        <DefaultText
+          weight="semibold"
           style={{
-            color: "#fff",
-            fontFamily: "Montserrat-SemiBold",
             fontSize: getFontSize(20),
           }}
         >
-          {" "}
           Dobrodošli: {user.full_name}
-        </Text>
+        </DefaultText>
 
         <Entypo
           name="log-out"
           size={moderateScale(20)}
-          color="#fff"
+          color={theme.text}
           onPress={() => supabase.auth.signOut()}
         />
       </View>
-      <OutlineButton onPress={() => router.push("/profile/add-listing")}>
+      <OutlineButton
+        textColor={theme.text}
+        onPress={() => router.push("/profile/add-listing")}
+      >
         + DODAJ OGLAS
       </OutlineButton>
 
@@ -59,5 +63,3 @@ const Dashboard = ({ userId }) => {
 };
 
 export default Dashboard;
-
-const styles = StyleSheet.create({});

@@ -15,8 +15,11 @@ import SearchSingleCard from "../../components/search/search-single-card";
 import { useRouter } from "expo-router";
 import { getFontSize } from "../../utils.js/getFontSize";
 import Logo from "../../components/home/logo";
+import { useTheme } from "../../providers/ThemeProvider";
+import DefaultText from "../../components/ui/DefaultText";
 
 const Parking = () => {
+  const { theme } = useTheme();
   const { session } = useAuth();
   const { data: user } = useCurrentUser(session?.user?.id);
   const router = useRouter();
@@ -30,41 +33,41 @@ const Parking = () => {
   if (isLoading) {
     return (
       <View>
-        <ActivityIndicator color="#fff" />
+        <ActivityIndicator color={theme.color} />
       </View>
     );
   }
 
   if (error) {
-    return <Text style={{ color: "#fff" }}>Nema rezultata!</Text>;
+    return <DefaultText>Nema rezultata!</DefaultText>;
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.bgColor }]}
+    >
       <ScrollView>
         <Logo />
 
         <View style={styles.innerContainer}>
-          <Text
+          <DefaultText
             style={{
-              color: "#fff",
-              fontFamily: "Montserrat-Medium",
               fontSize: getFontSize(18),
             }}
+            weight="medium"
           >
             Vaša parkirana vozila:
-          </Text>
+          </DefaultText>
 
           {!parkedCards || parkedCards.length === 0 || !user ? (
-            <Text
+            <DefaultText
               style={{
-                color: "#fff",
-                fontFamily: "Montserrat-Medium",
                 fontSize: getFontSize(18),
               }}
+              weight="medium"
             >
               Trenutno nemate parkiranih vozila
-            </Text>
+            </DefaultText>
           ) : (
             parkedCards?.map((listing) => (
               <Pressable
@@ -86,7 +89,6 @@ export default Parking;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f141e",
     paddingBottom: verticalScale(70),
     paddingTop: verticalScale(14),
   },

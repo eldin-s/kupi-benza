@@ -1,10 +1,12 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 import { moderateScale } from "react-native-size-matters";
 import AddListingForm from "../../../components/forms/add-listing-form";
+import { useTheme } from "../../../providers/ThemeProvider";
 
 const AddListing = () => {
+  const { theme } = useTheme();
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.bgColor }]}>
       <ScrollView>
         <AddListingForm />
       </ScrollView>
@@ -17,7 +19,6 @@ export default AddListing;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f141e",
     padding: moderateScale(14),
   },
 });

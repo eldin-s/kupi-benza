@@ -13,43 +13,57 @@ import Logo from "../../components/home/logo";
 import { formatDate } from "../../helpers/formatDate";
 import { useState } from "react";
 import { getFontSize } from "../../utils.js/getFontSize";
+import { useTheme } from "../../providers/ThemeProvider";
+import Colors from "../../constants/Colors";
+import DefaultText from "../../components/ui/DefaultText";
 
 const Settings = () => {
   const { session, loading } = useAuth();
   const { data: user, isLoading } = useCurrentUser(session?.user?.id, {
     enabled: !!session?.user?.id,
   });
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  const { theme, toggleTheme } = useTheme();
+  const [isEnabled, setIsEnabled] = useState(theme === Colors.dark);
+  const toggleSwitch = () => {
+    setIsEnabled(!isEnabled);
+    toggleTheme();
+  };
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.container}>
-        <ActivityIndicator color="#fff" />
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: theme.bgColor }]}
+      >
+        <ActivityIndicator color={theme.Text} />
       </SafeAreaView>
     );
   }
 
   if (!session) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: theme.bgColor }]}
+      >
         <Logo />
-        <Text
+        <DefaultText
           style={{
-            color: "#fff",
-            fontFamily: "Montserrat-Bold",
-            paddingLeft: scale(14),
             fontSize: getFontSize(18),
+            textAlign: "center",
+            marginTop: verticalScale(20),
           }}
+          weight="bold"
         >
           Prijavite se da biste pristupili podešavanjima.
-        </Text>
+        </DefaultText>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.bgColor }]}
+    >
       <Logo />
 
       <View style={styles.innerContainer}>
@@ -60,9 +74,7 @@ const Settings = () => {
             justifyContent: "space-between",
           }}
         >
-          <Text style={{ color: "#fff", fontFamily: "Montserrat-SemiBold" }}>
-            Tema:
-          </Text>
+          <DefaultText weight="bold">Tema:</DefaultText>
           <Switch
             trackColor={{ false: "#494949", true: "#c5c5c5" }}
             thumbColor={isEnabled ? "#ff4605" : "#797979"}
@@ -74,33 +86,28 @@ const Settings = () => {
 
         {user && session && (
           <>
-            <Text style={{ color: "#fff", fontFamily: "Montserrat-Regular" }}>
+            <DefaultText>
               Email:
-              <Text style={{ fontFamily: "Montserrat-SemiBold" }}>
-                {user?.email}
-              </Text>
-            </Text>
+              <DefaultText weight="bold"> {user?.email}</DefaultText>
+            </DefaultText>
 
-            <Text style={{ color: "#fff", fontFamily: "Montserrat-Regular" }}>
+            <DefaultText>
               Ime:
-              <Text style={{ fontFamily: "Montserrat-SemiBold" }}>
-                {user?.full_name}
-              </Text>
-            </Text>
+              <DefaultText weight="bold"> {user?.full_name}</DefaultText>
+            </DefaultText>
 
-            <Text style={{ color: "#fff", fontFamily: "Montserrat-Regular" }}>
+            <DefaultText>
               Račun kreiran:
-              <Text style={{ fontFamily: "Montserrat-SemiBold" }}>
+              <DefaultText weight="bold">
+                {" "}
                 {formatDate(user?.created_at)}
-              </Text>
-            </Text>
+              </DefaultText>
+            </DefaultText>
 
-            <Text style={{ color: "#fff", fontFamily: "Montserrat-Regular" }}>
+            <DefaultText>
               Parkirana vozila:
-              <Text style={{ fontFamily: "Montserrat-SemiBold" }}>
-                {user?.parkings.length}
-              </Text>
-            </Text>
+              <DefaultText weight="bold"> {user?.parkings.length}</DefaultText>
+            </DefaultText>
           </>
         )}
       </View>
@@ -113,7 +120,6 @@ export default Settings;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f141e",
     paddingVertical: verticalScale(14),
   },
   innerContainer: {

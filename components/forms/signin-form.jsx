@@ -8,8 +8,11 @@ import { useState } from "react";
 import { Link, Stack, useRouter } from "expo-router";
 import { supabase } from "../../lib/supabase";
 import { getFontSize } from "../../utils.js/getFontSize";
+import { useTheme } from "../../providers/ThemeProvider";
+import DefaultText from "../ui/DefaultText";
 
 const SigninForm = () => {
+  const { theme } = useTheme();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -52,13 +55,19 @@ const SigninForm = () => {
     <View style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
 
-      <Text style={styles.heading}>Prijavi se</Text>
+      <DefaultText
+        style={styles.heading}
+        color={theme.primary}
+        weight="semibold"
+      >
+        Prijavi se
+      </DefaultText>
 
-      {error && <Text style={{ color: "#d66f6f" }}>{error}</Text>}
+      {error && <DefaultText color="#d66f6f">{error}</DefaultText>}
 
       <View style={styles.inputBox}>
         {/* Email Input */}
-        <Text style={styles.label}>Email:</Text>
+        <DefaultText style={styles.label}>Email:</DefaultText>
         <Input
           control={control}
           name="email"
@@ -74,13 +83,15 @@ const SigninForm = () => {
           }}
         />
         {errors.email && (
-          <Text style={styles.error}>{errors.email.message}</Text>
+          <DefaultText style={styles.error} color="#f87171">
+            {errors.email.message}
+          </DefaultText>
         )}
       </View>
 
       <View style={styles.inputBox}>
         {/* Password Input */}
-        <Text style={styles.label}>Lozinka:</Text>
+        <DefaultText style={styles.label}>Lozinka:</DefaultText>
         <Input
           control={control}
           name="password"
@@ -95,30 +106,30 @@ const SigninForm = () => {
           }}
         />
         {errors.email && (
-          <Text style={styles.error}>{errors.email.message}</Text>
+          <DefaultText style={styles.error} color="#f87171">
+            {errors.email.message}
+          </DefaultText>
         )}
       </View>
 
       <PrimaryButton onPress={handleSubmit(handleFormSubmit)}>
         {loading ? (
-          <ActivityIndicator size="small" color="#fff" />
+          <ActivityIndicator size="small" color={theme.text} />
         ) : (
           <Text>Prijavi se</Text>
         )}
       </PrimaryButton>
 
-      <Text
+      <DefaultText
         style={{
           textAlign: "center",
-          color: "#fff",
-          fontFamily: "Montserrat-Regular",
         }}
       >
         Nemate račun?{" "}
         <Link href={"/sign-up"}>
-          <Text style={{ color: "#ff4605" }}>Registruj se</Text>
+          <DefaultText color={theme.primary}>Registruj se</DefaultText>
         </Link>
-      </Text>
+      </DefaultText>
     </View>
   );
 };
@@ -130,8 +141,6 @@ const styles = StyleSheet.create({
     gap: moderateScale(20),
   },
   heading: {
-    fontFamily: "Montserrat-SemiBold",
-    color: "#ff4605",
     textAlign: "center",
     fontSize: getFontSize(28),
     paddingVertical: moderateScale(10),
@@ -140,12 +149,10 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   label: {
-    color: "#fff",
     marginBottom: moderateScale(6),
   },
   error: {
     position: "absolute",
     bottom: moderateScale(-5),
-    color: "#f87171",
   },
 });
