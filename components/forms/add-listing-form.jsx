@@ -26,6 +26,33 @@ const AddListingForm = () => {
   const [color, setColor] = useState("");
   const [images, setImages] = useState(null);
 
+  const [selectedModel, setSelectedModel] = useState("");
+  const [engineSize, setEngineSize] = useState([]);
+  const [availableEngines, setAvailableEngines] = useState([]);
+  const [productionYear, setProductionYear] = useState("");
+  const currentYear = new Date().getFullYear();
+
+  // Flatten all models
+  const allModels = Object.entries(mercedesModels).flatMap(
+    ([className, { models }]) =>
+      models.map((model) => ({
+        model,
+        className,
+      }))
+  );
+
+  // Handle model selection
+  const handleModelChange = (value) => {
+    setSelectedModel(value);
+    const modelData = allModels.find((item) => item.model === value);
+    if (modelData) {
+      const { className } = modelData;
+      setAvailableEngines(mercedesModels[className].engines);
+    } else {
+      setAvailableEngines([]);
+    }
+  };
+
   const { session } = useAuth();
   const { mutate: createListing, isPending } = useCreateListing();
 
@@ -57,17 +84,22 @@ const AddListingForm = () => {
 
       const newCarData = {
         ...data,
+        model: selectedModel,
+        engine_size: engineSize,
         fuel_type: vrstaGoriva,
         drivetrain: driveTrain,
         car_type: carType,
         car_state: carState,
         line: line,
+        production_year: productionYear,
         color,
         car_images: imagesPath,
         profile_id: session.user.id,
       };
 
       const newCar = createListing(newCarData);
+
+      console.log(newCar);
     } catch (error) {
       Alert.alert("Failed to create listing", error.message);
     }
@@ -104,24 +136,20 @@ const AddListingForm = () => {
     <View style={styles.container}>
       <DefaultText style={styles.heading}>Dodaj oglas</DefaultText>
 
-      <View style={styles.inputBox}>
-        {/* Model Input */}
+      <View style={styles.row}>
         <View style={styles.pickerContainer}>
           <DefaultText style={styles.label}>Model:</DefaultText>
           <View
             style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
           >
             <Picker
-              selectedValue={line}
-              onValueChange={(value) => {
-                setLine(value);
-                setValue("line", value);
-              }}
+              selectedValue={selectedModel}
+              onValueChange={(value) => handleModelChange(value)}
               style={[styles.picker, { color: theme.text }]}
               dropdownIconColor={theme.text}
             >
-              <Picker.Item label="Odaberi..." value="" />
-              {mercedesModels.map((model) => (
+              <Picker.Item label="Odaberi model..." value="" />
+              {allModels.map(({ model }) => (
                 <Picker.Item key={model} label={model} value={model} />
               ))}
             </Picker>
@@ -178,42 +206,23 @@ const AddListingForm = () => {
       </View>
 
       <View style={styles.row}>
-        <View style={styles.inputBox}>
-          {/* Engine Size Input */}
+        <View style={styles.pickerContainer}>
           <DefaultText style={styles.label}>Kubikaža:</DefaultText>
-          <Input
-            control={control}
-            name="engine_size"
-            placeholder="Unesite kubikažu"
-            keyboardType="numeric"
-            rules={{
-              required: "Kubikaža je obavezna.",
-            }}
-          />
-          {errors.engine_size && (
-            <DefaultText style={styles.error}>
-              {errors.engine_size.message}
-            </DefaultText>
-          )}
-        </View>
-
-        <View style={styles.inputBox}>
-          {/* Engine Size Input */}
-          <DefaultText style={styles.label}>Obrtni moment:</DefaultText>
-          <Input
-            control={control}
-            name="torque"
-            placeholder="Unesite obrtni moment"
-            keyboardType="numeric"
-            rules={{
-              required: "Obrtni moment je obavezan.",
-            }}
-          />
-          {errors.torque && (
-            <DefaultText style={styles.error}>
-              {errors.torque.message}
-            </DefaultText>
-          )}
+          <View
+            style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
+          >
+            <Picker
+              selectedValue={engineSize}
+              onValueChange={(value) => setEngineSize(value)}
+              style={[styles.picker, { color: theme.text }]}
+              dropdownIconColor={theme.text}
+            >
+              <Picker.Item label="Odaberi kubikažu..." value="" />
+              {availableEngines.map((engine) => (
+                <Picker.Item key={engine} label={engine} value={engine} />
+              ))}
+            </Picker>
+          </View>
         </View>
       </View>
 
@@ -261,23 +270,26 @@ const AddListingForm = () => {
       </View>
 
       <View style={styles.row}>
-        <View style={styles.inputBox}>
-          {/* Engine Size Input */}
+        <View style={styles.pickerContainer}>
           <DefaultText style={styles.label}>Godina proizvodnje:</DefaultText>
-          <Input
-            control={control}
-            name="production_year"
-            placeholder="Godina proizvodnje"
-            keyboardType="numeric"
-            rules={{
-              required: "Godina proizvodnja je obavezna.",
-            }}
-          />
-          {errors.production_year && (
-            <DefaultText style={styles.error}>
-              {errors.production_year.message}
-            </DefaultText>
-          )}
+          <View
+            style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
+          >
+            <Picker
+              selectedValue={productionYear}
+              onValueChange={(value) => setProductionYear(value)}
+              style={[styles.picker, { color: theme.text }]}
+              dropdownIconColor={theme.text}
+            >
+              <Picker.Item label="Odaberi godinu" value="" />
+              {Array.from(
+                { length: currentYear - 1989 },
+                (_, i) => 1990 + i
+              ).map((year) => (
+                <Picker.Item key={year} label={`${year}`} value={year} />
+              ))}
+            </Picker>
+          </View>
         </View>
 
         <View style={styles.pickerContainer}>

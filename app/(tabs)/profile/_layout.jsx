@@ -9,7 +9,7 @@ export default function ProfileLayout() {
         headerStyle: {
           backgroundColor: theme.bgColor,
         },
-        headerTintColor: theme.color,
+        headerTintColor: theme.text,
       }}
     >
       <Stack.Screen

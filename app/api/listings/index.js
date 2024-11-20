@@ -89,7 +89,8 @@ export const useCreateListing = () => {
         .single();
 
       if (error) {
-        throw new Error(error.message);
+        // throw new Error(error.message);
+        console.log(error);
       }
 
       return newListing;
@@ -101,7 +102,6 @@ export const useCreateListing = () => {
     },
   });
 };
-
 
 export function useCarsWithFilters(filters) {
   return useQuery({
