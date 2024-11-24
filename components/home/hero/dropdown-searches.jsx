@@ -3,20 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { moderateScale, verticalScale } from "react-native-size-matters";
 import DropDownPicker from "react-native-dropdown-picker";
 
-const DropdownSearches = ({
-  odGodine,
-  setOdGodine,
-  doGodine,
-  setDoGodine,
-  vrstaGoriva,
-  setVrstaGoriva,
-  odCene,
-  setOdCene,
-  doCene,
-  setDoCene,
-  karoserija,
-  setKaroserija,
-}) => {
+const DropdownSearches = ({ filters, handleChangeFilters }) => {
   const fuels = [
     { label: "Poništi", value: null },
     { label: "Benzin", value: "Benzin" },
@@ -80,28 +67,40 @@ const DropdownSearches = ({
         <View style={styles.pickerWrapper}>
           <DropDownPicker
             open={open.odGodine}
-            value={odGodine}
+            value={filters.odGodine}
             items={years}
             setOpen={(open) => handleChange("odGodine", open)}
-            setValue={setOdGodine}
+            setValue={(callback) =>
+              handleChangeFilters("odGodine", callback(filters.odGodine))
+            }
             placeholder="Od godine"
             listMode="MODAL"
             style={styles.dropDownPicker}
-            dropDownContainerStyle={styles.dropDownContainer}
+            dropDownContainerStyle={{
+              backgroundColor: "#000",
+              borderColor: "skyblue",
+            }}
+            labelStyle={{ backgroundColor: "#fff" }}
+            searchable={true}
+            searchPlaceholder="Traži..."
           />
         </View>
 
         <View style={styles.pickerWrapper}>
           <DropDownPicker
             open={open.doGodine}
-            value={doGodine}
+            value={filters.doGodine}
             items={years}
             setOpen={(open) => handleChange("doGodine", open)}
-            setValue={setDoGodine}
+            setValue={(callback) =>
+              handleChangeFilters("doGodine", callback(filters.doGodine))
+            }
             placeholder="Do godine"
             listMode="MODAL"
             style={styles.dropDownPicker}
             dropDownContainerStyle={styles.dropDownContainer}
+            searchable={true}
+            searchPlaceholder="Traži..."
           />
         </View>
       </View>
@@ -110,33 +109,36 @@ const DropdownSearches = ({
         <View style={styles.pickerWrapper}>
           <DropDownPicker
             open={open.vrstaGoriva}
-            value={vrstaGoriva}
+            value={filters.vrstaGoriva}
             items={fuels}
             setOpen={(open) => handleChange("vrstaGoriva", open)}
-            setValue={setVrstaGoriva}
-            onChangeValue={(value) => {
-              if (value === null) {
-                setVrstaGoriva(null); // Reset if "Clear" is selected
-              }
-            }}
+            setValue={(callback) =>
+              handleChangeFilters("vrstaGoriva", callback(filters.vrstaGoriva))
+            }
             placeholder="Vrsta Goriva"
             listMode="MODAL"
             style={styles.dropDownPicker}
             dropDownContainerStyle={styles.dropDownContainer}
+            searchable={true}
+            searchPlaceholder="Traži..."
           />
         </View>
 
         <View style={styles.pickerWrapper}>
           <DropDownPicker
             open={open.karoserija}
-            value={karoserija}
+            value={filters.karoserija}
             items={bodyTypes}
             setOpen={(open) => handleChange("karoserija", open)}
-            setValue={setKaroserija}
+            setValue={(callback) =>
+              handleChangeFilters("karoserija", callback(filters.karoserija))
+            }
             placeholder="Karoserija"
             listMode="MODAL"
             style={styles.dropDownPicker}
             dropDownContainerStyle={styles.dropDownContainer}
+            searchable={true}
+            searchPlaceholder="Traži..."
           />
         </View>
       </View>
@@ -145,28 +147,36 @@ const DropdownSearches = ({
         <View style={styles.pickerWrapper}>
           <DropDownPicker
             open={open.odCene}
-            value={odCene}
+            value={filters.odCene}
             items={priceOptions}
             setOpen={(open) => handleChange("odCene", open)}
-            setValue={setOdCene}
+            setValue={(callback) =>
+              handleChangeFilters("odCene", callback(filters.odCene))
+            }
             placeholder="Od Cene"
             listMode="MODAL"
             style={styles.dropDownPicker}
             dropDownContainerStyle={styles.dropDownContainer}
+            searchable={true}
+            searchPlaceholder="Traži..."
           />
         </View>
 
         <View style={styles.pickerWrapper}>
           <DropDownPicker
             open={open.doCene}
-            value={doCene}
+            value={filters.doCene}
             items={priceOptions}
             setOpen={(open) => handleChange("doCene", open)}
-            setValue={setDoCene}
-            placeholder="Od Cene"
+            setValue={(callback) =>
+              handleChangeFilters("doCene", callback(filters.doCene))
+            }
+            placeholder="Do Cene"
             listMode="MODAL"
             style={styles.dropDownPicker}
             dropDownContainerStyle={styles.dropDownContainer}
+            searchable={true}
+            searchPlaceholder="Traži..."
           />
         </View>
       </View>
@@ -205,5 +215,6 @@ const styles = StyleSheet.create({
     minHeight: verticalScale(28),
     borderWidth: 0.2,
     padding: -2,
+    backgroundColor: "#fff",
   },
 });

@@ -1,6 +1,5 @@
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { useSearch } from "../../hooks/useSearch";
-import CarCard from "../ui/car-card";
 import { useRouter } from "expo-router";
 import SearchSingleCard from "./search-single-card";
 import { scale, verticalScale } from "react-native-size-matters";
@@ -17,7 +16,7 @@ const ListingsCard = () => {
     );
   }
 
-  if (data.length === 0) {
+  if (data.length <= 0) {
     return <Text style={{ color: "#fff" }}>Nema rezultata!</Text>;
   }
 

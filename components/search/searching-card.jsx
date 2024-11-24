@@ -35,75 +35,78 @@ const SearchingCard = () => {
 
   const [model, setModel] = useState("GLE");
   const [carState, setCarState] = useState("Sve");
-  const [odGodine, setOdGodine] = useState("");
-  const [doGodine, setDoGodine] = useState("");
-  const [vrstaGoriva, setVrstaGoriva] = useState("");
-  const [odCene, setOdCene] = useState("");
-  const [doCene, setDoCene] = useState("");
-  const [karoserija, setKaroserija] = useState("");
+
+  const [filters, setFilters] = useState({
+    odGodine: "",
+    doGodine: "",
+    vrstaGoriva: "",
+    odCene: "",
+    doCene: "",
+    karoserija: "",
+  });
+
+  const handleChangeFilters = (key, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   useEffect(() => {
     if (yearMin !== null) {
-      setOdGodine(yearMin);
+      handleChangeFilters("odGodine", yearMin);
     }
     if (yearMax !== null) {
-      setDoGodine(yearMax);
+      handleChangeFilters("doGodine", yearMax);
     }
     if (priceMin !== null) {
-      setOdCene(priceMin);
+      handleChangeFilters("odCene", priceMin);
     }
     if (priceMax !== null) {
-      setDoCene(priceMax);
+      handleChangeFilters("doCene", priceMax);
     }
     if (fuelType !== null) {
-      setVrstaGoriva(fuelType);
+      handleChangeFilters("vrstaGoriva", fuelType);
     }
     if (carType !== null) {
-      setKaroserija(carType);
+      handleChangeFilters("karoserija", carType);
     }
   }, []);
 
   const navigation = useNavigation();
 
   const handleSearch = () => {
-    if (odGodine) {
-      params.set("odGodine", odGodine);
-    } else {
-      params.delete("odGodine");
+    const params = new URLSearchParams();
+
+    if (filters.odGodine) {
+      params.set("odGodine", filters.odGodine);
     }
 
-    if (doGodine) {
-      params.set("doGodine", doGodine);
-    } else {
-      params.delete("doGodine");
+    if (filters.doGodine) {
+      params.set("doGodine", filters.doGodine);
     }
 
-    if (vrstaGoriva) {
-      params.set("vrstaGoriva", vrstaGoriva);
-    } else {
-      params.delete("vrstaGoriva");
+    if (filters.vrstaGoriva) {
+      params.set("vrstaGoriva", filters.vrstaGoriva);
     }
 
-    if (odCene) {
-      params.set("odCene", odCene);
-    } else {
-      params.delete("odCene");
+    if (filters.odCene) {
+      params.set("odCene", filters.odCene);
     }
 
-    if (doCene) {
-      params.set("doCene", doCene);
-    } else {
-      params.delete("doCene");
+    if (filters.doCene) {
+      params.set("doCene", filters.doCene);
     }
 
-    if (karoserija) {
-      params.set("karoserija", karoserija);
-    } else {
-      params.delete("karoserija");
+    if (filters.karoserija) {
+      params.set("karoserija", filters.karoserija);
     }
 
+    // Convert params to string
     const queryString = params.toString();
 
+    // Navigate to the Search screen and pass the query parameters
+    console.log(queryString);
     navigation.navigate("search", { queryString });
   };
 
@@ -181,18 +184,8 @@ const SearchingCard = () => {
           )}
 
           <DropdownSearches
-            odGodine={odGodine}
-            doGodine={doGodine}
-            vrstaGoriva={vrstaGoriva}
-            odCene={odCene}
-            doCene={doCene}
-            karoserija={karoserija}
-            setOdGodine={setOdGodine}
-            setDoGodine={setDoGodine}
-            setVrstaGoriva={setVrstaGoriva}
-            setOdCene={setOdCene}
-            setDoCene={setDoCene}
-            setKaroserija={setKaroserija}
+            filters={filters}
+            handleChangeFilters={handleChangeFilters}
           />
 
           <View style={styles.cardFooter}>

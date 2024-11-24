@@ -20,40 +20,50 @@ const SearchCard = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [model, setModel] = useState("GLE");
-  const [odGodine, setOdGodine] = useState("");
-  const [doGodine, setDoGodine] = useState("");
-  const [vrstaGoriva, setVrstaGoriva] = useState("");
-  const [odCene, setOdCene] = useState("");
-  const [doCene, setDoCene] = useState("");
-  const [karoserija, setKaroserija] = useState("");
+
+  const [filters, setFilters] = useState({
+    odGodine: "",
+    doGodine: "",
+    vrstaGoriva: "",
+    odCene: "",
+    doCene: "",
+    karoserija: "",
+  });
+
+  const handleChangeFilters = (key, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const navigation = useNavigation();
 
   const handleSearch = () => {
     const params = new URLSearchParams();
 
-    if (odGodine) {
-      params.set("odGodine", odGodine);
+    if (filters.odGodine) {
+      params.set("odGodine", filters.odGodine);
     }
 
-    if (doGodine) {
-      params.set("doGodine", doGodine);
+    if (filters.doGodine) {
+      params.set("doGodine", filters.doGodine);
     }
 
-    if (vrstaGoriva) {
-      params.set("vrstaGoriva", vrstaGoriva);
+    if (filters.vrstaGoriva) {
+      params.set("vrstaGoriva", filters.vrstaGoriva);
     }
 
-    if (odCene) {
-      params.set("odCene", odCene);
+    if (filters.odCene) {
+      params.set("odCene", filters.odCene);
     }
 
-    if (doCene) {
-      params.set("doCene", doCene);
+    if (filters.doCene) {
+      params.set("doCene", filters.doCene);
     }
 
-    if (karoserija) {
-      params.set("karoserija", karoserija);
+    if (filters.karoserija) {
+      params.set("karoserija", filters.karoserija);
     }
 
     // Convert params to string
@@ -176,18 +186,8 @@ const SearchCard = () => {
         )}
 
         <DropdownSearches
-          odGodine={odGodine}
-          doGodine={doGodine}
-          vrstaGoriva={vrstaGoriva}
-          odCene={odCene}
-          doCene={doCene}
-          karoserija={karoserija}
-          setOdGodine={setOdGodine}
-          setDoGodine={setDoGodine}
-          setVrstaGoriva={setVrstaGoriva}
-          setOdCene={setOdCene}
-          setDoCene={setDoCene}
-          setKaroserija={setKaroserija}
+          filters={filters}
+          handleChangeFilters={handleChangeFilters}
         />
 
         <PrimaryButton onPress={handleSearch}>PRETRAŽI</PrimaryButton>
