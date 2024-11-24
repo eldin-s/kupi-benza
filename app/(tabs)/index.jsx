@@ -15,7 +15,10 @@ const Home = () => {
     <SafeAreaView
       style={[styles.container, { backgroundColor: theme.bgColor }]}
     >
-      <ScrollView>
+      <ScrollView
+        nestedScrollEnabled={true}
+        keyboardShouldPersistTaps="handled"
+      >
         <Logo />
         <Hero />
         <Listing />

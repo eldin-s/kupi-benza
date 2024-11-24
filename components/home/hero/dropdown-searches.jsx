@@ -1,125 +1,166 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import { moderateScale, verticalScale } from "react-native-size-matters";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const DropdownSearches = ({
   odGodine,
-  doGodine,
-  vrstaGoriva,
-  odCene,
-  doCene,
-  karoserija,
-
   setOdGodine,
+  doGodine,
   setDoGodine,
+  vrstaGoriva,
   setVrstaGoriva,
+  odCene,
   setOdCene,
+  doCene,
   setDoCene,
+  karoserija,
   setKaroserija,
 }) => {
-  const currentYear = new Date().getFullYear();
+  const fuels = [
+    { label: "Benzin", value: "benzin" },
+    { label: "Dizel", value: "dizel" },
+    { label: "Hibrid", value: "hibrid" },
+    { label: "Električni", value: "električni" },
+  ];
+
+  const bodyTypes = [
+    { label: "Sedan", value: "sedan" },
+    { label: "Hatchback", value: "hatchback" },
+    { label: "Karavan", value: "karavan" },
+    { label: "Kupe", value: "kupe" },
+    { label: "Kabrio", value: "kabrio" },
+    { label: "SUV", value: "suv" },
+  ];
+
+  const years = Array.from(
+    { length: new Date().getFullYear() - 1989 },
+    (_, i) => ({
+      label: `${1990 + i}`,
+      value: `${1990 + i}`,
+    })
+  );
+
+  const [open, setOpen] = useState({
+    odGodine: false,
+    doGodine: false,
+    vrstaGoriva: false,
+    odCene: false,
+    doCene: false,
+    karoserija: false,
+  });
+
+  const handleChange = (key, value) => {
+    setOpen((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
 
   const getPriceOptions = () => {
     const priceOptions = [];
+
     for (let price = 2000; price < 10000; price += 2000) {
-      priceOptions.push(
-        <Picker.Item key={price} label={`${price}`} value={price} />
-      );
+      priceOptions.push({ label: `${price}`, value: price });
     }
     for (let price = 10000; price <= 50000; price += 5000) {
-      priceOptions.push(
-        <Picker.Item key={price} label={`${price}`} value={price} />
-      );
+      priceOptions.push({ label: `${price}`, value: price });
     }
+
     return priceOptions;
   };
+
+  const priceOptions = getPriceOptions();
 
   return (
     <View style={styles.container}>
       <View style={styles.row}>
         <View style={styles.pickerWrapper}>
-          <Picker
-            selectedValue={odGodine}
-            onValueChange={(value) => setOdGodine(value)}
-            style={styles.picker}
-          >
-            <Picker.Item label="Od godine" value="" />
-            {Array.from({ length: currentYear - 1989 }, (_, i) => 1990 + i).map(
-              (year) => (
-                <Picker.Item key={year} label={`${year}`} value={year} />
-              )
-            )}
-          </Picker>
+          <DropDownPicker
+            open={open.odGodine}
+            value={odGodine}
+            items={years}
+            setOpen={(open) => handleChange("odGodine", open)}
+            setValue={setOdGodine}
+            placeholder="Od godine"
+            listMode="MODAL"
+            style={styles.dropDownPicker}
+            dropDownContainerStyle={styles.dropDownContainer}
+          />
         </View>
 
         <View style={styles.pickerWrapper}>
-          <Picker
-            selectedValue={doGodine}
-            onValueChange={(value) => setDoGodine(value)}
-            style={styles.picker}
-          >
-            <Picker.Item label="Do godine" value="" />
-            {Array.from({ length: currentYear - 1989 }, (_, i) => 1990 + i).map(
-              (year) => (
-                <Picker.Item key={year} label={`${year}`} value={year} />
-              )
-            )}
-          </Picker>
+          <DropDownPicker
+            open={open.doGodine}
+            value={doGodine}
+            items={years}
+            setOpen={(open) => handleChange("doGodine", open)}
+            setValue={setDoGodine}
+            placeholder="Do godine"
+            listMode="MODAL"
+            style={styles.dropDownPicker}
+            dropDownContainerStyle={styles.dropDownContainer}
+          />
         </View>
       </View>
 
       <View style={styles.row}>
         <View style={styles.pickerWrapper}>
-          <Picker
-            selectedValue={vrstaGoriva}
-            onValueChange={(value) => setVrstaGoriva(value)}
-            style={styles.picker}
-          >
-            <Picker.Item label="Vrsta goriva" value="" />
-            <Picker.Item label="Benzin" value="Benzin" />
-            <Picker.Item label="Dizel" value="Dizel" />
-            <Picker.Item label="Hibrid" value="Hibrid" />
-            <Picker.Item label="Električni" value="Električni" />
-          </Picker>
+          <DropDownPicker
+            open={open.vrstaGoriva}
+            value={vrstaGoriva}
+            items={fuels}
+            setOpen={(open) => handleChange("vrstaGoriva", open)}
+            setValue={setVrstaGoriva}
+            placeholder="Vrsta Goriva"
+            listMode="MODAL"
+            style={styles.dropDownPicker}
+            dropDownContainerStyle={styles.dropDownContainer}
+          />
         </View>
 
         <View style={styles.pickerWrapper}>
-          <Picker
-            selectedValue={karoserija}
-            onValueChange={(value) => setKaroserija(value)}
-            style={styles.picker}
-          >
-            <Picker.Item label="Karoserija" value="" />
-            <Picker.Item label="Sedan" value="Sedan" />
-            <Picker.Item label="Hatchback" value="Hatchback" />
-            <Picker.Item label="Karavan" value="Karavan" />
-            <Picker.Item label="Kupe" value="Kupe" />
-            <Picker.Item label="Kabrio" value="Kabrio" />
-            <Picker.Item label="Suv" value="SUV" />
-          </Picker>
+          <DropDownPicker
+            open={open.karoserija}
+            value={karoserija}
+            items={bodyTypes}
+            setOpen={(open) => handleChange("karoserija", open)}
+            setValue={setKaroserija}
+            placeholder="Karoserija"
+            listMode="MODAL"
+            style={styles.dropDownPicker}
+            dropDownContainerStyle={styles.dropDownContainer}
+          />
         </View>
       </View>
 
       <View style={styles.row}>
         <View style={styles.pickerWrapper}>
-          <Picker
-            selectedValue={odCene}
-            onValueChange={(value) => setOdCene(value)}
-            style={styles.picker}
-          >
-            {getPriceOptions()}
-          </Picker>
+          <DropDownPicker
+            open={open.odCene}
+            value={odCene}
+            items={priceOptions}
+            setOpen={(open) => handleChange("odCene", open)}
+            setValue={setOdCene}
+            placeholder="Od Cene"
+            listMode="MODAL"
+            style={styles.dropDownPicker}
+            dropDownContainerStyle={styles.dropDownContainer}
+          />
         </View>
 
         <View style={styles.pickerWrapper}>
-          <Picker
-            selectedValue={doCene}
-            onValueChange={(value) => setDoCene(value)}
-            style={styles.picker}
-          >
-            {getPriceOptions()}
-          </Picker>
+          <DropDownPicker
+            open={open.doCene}
+            value={doCene}
+            items={priceOptions}
+            setOpen={(open) => handleChange("doCene", open)}
+            setValue={setDoCene}
+            placeholder="Od Cene"
+            listMode="MODAL"
+            style={styles.dropDownPicker}
+            dropDownContainerStyle={styles.dropDownContainer}
+          />
         </View>
       </View>
     </View>
@@ -137,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginVertical: verticalScale(10),
+    marginVertical: verticalScale(6),
   },
   pickerWrapper: {
     flex: 1,
@@ -149,8 +190,13 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   picker: {
-    height: verticalScale(30),
+    height: verticalScale(40),
     margin: moderateScale(-8),
     backgroundColor: "#fff",
+  },
+  dropDownPicker: {
+    minHeight: verticalScale(28),
+    borderWidth: 0.2,
+    padding: -2,
   },
 });

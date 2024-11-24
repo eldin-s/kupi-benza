@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import mercedesLogo from "../../assets/images/Mercedes-Logo.png";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -11,7 +11,7 @@ import sside from "../../assets/images/cars/s-side.png";
 import gside from "../../assets/images/cars/g-side.png";
 import gleside from "../../assets/images/cars/gle-side.png";
 import glsside from "../../assets/images/cars/gls1.png";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import DropdownSearches from "../home/hero/dropdown-searches";
 import { getFontSize } from "../../utils.js/getFontSize";
 import SearchTrack from "./search-track";
@@ -21,8 +21,19 @@ import { useTheme } from "../../providers/ThemeProvider";
 const SearchingCard = () => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-  const params = new URLSearchParams();
 
+  const route = useRoute();
+  const { queryString } = route.params || "";
+  const params = new URLSearchParams(queryString);
+
+  const yearMin = params.get("odGodine");
+  const yearMax = params.get("doGodine");
+  const priceMin = params.get("odCene");
+  const priceMax = params.get("doCene");
+  const fuelType = params.get("vrstaGoriva");
+  const carType = params.get("karoserija");
+
+  const [model, setModel] = useState("GLE");
   const [carState, setCarState] = useState("Sve");
   const [odGodine, setOdGodine] = useState("");
   const [doGodine, setDoGodine] = useState("");
@@ -30,6 +41,27 @@ const SearchingCard = () => {
   const [odCene, setOdCene] = useState("");
   const [doCene, setDoCene] = useState("");
   const [karoserija, setKaroserija] = useState("");
+
+  useEffect(() => {
+    if (yearMin !== null) {
+      setOdGodine(yearMin);
+    }
+    if (yearMax !== null) {
+      setDoGodine(yearMax);
+    }
+    if (priceMin !== null) {
+      setOdCene(priceMin);
+    }
+    if (priceMax !== null) {
+      setDoCene(priceMax);
+    }
+    if (fuelType !== null) {
+      setVrstaGoriva(fuelType);
+    }
+    if (carType !== null) {
+      setKaroserija(carType);
+    }
+  }, []);
 
   const navigation = useNavigation();
 
@@ -88,7 +120,7 @@ const SearchingCard = () => {
               }}
               weight="bold"
             >
-              GLA
+              {model}
             </DefaultText>
             <Text style={styles.arrowIcon}>
               <MaterialIcons
@@ -100,17 +132,35 @@ const SearchingCard = () => {
 
           {isOpen && (
             <View style={styles.dropdownMenu}>
-              <Pressable style={styles.dropdownElements}>
+              <Pressable
+                style={styles.dropdownElements}
+                onPress={() => {
+                  setModel("GLE");
+                  setIsOpen(false);
+                }}
+              >
                 <DefaultText color="#000" weight="medium">
                   GLE
                 </DefaultText>
               </Pressable>
-              <Pressable style={styles.dropdownElements}>
+              <Pressable
+                style={styles.dropdownElements}
+                onPress={() => {
+                  setModel("G-SQUARED");
+                  setIsOpen(false);
+                }}
+              >
                 <DefaultText color="#000" weight="medium">
                   G-SQUARED
                 </DefaultText>
               </Pressable>
-              <Pressable style={styles.dropdownElements}>
+              <Pressable
+                style={styles.dropdownElements}
+                onPress={() => {
+                  setModel("S-Class 550");
+                  setIsOpen(false);
+                }}
+              >
                 <DefaultText color="#000" weight="medium">
                   S-Class 550
                 </DefaultText>

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import { View, StyleSheet, Pressable, Image } from "react-native";
 import React, { useState } from "react";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import mercedesLogo from "../../../assets/images/Mercedes-Logo.png";
@@ -19,6 +19,7 @@ const SearchCard = () => {
   const [carState, setCarState] = useState("Sve");
   const [isOpen, setIsOpen] = useState(false);
 
+  const [model, setModel] = useState("GLE");
   const [odGodine, setOdGodine] = useState("");
   const [doGodine, setDoGodine] = useState("");
   const [vrstaGoriva, setVrstaGoriva] = useState("");
@@ -126,7 +127,7 @@ const SearchCard = () => {
             }}
             weight="bold"
           >
-            GLA
+            {model}
           </DefaultText>
           <DefaultText style={styles.arrowIcon}>
             <MaterialIcons
@@ -138,19 +139,37 @@ const SearchCard = () => {
 
         {isOpen && (
           <View style={styles.dropdownMenu}>
-            <Pressable style={styles.dropdownElements}>
+            <Pressable
+              style={styles.dropdownElements}
+              onPress={() => {
+                setModel("GLE");
+                setIsOpen(false);
+              }}
+            >
               <DefaultText color="#000" weight="medium">
                 GLE
               </DefaultText>
             </Pressable>
-            <Pressable style={styles.dropdownElements}>
+            <Pressable
+              style={styles.dropdownElements}
+              onPress={() => {
+                setModel("G-SQUARED");
+                setIsOpen(false);
+              }}
+            >
               <DefaultText color="#000" weight="medium">
                 G-SQUARED
               </DefaultText>
             </Pressable>
-            <Pressable style={styles.dropdownElements}>
+            <Pressable
+              style={styles.dropdownElements}
+              onPress={() => {
+                setModel("S Class 550");
+                setIsOpen(false);
+              }}
+            >
               <DefaultText color="#000" weight="medium">
-                S-Class 550
+                S Class 550
               </DefaultText>
             </Pressable>
           </View>
