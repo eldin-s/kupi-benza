@@ -18,28 +18,30 @@ const DropdownSearches = ({
   setKaroserija,
 }) => {
   const fuels = [
-    { label: "Benzin", value: "benzin" },
-    { label: "Dizel", value: "dizel" },
-    { label: "Hibrid", value: "hibrid" },
-    { label: "Električni", value: "električni" },
+    { label: "Poništi", value: null },
+    { label: "Benzin", value: "Benzin" },
+    { label: "Dizel", value: "Dizel" },
+    { label: "Hibrid", value: "Hibrid" },
+    { label: "Električni", value: "Električni" },
   ];
 
   const bodyTypes = [
-    { label: "Sedan", value: "sedan" },
-    { label: "Hatchback", value: "hatchback" },
-    { label: "Karavan", value: "karavan" },
-    { label: "Kupe", value: "kupe" },
-    { label: "Kabrio", value: "kabrio" },
-    { label: "SUV", value: "suv" },
+    { label: "Poništi", value: null },
+    { label: "Sedan", value: "Sedan" },
+    { label: "Hatchback", value: "Hatchback" },
+    { label: "Karavan", value: "Karavan" },
+    { label: "Kupe", value: "Kupe" },
+    { label: "Kabrio", value: "Kabrio" },
+    { label: "SUV", value: "SUV" },
   ];
 
-  const years = Array.from(
-    { length: new Date().getFullYear() - 1989 },
-    (_, i) => ({
+  const years = [
+    { label: "Ponitšti", value: null },
+    ...Array.from({ length: new Date().getFullYear() - 1989 }, (_, i) => ({
       label: `${1990 + i}`,
       value: `${1990 + i}`,
-    })
-  );
+    })),
+  ];
 
   const [open, setOpen] = useState({
     odGodine: false,
@@ -58,7 +60,7 @@ const DropdownSearches = ({
   };
 
   const getPriceOptions = () => {
-    const priceOptions = [];
+    const priceOptions = [{ label: "Poništi", value: null }];
 
     for (let price = 2000; price < 10000; price += 2000) {
       priceOptions.push({ label: `${price}`, value: price });
@@ -112,6 +114,11 @@ const DropdownSearches = ({
             items={fuels}
             setOpen={(open) => handleChange("vrstaGoriva", open)}
             setValue={setVrstaGoriva}
+            onChangeValue={(value) => {
+              if (value === null) {
+                setVrstaGoriva(null); // Reset if "Clear" is selected
+              }
+            }}
             placeholder="Vrsta Goriva"
             listMode="MODAL"
             style={styles.dropDownPicker}

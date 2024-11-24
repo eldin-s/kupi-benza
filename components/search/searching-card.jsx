@@ -68,26 +68,38 @@ const SearchingCard = () => {
   const handleSearch = () => {
     if (odGodine) {
       params.set("odGodine", odGodine);
+    } else {
+      params.delete("odGodine");
     }
 
     if (doGodine) {
       params.set("doGodine", doGodine);
+    } else {
+      params.delete("doGodine");
     }
 
     if (vrstaGoriva) {
       params.set("vrstaGoriva", vrstaGoriva);
+    } else {
+      params.delete("vrstaGoriva");
     }
 
     if (odCene) {
       params.set("odCene", odCene);
+    } else {
+      params.delete("odCene");
     }
 
     if (doCene) {
       params.set("doCene", doCene);
+    } else {
+      params.delete("doCene");
     }
 
     if (karoserija) {
       params.set("karoserija", karoserija);
+    } else {
+      params.delete("karoserija");
     }
 
     const queryString = params.toString();
