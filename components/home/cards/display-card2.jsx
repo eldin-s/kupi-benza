@@ -28,7 +28,7 @@ const DisplayCard2 = () => {
           Garancija na sva nova vozila {"\n"}od 2 do 5 godina.
         </Text>
 
-        <OutlineButton>Saznajte više</OutlineButton>
+        <OutlineButton textColor="#fff">Saznajte više</OutlineButton>
       </View>
     </ImageBackground>
   );

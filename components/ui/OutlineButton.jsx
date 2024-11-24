@@ -37,6 +37,5 @@ const styles = StyleSheet.create({
   text: {
     fontFamily: "Montserrat-Bold",
     letterSpacing: 0.05,
-    color: "#fff",
   },
 });

@@ -2,62 +2,71 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
+import { useTheme } from "../../providers/ThemeProvider";
 
 const Informations = () => {
+  const { theme } = useTheme();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Opšte informacije:</Text>
+    <View style={[styles.container, { backgroundColor: theme.bgShade }]}>
+      <Text style={[styles.title, { color: theme.text }]}>
+        Opšte informacije:
+      </Text>
 
       <View style={styles.column}>
         <View style={styles.row}>
-          <Text style={styles.label}>Stanje:</Text>
-          <Text style={styles.value}>Polovno</Text>
+          <Text style={[styles.label, { color: theme.text }]}>Stanje:</Text>
+          <Text style={[styles.value, { color: theme.color }]}>Polovno</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Model:</Text>
-          <Text style={styles.value}>GLE 63 AMG</Text>
+          <Text style={[styles.label, { color: theme.text }]}>Model:</Text>
+          <Text style={[styles.value, { color: theme.color }]}>GLE 63 AMG</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Menjac:</Text>
-          <Text style={styles.value}>Automatik</Text>
+          <Text style={[styles.label, { color: theme.text }]}>Menjac:</Text>
+          <Text style={[styles.value, { color: theme.color }]}>Automatik</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Godiste:</Text>
-          <Text style={styles.value}>2023</Text>
+          <Text style={[styles.label, { color: theme.text }]}>Godiste:</Text>
+          <Text style={[styles.value, { color: theme.color }]}>2023</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Kilometraza:</Text>
-          <Text style={styles.value}>2.300km</Text>
+          <Text style={[styles.label, { color: theme.text }]}>
+            Kilometraza:
+          </Text>
+          <Text style={[styles.value, { color: theme.color }]}>2.300km</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Karoserija:</Text>
-          <Text style={styles.value}>Dzip/Suv</Text>
+          <Text style={[styles.label, { color: theme.text }]}>Karoserija:</Text>
+          <Text style={[styles.value, { color: theme.color }]}>Dzip/Suv</Text>
         </View>
       </View>
       <View style={styles.column}>
         <View style={styles.row}>
-          <Text style={styles.label}>Kubikaza:</Text>
-          <Text style={styles.value}>3982cm</Text>
+          <Text style={[styles.label, { color: theme.text }]}>Kubikaza:</Text>
+          <Text style={[styles.value, { color: theme.color }]}>3982cm</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Snaga:</Text>
-          <Text style={styles.value}>450/612 (k@/KS)</Text>
+          <Text style={[styles.label, { color: theme.text }]}>Snaga:</Text>
+          <Text style={[styles.value, { color: theme.color }]}>
+            450/612 (k@/KS)
+          </Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Klima:</Text>
-          <Text style={styles.value}>Automatska</Text>
+          <Text style={[styles.label, { color: theme.text }]}>Klima:</Text>
+          <Text style={[styles.value, { color: theme.color }]}>Automatska</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Boja:</Text>
-          <Text style={styles.value}>Crna</Text>
+          <Text style={[styles.label, { color: theme.text }]}>Boja:</Text>
+          <Text style={[styles.value, { color: theme.color }]}>Crna</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Pogon:</Text>
-          <Text style={styles.value}>4x4</Text>
+          <Text style={[styles.label, { color: theme.text }]}>Pogon:</Text>
+          <Text style={[styles.value, { color: theme.color }]}>4x4</Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>Gorivo:</Text>
-          <Text style={styles.value}>Benzin</Text>
+          <Text style={[styles.label, { color: theme.text }]}>Gorivo:</Text>
+          <Text style={[styles.value, { color: theme.color }]}>Benzin</Text>
         </View>
       </View>
     </View>
@@ -68,14 +77,12 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     marginTop: verticalScale(10),
-    backgroundColor: "#19212f",
     borderRadius: moderateScale(14),
     paddingHorizontal: scale(20),
   },
   title: {
     fontSize: getFontSize(20),
     fontFamily: "Montserrat-Regular",
-    color: "#fff",
     paddingLeft: verticalScale(10),
     paddingVertical: verticalScale(16),
     borderBottomWidth: 1,
@@ -93,11 +100,9 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
   },
   label: {
-    color: "#ccc",
     fontFamily: "Montserrat-Regular",
   },
   value: {
-    color: "#fff",
     fontFamily: "Montserrat-Bold",
   },
 });

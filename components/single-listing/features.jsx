@@ -2,29 +2,59 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
+import { useTheme } from "../../providers/ThemeProvider";
 
 const Features = () => {
+  const { theme } = useTheme();
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Oprema:</Text>
+    <View style={[styles.container, { backgroundColor: theme.bgShade }]}>
+      <Text style={[styles.title, { color: theme.text }]}>Oprema:</Text>
 
       <View style={styles.column}>
-        <Text style={styles.label}>Branici u boji auta</Text>
-        <Text style={styles.label}>Servo volan</Text>
-        <Text style={styles.label}>Multifuncionalni volan</Text>
-        <Text style={styles.label}>Daljinsko zakljucavanje</Text>
-        <Text style={styles.label}>Putni racunar</Text>
-        <Text style={styles.label}>Tonirana stakla</Text>
-        <Text style={styles.label}>Elektricni odizaci</Text>
-        <Text style={styles.label}>Elektricni retrovizori</Text>
-        <Text style={styles.label}>Grejaci retrovizora</Text>
-        <Text style={styles.label}>Sedista to visini</Text>
-        <Text style={styles.label}>Elektro podesiva sedista</Text>
-        <Text style={styles.label}>Grejanje sedista</Text>
-        <Text style={styles.label}>Svetla za maglu</Text>
-        <Text style={styles.label}>Senzori za svetla</Text>
-        <Text style={styles.label}>Senzori za kisu</Text>
-        <Text style={styles.label}>Parking senzori</Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Branici u boji auta
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>Servo volan</Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Multifuncionalni volan
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Daljinsko zakljucavanje
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>Putni racunar</Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Tonirana stakla
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Elektricni odizaci
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Elektricni retrovizori
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Grejaci retrovizora
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Sedista to visini
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Elektro podesiva sedista
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Grejanje sedista
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Svetla za maglu
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Senzori za svetla
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Senzori za kisu
+        </Text>
+        <Text style={[styles.label, { color: theme.text }]}>
+          Parking senzori
+        </Text>
       </View>
     </View>
   );

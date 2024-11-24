@@ -39,7 +39,7 @@ const DisplayCard1 = () => {
           ))}
         </View>
 
-        <OutlineButton>Saznajte više</OutlineButton>
+        <OutlineButton textColor="#fff">Saznajte više</OutlineButton>
       </View>
     </ImageBackground>
   );

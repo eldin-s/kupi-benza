@@ -21,8 +21,10 @@ import Safety from "../../components/single-listing/safety";
 import Features from "../../components/single-listing/features";
 import { useAuth } from "../../providers/AuthProvider";
 import { useCurrentUser, useSetParking } from "../api/user";
+import { useTheme } from "../../providers/ThemeProvider";
 
 const ListingSingle = () => {
+  const { theme } = useTheme();
   const { id: listingId } = useLocalSearchParams();
   const [isParking, setIsParking] = useState(false);
 
@@ -63,7 +65,7 @@ const ListingSingle = () => {
 
   if (error) {
     return (
-      <Text style={{ color: "#fff", textAlign: "center" }}>
+      <Text style={{ color: theme.text, textAlign: "center" }}>
         Trenutno nije moguće prikazati oglas
       </Text>
     );
@@ -71,12 +73,13 @@ const ListingSingle = () => {
 
   return (
     <ScrollView>
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.bgColor }]}>
         <Stack.Screen
           options={{
-            title: listing.model,
-            headerStyle: { backgroundColor: "#0f141e" },
-            headerTintColor: "#fff",
+            title: listing?.model || "Učitavanje...",
+            headerStyle: { backgroundColor: theme.bgColor },
+            headerTintColor: theme.text,
+            headerBackTitle: "Nazad",
           }}
         />
         {listing && listing.car_images ? (
@@ -85,11 +88,13 @@ const ListingSingle = () => {
           <Text>Loading...</Text>
         )}
 
-        <View style={styles.detailsContainer}>
+        <View
+          style={[styles.detailsContainer, { backgroundColor: theme.bgShade }]}
+        >
           <View style={{ borderBottomWidth: 1, borderColor: "#ff4605" }}>
             <Text
               style={{
-                color: "#fff",
+                color: "#ff4605",
                 fontFamily: "Montserrat-Bold",
                 fontSize: getFontSize(20),
                 textAlign: "center",
@@ -121,37 +126,39 @@ const ListingSingle = () => {
             </View>
           </View>
 
-          <View style={styles.shortDetails}>
+          <View
+            style={[styles.shortDetails, { backgroundColor: theme.bgShade }]}
+          >
             <View style={styles.shortDetail}>
-              <FontAwesome name="road" size={24} color="#fff" />
-              <Text style={{ color: "#fff" }}>2,300km</Text>
+              <FontAwesome name="road" size={24} color={theme.text} />
+              <Text style={{ color: theme.text }}>2,300km</Text>
             </View>
 
             <View style={styles.shortDetail}>
               <MaterialCommunityIcons
                 name="car-shift-pattern"
                 size={24}
-                color="#fff"
+                color={theme.text}
               />
-              <Text style={{ color: "#fff" }}>Automatik</Text>
+              <Text style={{ color: theme.text }}>Automatik</Text>
             </View>
 
             <View style={styles.shortDetail}>
               <MaterialCommunityIcons
                 name="gas-station-outline"
                 size={24}
-                color="#fff"
+                color={theme.text}
               />
-              <Text style={{ color: "#fff" }}>Benzin</Text>
+              <Text style={{ color: theme.text }}>Benzin</Text>
             </View>
 
             <View style={styles.shortDetail}>
               <MaterialCommunityIcons
                 name="engine-outline"
                 size={24}
-                color="#fff"
+                color={theme.text}
               />
-              <Text style={{ color: "#fff" }}>450/ks</Text>
+              <Text style={{ color: theme.text }}>450/ks</Text>
             </View>
           </View>
 
@@ -164,7 +171,7 @@ const ListingSingle = () => {
             <Text
               style={{
                 fontSize: getFontSize(13),
-                color: "#9ca3af",
+                color: theme.text,
                 marginBottom: verticalScale(10),
               }}
             >
@@ -174,6 +181,7 @@ const ListingSingle = () => {
             <View style={styles.buttons}>
               <OutlineButton
                 icon={<FontAwesome name="phone" size={24} color="#ff4605" />}
+                textColor={theme.text}
               >
                 Pozovite
               </OutlineButton>
@@ -185,6 +193,7 @@ const ListingSingle = () => {
                     color="#ff4605"
                   />
                 }
+                textColor={theme.text}
               >
                 Email
               </OutlineButton>
@@ -217,13 +226,11 @@ export default ListingSingle;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f141e",
     alignItems: "center",
   },
   detailsContainer: {
     width: "100%",
     marginTop: verticalScale(10),
-    backgroundColor: "#19212f",
     borderRadius: moderateScale(14),
     paddingVertical: verticalScale(10),
   },
@@ -241,7 +248,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: moderateScale(14),
     borderTopRightRadius: moderateScale(14),
 
-    backgroundColor: "#19212f",
     zIndex: 1,
 
     borderBottomWidth: 0.2,

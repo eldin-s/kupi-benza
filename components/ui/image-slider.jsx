@@ -9,8 +9,10 @@ import {
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import FullScreenImage from "./FullScreenImage";
+import { useTheme } from "../../providers/ThemeProvider";
 
 const ImageSlider = ({ images }) => {
+  const { theme } = useTheme();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const slideIntervalRef = useRef(null);
@@ -96,11 +98,17 @@ const ImageSlider = ({ images }) => {
 
       {/* Left and Right buttons */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={prevSlide}>
-          <FontAwesome name="angle-left" size={24} color="#fff" />
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: theme.bgShade }]}
+          onPress={prevSlide}
+        >
+          <FontAwesome name="angle-left" size={24} color={theme.text} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={nextSlide}>
-          <FontAwesome name="angle-right" size={24} color="#fff" />
+        <TouchableOpacity
+          style={[styles.button, { backgroundColor: theme.bgShade }]}
+          onPress={nextSlide}
+        >
+          <FontAwesome name="angle-right" size={24} color={theme.text} />
         </TouchableOpacity>
       </View>
 
@@ -153,7 +161,6 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   button: {
-    backgroundColor: "#19212f",
     borderWidth: 1,
     borderColor: "#ff4605",
     padding: moderateScale(10),

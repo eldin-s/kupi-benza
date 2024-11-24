@@ -5,7 +5,7 @@ import { useFonts } from "expo-font";
 import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import QueryProvider from "../providers/QueryProvider";
-import { ThemeProvider, useTheme } from "../providers/ThemeProvider";
+import { ThemeProvider } from "../providers/ThemeProvider";
 
 const RootLayout = () => {
   const [fontsLoaded, error] = useFonts({
