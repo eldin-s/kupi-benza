@@ -42,6 +42,10 @@ const SearchCard = () => {
   const handleSearch = () => {
     const params = new URLSearchParams();
 
+    if (model) {
+      params.set("model", model);
+    }
+
     if (filters.odGodine) {
       params.set("odGodine", filters.odGodine);
     }

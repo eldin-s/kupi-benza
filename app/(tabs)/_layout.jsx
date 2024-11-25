@@ -22,12 +22,16 @@ const TabsLayout = () => {
           tabBarStyle: {
             backgroundColor: "transparent",
             borderTopWidth: 0,
-            height: verticalScale(42),
+            height: verticalScale(39),
             position: "absolute",
-            left: scale(3),
-            right: scale(3),
+            marginHorizontal: scale(6),
             bottom: verticalScale(6),
             borderRadius: moderateScale(14),
+            shadowColor: "#363052",
+            shadowOffset: { width: 0, height: 2 },
+            shadowRadius: 6,
+            shadowOpacity: 0.1,
+            elevation: 1,
           },
           tabBarBackground: () => <TabBarBackground />,
         }}
@@ -75,9 +79,11 @@ const TabsLayout = () => {
               <View
                 style={{
                   position: "absolute",
-                  top: verticalScale(-10),
+                  top: verticalScale(-16),
                   borderRadius: 40,
-                  padding: moderateScale(10),
+                  width: 50,
+                  height: 50,
+                  padding: moderateScale(8),
                   backgroundColor: "#fff",
                   borderRadius: 60,
                 }}
