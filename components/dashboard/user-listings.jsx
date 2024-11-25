@@ -6,7 +6,8 @@ import {
   Text,
   View,
 } from "react-native";
-import { useListingsForUser } from "../../app/api/listings";
+
+import { useListingsForUser } from "../../hooks/listings";
 import CarCard from "../ui/car-card";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { verticalScale } from "react-native-size-matters";

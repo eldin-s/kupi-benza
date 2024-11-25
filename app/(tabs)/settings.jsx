@@ -8,7 +8,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { scale, verticalScale } from "react-native-size-matters";
 import { useAuth } from "../../providers/AuthProvider";
-import { useCurrentUser } from "../api/user";
+import { useCurrentUser } from "../../hooks/user";
 import Logo from "../../components/home/logo";
 import { formatDate } from "../../helpers/formatDate";
 import { useState } from "react";

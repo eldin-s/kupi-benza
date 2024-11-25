@@ -1,5 +1,5 @@
 import { useRoute } from "@react-navigation/native";
-import { useCarsWithFilters } from "../app/api/listings";
+import { useCarsWithFilters } from "./listings";
 
 export function useSearch() {
   const route = useRoute();

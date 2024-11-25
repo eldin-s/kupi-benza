@@ -6,7 +6,7 @@ import Input from "../ui/Input";
 import PrimaryButton from "../ui/PrimaryButton";
 import { Link, useRouter } from "expo-router";
 import { getFontSize } from "../../utils.js/getFontSize";
-import { signup } from "../../app/api/auth";
+import signup from "../../app/api/auth";
 import { useTheme } from "../../providers/ThemeProvider";
 import DefaultText from "../ui/DefaultText";
 

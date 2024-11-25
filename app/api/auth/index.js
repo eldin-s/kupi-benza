@@ -1,6 +1,11 @@
 import { supabase } from "../../../lib/supabase";
 
-export async function signup({ fullName, email, password, role = "user" }) {
+export default async function signup({
+  fullName,
+  email,
+  password,
+  role = "user",
+}) {
   const data = {
     email,
     password,

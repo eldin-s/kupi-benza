@@ -7,7 +7,7 @@ import {
   Pressable,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { use5CarsList } from "../../../app/api/listings";
+import { use5CarsList } from "../../../hooks/listings";
 import CarCard from "../../ui/car-card";
 import { scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../../utils.js/getFontSize";

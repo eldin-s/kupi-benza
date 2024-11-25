@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { useSingleListing } from "../api/listings";
+import { useSingleListing } from "../../hooks/listings";
 import ImageSlider from "../../components/ui/image-slider";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
@@ -20,7 +20,7 @@ import Informations from "../../components/single-listing/informations";
 import Safety from "../../components/single-listing/safety";
 import Features from "../../components/single-listing/features";
 import { useAuth } from "../../providers/AuthProvider";
-import { useCurrentUser, useSetParking } from "../api/user";
+import { useCurrentUser, useSetParking } from "../../hooks/user";
 import { useTheme } from "../../providers/ThemeProvider";
 
 const ListingSingle = () => {

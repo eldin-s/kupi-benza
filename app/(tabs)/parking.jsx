@@ -9,8 +9,9 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { scale, verticalScale } from "react-native-size-matters";
 import { useAuth } from "../../providers/AuthProvider";
-import { useCurrentUser } from "../api/user";
-import { useParkedListings } from "../api/listings";
+import { useCurrentUser } from "../../hooks/user";
+import { useParkedListings } from "../../hooks/listings";
+
 import SearchSingleCard from "../../components/search/search-single-card";
 import { useRouter } from "expo-router";
 import { getFontSize } from "../../utils.js/getFontSize";

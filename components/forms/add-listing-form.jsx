@@ -8,13 +8,14 @@ import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import PrimaryButton from "../ui/PrimaryButton";
 import { supabase, supabaseUrl } from "../../lib/supabase";
-import { useCreateListing } from "../../app/api/listings";
+
 import { useAuth } from "../../providers/AuthProvider";
 import { decode } from "base64-arraybuffer";
 import * as FileSystem from "expo-file-system";
 import { carColors, mercedesModels } from "../../utils.js/models";
 import { useTheme } from "../../providers/ThemeProvider";
 import DefaultText from "../ui/DefaultText";
+import { useCreateListing } from "../../hooks/listings";
 
 const AddListingForm = () => {
   const { theme } = useTheme();

@@ -1,5 +1,5 @@
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { useCurrentUser } from "../../app/api/user";
+import { useCurrentUser } from "../../hooks/user";
 import UserListings from "./user-listings";
 import OutlineButton from "../ui/OutlineButton";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
