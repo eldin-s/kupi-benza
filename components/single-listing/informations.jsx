@@ -16,57 +16,57 @@ const Informations = () => {
       <View style={styles.column}>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Stanje:</Text>
-          <Text style={[styles.value, { color: theme.color }]}>Polovno</Text>
+          <Text style={[styles.value, { color: theme.text }]}>Polovno</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Model:</Text>
-          <Text style={[styles.value, { color: theme.color }]}>GLE 63 AMG</Text>
+          <Text style={[styles.value, { color: theme.text }]}>GLE 63 AMG</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Menjac:</Text>
-          <Text style={[styles.value, { color: theme.color }]}>Automatik</Text>
+          <Text style={[styles.value, { color: theme.text }]}>Automatik</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Godiste:</Text>
-          <Text style={[styles.value, { color: theme.color }]}>2023</Text>
+          <Text style={[styles.value, { color: theme.text }]}>2023</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>
             Kilometraza:
           </Text>
-          <Text style={[styles.value, { color: theme.color }]}>2.300km</Text>
+          <Text style={[styles.value, { color: theme.text }]}>2.300km</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Karoserija:</Text>
-          <Text style={[styles.value, { color: theme.color }]}>Dzip/Suv</Text>
+          <Text style={[styles.value, { color: theme.text }]}>Dzip/Suv</Text>
         </View>
       </View>
       <View style={styles.column}>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Kubikaza:</Text>
-          <Text style={[styles.value, { color: theme.color }]}>3982cm</Text>
+          <Text style={[styles.value, { color: theme.text }]}>3982cm</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Snaga:</Text>
-          <Text style={[styles.value, { color: theme.color }]}>
+          <Text style={[styles.value, { color: theme.text }]}>
             450/612 (k@/KS)
           </Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Klima:</Text>
-          <Text style={[styles.value, { color: theme.color }]}>Automatska</Text>
+          <Text style={[styles.value, { color: theme.text }]}>Automatska</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Boja:</Text>
-          <Text style={[styles.value, { color: theme.color }]}>Crna</Text>
+          <Text style={[styles.value, { color: theme.text }]}>Crna</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Pogon:</Text>
-          <Text style={[styles.value, { color: theme.color }]}>4x4</Text>
+          <Text style={[styles.value, { color: theme.text }]}>4x4</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Gorivo:</Text>
-          <Text style={[styles.value, { color: theme.color }]}>Benzin</Text>
+          <Text style={[styles.value, { color: theme.text }]}>Benzin</Text>
         </View>
       </View>
     </View>

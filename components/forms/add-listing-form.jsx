@@ -299,7 +299,7 @@ const AddListingForm = () => {
             style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
           >
             <Picker
-              selectedValue={line}
+              selectedValue={color}
               onValueChange={(value) => {
                 setColor(value);
                 setValue("color", value);

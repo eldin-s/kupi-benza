@@ -1,6 +1,8 @@
 import {
   ActivityIndicator,
   Alert,
+  Modal,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -22,11 +24,14 @@ import Features from "../../components/single-listing/features";
 import { useAuth } from "../../providers/AuthProvider";
 import { useCurrentUser, useSetParking } from "../../hooks/user";
 import { useTheme } from "../../providers/ThemeProvider";
+import EditListingForm from "../../components/forms/edit-listing-form";
 
 const ListingSingle = () => {
   const { theme } = useTheme();
   const { id: listingId } = useLocalSearchParams();
   const [isParking, setIsParking] = useState(false);
+
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const { session } = useAuth();
   const { data: user } = useCurrentUser(session?.user?.id);
@@ -60,7 +65,7 @@ const ListingSingle = () => {
   };
 
   if (isLoading) {
-    return <ActivityIndicator color={"#fff"} />;
+    return <ActivityIndicator color={theme.text} />;
   }
 
   if (error) {
@@ -76,12 +81,54 @@ const ListingSingle = () => {
       <View style={[styles.container, { backgroundColor: theme.bgColor }]}>
         <Stack.Screen
           options={{
-            title: listing?.model || "Učitavanje...",
+            title: listing?.model,
             headerStyle: { backgroundColor: theme.bgColor },
             headerTintColor: theme.text,
             headerBackTitle: "Nazad",
           }}
         />
+
+        {/* {session && ( */}
+        <View
+          style={{
+            position: "absolute",
+            zIndex: 10,
+            right: 8,
+            flexDirection: "row",
+            alignItems: "center",
+            gap: scale(8),
+          }}
+        >
+          <Pressable
+            style={styles.iconWrapper}
+            onPress={() => setModalVisible(true)}
+          >
+            <Text>
+              <FontAwesome name="pencil" size={24} color="black" />
+            </Text>
+          </Pressable>
+          <Pressable style={styles.iconWrapper}>
+            <Text>
+              <FontAwesome name="trash" size={24} color="black" />
+            </Text>
+          </Pressable>
+        </View>
+        {/* )} */}
+
+        <Modal
+          visible={isModalVisible}
+          animationType="slide"
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={{ backgroundColor: theme.bgColor }}>
+            <EditListingForm
+              listing={listing}
+              onClose={() => setModalVisible(false)}
+              theme={theme}
+            />
+          </View>
+        </Modal>
+
         {listing && listing.car_images ? (
           <ImageSlider images={listing.car_images} />
         ) : (
@@ -227,6 +274,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    position: "relative",
   },
   detailsContainer: {
     width: "100%",
@@ -268,5 +316,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     flexWrap: "wrap",
     gap: scale(10),
+  },
+  iconWrapper: {
+    backgroundColor: "rgba(207, 207, 207, 0.4)",
+    borderRadius: 100,
+    padding: moderateScale(8),
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.5,
+    shadowRadius: 3.84,
+    elevation: 6,
+    backdropFilter: "blur(10px)",
   },
 });

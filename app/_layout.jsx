@@ -30,6 +30,12 @@ const RootLayout = () => {
         <ThemeProvider>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="[id]/index"
+              options={{
+                title: "Model",
+              }}
+            />
           </Stack>
           <StatusBar backgroundColor="#0f141e" style="light" />
         </ThemeProvider>

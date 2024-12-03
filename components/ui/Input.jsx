@@ -17,7 +17,6 @@ const Input = ({
 
   const { field } = useController({
     control,
-    defaultValue: "",
     name,
     rules,
   });
@@ -35,8 +34,8 @@ const Input = ({
         style={[
           styles.input,
           {
-            backgroundColor: theme.bgColor,
-            color: theme.text,
+            // backgroundColor: theme.bgColor,
+            // color: theme.text,
           },
         ]}
       />
@@ -49,11 +48,13 @@ export default Input;
 const styles = StyleSheet.create({
   input: {
     width: "100%",
-    padding: moderateScale(4.6),
-    borderWidth: 1,
-    borderColor: "#777777",
+    padding: 17,
+    borderWidth: 0.5,
+    color: "#dfdfdf",
+    borderColor: "#c7c7c7",
+    backgroundColor: "#292d3e",
     borderRadius: 5,
 
-    fontSize: getFontSize(16),
+    // fontSize: 1,
   },
 });

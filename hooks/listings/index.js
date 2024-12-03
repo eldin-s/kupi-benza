@@ -104,6 +104,32 @@ export const useCreateListing = () => {
   });
 };
 
+export const useUpdateListing = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    async mutationFn({ data, id }) {
+      const { data: updatedListing, error } = await supabase
+        .from("cars")
+        .update(data)
+        .eq("id", id)
+        .select();
+
+      if (error) {
+        console.log("Supabase update error", error);
+        throw new Error(error.message);
+      }
+
+      return updatedListing;
+    },
+
+    async onSuccess() {
+      Alert.alert("Oglas uspješno ažuriran");
+      await queryClient.invalidateQueries({ queryKey: ["listings"] });
+    },
+  });
+};
+
 export function useCarsWithFilters(filters) {
   return useQuery({
     queryKey: ["cars", filters],
