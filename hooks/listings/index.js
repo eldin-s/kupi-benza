@@ -90,8 +90,7 @@ export const useCreateListing = () => {
         .single();
 
       if (error) {
-        // throw new Error(error.message);
-        console.log(error);
+        throw new Error(error.message);
       }
 
       return newListing;
@@ -116,7 +115,6 @@ export const useUpdateListing = () => {
         .select();
 
       if (error) {
-        console.log("Supabase update error", error);
         throw new Error(error.message);
       }
 
@@ -126,6 +124,29 @@ export const useUpdateListing = () => {
     async onSuccess() {
       Alert.alert("Oglas uspješno ažuriran");
       await queryClient.invalidateQueries({ queryKey: ["listings"] });
+    },
+  });
+};
+
+export const useDeleteListing = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    async mutationFn(id) {
+      const { error } = await supabase.from("cars").delete().eq("id", id);
+
+      if (error) {
+        throw new Error(error.message);
+      }
+    },
+
+    async onSuccess() {
+      Alert.alert("Oglas uspešno obrisan");
+      await queryClient.invalidateQueries({ queryKey: ["listings"] });
+    },
+
+    async onError() {
+      Alert.alert("Greška u toku brisanja oglasa");
     },
   });
 };

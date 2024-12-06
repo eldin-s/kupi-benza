@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { useSingleListing } from "../../hooks/listings";
+import { useDeleteListing, useSingleListing } from "../../hooks/listings";
 import ImageSlider from "../../components/ui/image-slider";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
@@ -25,9 +25,11 @@ import { useAuth } from "../../providers/AuthProvider";
 import { useCurrentUser, useSetParking } from "../../hooks/user";
 import { useTheme } from "../../providers/ThemeProvider";
 import EditListingForm from "../../components/forms/edit-listing-form";
+import { useNavigation } from "@react-navigation/native";
 
 const ListingSingle = () => {
   const { theme } = useTheme();
+  const navigation = useNavigation();
   const { id: listingId } = useLocalSearchParams();
   const [isParking, setIsParking] = useState(false);
 
@@ -36,6 +38,27 @@ const ListingSingle = () => {
   const { session } = useAuth();
   const { data: user } = useCurrentUser(session?.user?.id);
   const { data: listing, error, isLoading } = useSingleListing(listingId);
+  const { mutate: deleteListing, error: errorDelete } = useDeleteListing();
+
+  const createTwoButtonAlert = () =>
+    Alert.alert(
+      "Da li ste sigurni da želite obrisati oglas?",
+      "Ova akcija se ne može promeniti",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            deleteListing(listingId);
+            navigation.goBack();
+          },
+        },
+      ]
+    );
 
   const setParkingMutation = useSetParking();
 
@@ -107,7 +130,7 @@ const ListingSingle = () => {
               <FontAwesome name="pencil" size={24} color="black" />
             </Text>
           </Pressable>
-          <Pressable style={styles.iconWrapper}>
+          <Pressable style={styles.iconWrapper} onPress={createTwoButtonAlert}>
             <Text>
               <FontAwesome name="trash" size={24} color="black" />
             </Text>

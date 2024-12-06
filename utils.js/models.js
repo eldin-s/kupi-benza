@@ -195,7 +195,7 @@ export const mercedesModels = {
   },
   "GT Klasa": {
     models: ["GT", "GT 43 AMG", "GT 53 AMG", "GT 63 AMG", "GT-R", "GT-S"],
-    engines: ["4.3", "5.3", "6.3"],
+    engines: ["4.0", "4.3", "5.3", "6.3"],
   },
   "ML Klasa": {
     models: [
