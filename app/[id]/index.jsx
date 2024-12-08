@@ -26,6 +26,7 @@ import { useCurrentUser, useSetParking } from "../../hooks/user";
 import { useTheme } from "../../providers/ThemeProvider";
 import EditListingForm from "../../components/forms/edit-listing-form";
 import { useNavigation } from "@react-navigation/native";
+import { supabase } from "../../lib/supabase";
 
 const ListingSingle = () => {
   const { theme } = useTheme();
@@ -63,13 +64,34 @@ const ListingSingle = () => {
   const setParkingMutation = useSetParking();
 
   useEffect(() => {
-    if (user && user.parkings) {
-      setIsParking(user.parkings.includes(listingId));
-    }
+    const checkIfCarIsParked = async () => {
+      if (!user || !user.id || !listingId) return;
+
+      try {
+        const { data, error } = await supabase
+          .from("parkings")
+          .select("id")
+          .eq("profile_id", user.id)
+          .eq("car_id", listingId)
+          .single();
+
+        if (error && error.code !== "PGRST116") {
+          console.error(error.message);
+          return;
+        }
+
+        // If data exists, the car is parked
+        setIsParking(!!data);
+      } catch (err) {
+        console.error("Failed to check parking status:", err.message);
+      }
+    };
+
+    checkIfCarIsParked();
   }, [user, listingId]);
 
   const handleToggleParking = () => {
-    if (!user) {
+    if (!user || !user.id) {
       Alert.alert("Morate biti prijavljeni da bi parkirali vozilo");
       return;
     }

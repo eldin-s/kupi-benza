@@ -21,6 +21,8 @@ export function useCurrentUser(userId) {
 }
 
 export function useSetParking() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     async mutationFn({ userId, listingId }) {
       const { data } = await supabase
@@ -52,8 +54,8 @@ export function useSetParking() {
         }
       }
     },
-    onSettled: ({ userId }) => {
-      queryCliet.invalidateQueries(["parkedListings", userId]);
+    onSettled: (userId) => {
+      queryClient.invalidateQueries(["parkedListings", userId]);
     },
   });
 }
