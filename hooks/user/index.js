@@ -21,37 +21,38 @@ export function useCurrentUser(userId) {
 }
 
 export function useSetParking() {
-  const queryCliet = useQueryClient();
-
   return useMutation({
     async mutationFn({ userId, listingId }) {
-      const profile = queryCliet.getQueryData(["profiles", userId]);
-
-      if (!profile)
-        throw new Error("Morate biti prijavljeni da bi parkirali vozilo");
-
-      const currentParkings = profile.parkings || [];
-      const isAlreadyParked = currentParkings.includes(listingId);
-
-      // Updating parked
-      const updatedParkings = isAlreadyParked
-        ? currentParkings.filter((id) => id !== listingId)
-        : [...currentParkings, listingId];
-
-      const { data, error } = await supabase
-        .from("profiles")
-        .update({ parkings: updatedParkings })
-        .eq("id", userId)
-        .select()
+      const { data } = await supabase
+        .from("parkings")
+        .select("id")
+        .eq("profile_id", userId)
+        .eq("car_id", listingId)
         .single();
 
-      if (error) {
-        throw new Error(error.message);
-      }
+      if (data) {
+        // Remove parking if already exists
+        const { error: deleteError } = await supabase
+          .from("parkings")
+          .delete()
+          .eq("profile_id", userId)
+          .eq("car_id", listingId);
 
-      return data;
+        if (deleteError) {
+          throw new Error(deleteError.message);
+        }
+      } else {
+        // Add to parking if not exists
+        const { error: insertError } = await supabase
+          .from("parkings")
+          .insert([{ profile_id: userId, car_id: listingId }]);
+
+        if (insertError) {
+          throw new Error(insertError.message);
+        }
+      }
     },
-    onSettled: (data, error, { userId }) => {
+    onSettled: ({ userId }) => {
       queryCliet.invalidateQueries(["parkedListings", userId]);
     },
   });

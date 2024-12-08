@@ -25,11 +25,8 @@ const Parking = () => {
   const { data: user } = useCurrentUser(session?.user?.id);
   const router = useRouter();
 
-  const {
-    data: parkedCards,
-    error,
-    isLoading,
-  } = useParkedListings(user?.parkings);
+  const { data: parkedCars, error, isLoading } = useParkedListings(user?.id);
+  console.log(parkedCars);
 
   if (isLoading) {
     return (
@@ -60,7 +57,7 @@ const Parking = () => {
             Vaša parkirana vozila:
           </DefaultText>
 
-          {!parkedCards || parkedCards.length === 0 || !user ? (
+          {!parkedCars || parkedCars.length === 0 || !user ? (
             <DefaultText
               style={{
                 fontSize: getFontSize(18),
@@ -70,10 +67,10 @@ const Parking = () => {
               Trenutno nemate parkiranih vozila
             </DefaultText>
           ) : (
-            parkedCards?.map((listing) => (
+            parkedCars?.map((listing) => (
               <Pressable
-                onPress={() => router.push(`/${listing.id}`)}
-                key={listing.id}
+                onPress={() => router.push(`/${listing.cars.id}`)}
+                key={listing.cars.id}
               >
                 <SearchSingleCard listing={listing} />
               </Pressable>

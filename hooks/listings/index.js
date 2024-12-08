@@ -58,24 +58,23 @@ export const useSingleListing = (id) => {
   });
 };
 
-export const useParkedListings = (parkedIds) => {
+export const useParkedListings = (userId) => {
   return useQuery({
-    queryKey: ["parkedListings", parkedIds],
+    queryKey: ["parkedListings", userId],
     queryFn: async () => {
-      if (!parkedIds || parkedIds.length === 0) return [];
-
       const { data, error } = await supabase
-        .from("cars")
-        .select("*")
-        .in("id", parkedIds);
+        .from("parkings")
+        .select(`cars (*)`)
+        .eq("profile_id", userId);
 
       if (error) {
+        console.log(error);
         throw new Error(error.message);
       }
 
       return data;
     },
-    enabled: !!parkedIds && parkedIds.length > 0,
+    enabled: !!userId,
   });
 };
 
@@ -217,3 +216,40 @@ export function useCarsWithFilters(filters) {
     keepPreviousData: true,
   });
 }
+
+// export function useSetParking() {
+//   const queryCliet = useQueryClient();
+
+//   return useMutation({
+//     async mutationFn({ userId, listingId }) {
+//       const profile = queryCliet.getQueryData(["profiles", userId]);
+
+//       if (!profile)
+//         throw new Error("Morate biti prijavljeni da bi parkirali vozilo");
+
+//       const currentParkings = profile.parkings || [];
+//       const isAlreadyParked = currentParkings.includes(listingId);
+
+//       // Updating parked
+//       const updatedParkings = isAlreadyParked
+//         ? currentParkings.filter((id) => id !== listingId)
+//         : [...currentParkings, listingId];
+
+//       const { data, error } = await supabase
+//         .from("profiles")
+//         .update({ parkings: updatedParkings })
+//         .eq("id", userId)
+//         .select()
+//         .single();
+
+//       if (error) {
+//         throw new Error(error.message);
+//       }
+
+//       return data;
+//     },
+//     onSettled: (data, error, { userId }) => {
+//       queryCliet.invalidateQueries(["parkedListings", userId]);
+//     },
+//   });
+// }

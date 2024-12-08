@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  StyleSheet,
-  Switch,
-  Text,
-  View,
-} from "react-native";
+import { ActivityIndicator, StyleSheet, Switch, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { scale, verticalScale } from "react-native-size-matters";
 import { useAuth } from "../../providers/AuthProvider";
@@ -102,11 +96,6 @@ const Settings = () => {
                 {" "}
                 {formatDate(user?.created_at)}
               </DefaultText>
-            </DefaultText>
-
-            <DefaultText>
-              Parkirana vozila:
-              <DefaultText weight="bold"> {user?.parkings.length}</DefaultText>
             </DefaultText>
           </>
         )}

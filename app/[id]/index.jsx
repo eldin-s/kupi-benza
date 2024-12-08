@@ -69,19 +69,19 @@ const ListingSingle = () => {
   }, [user, listingId]);
 
   const handleToggleParking = () => {
-    if (!user) Alert.alert("Morate biti prijavljeni da bi parkirali vozilo");
+    if (!user) {
+      Alert.alert("Morate biti prijavljeni da bi parkirali vozilo");
+      return;
+    }
 
     setParkingMutation.mutate(
+      { userId: user.id, listingId },
       {
-        userId: user?.id,
-        listingId,
-      },
-      {
-        onSuccess: (updatedProfile) => {
-          setIsParking(updatedProfile.parkings.includes(listingId));
+        onSuccess: () => {
+          setIsParking((prev) => !prev);
         },
         onError: (error) => {
-          console.log("Failed to update", error);
+          console.error("Failed to toggle parking:", error.message);
         },
       }
     );

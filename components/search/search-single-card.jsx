@@ -12,7 +12,7 @@ const SearchSingleCard = ({ listing }) => {
     production_year = "",
     engine_size = "",
     price = "",
-  } = listing || {};
+  } = listing.cars || {};
 
   return (
     <View style={styles.container}>
