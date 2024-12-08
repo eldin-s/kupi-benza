@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../../lib/supabase";
+import { Alert } from "react-native";
 
 export function useCurrentUser(userId) {
   return useQuery({
@@ -19,6 +20,32 @@ export function useCurrentUser(userId) {
     },
   });
 }
+
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    async mutationFn({ newUserData, userId }) {
+      const { data: updatedUser, error } = await supabase
+        .from("profiles")
+        .update(newUserData)
+        .eq("id", userId)
+        .select();
+
+      if (error) {
+        console.log(error);
+        throw new Error(error.message);
+      }
+
+      return updatedUser;
+    },
+
+    async onSuccess(userId) {
+      Alert.alert("Profil uspješno ažuriran");
+      await queryClient.invalidateQueries({ queryKey: ["users", userId] });
+    },
+  });
+};
 
 export function useSetParking() {
   const queryClient = useQueryClient();

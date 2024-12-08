@@ -1,8 +1,14 @@
-import { ActivityIndicator, StyleSheet, Switch, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Switch,
+  TextInput,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { scale, verticalScale } from "react-native-size-matters";
+import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { useAuth } from "../../providers/AuthProvider";
-import { useCurrentUser } from "../../hooks/user";
+import { useCurrentUser, useUpdateUser } from "../../hooks/user";
 import Logo from "../../components/home/logo";
 import { formatDate } from "../../helpers/formatDate";
 import { useState } from "react";
@@ -10,21 +16,42 @@ import { getFontSize } from "../../utils.js/getFontSize";
 import { useTheme } from "../../providers/ThemeProvider";
 import Colors from "../../constants/Colors";
 import DefaultText from "../../components/ui/DefaultText";
+import OutlineButton from "../../components/ui/OutlineButton";
 
 const Settings = () => {
+  const { theme, toggleTheme } = useTheme();
   const { session, loading } = useAuth();
   const { data: user, isLoading } = useCurrentUser(session?.user?.id, {
     enabled: !!session?.user?.id,
   });
+  const { mutate: updateUser, isPending } = useUpdateUser();
 
-  const { theme, toggleTheme } = useTheme();
-  const [isEnabled, setIsEnabled] = useState(theme === Colors.dark);
+  const [isDarkMode, setIsDarkMode] = useState(theme === Colors.dark);
+  const [toggleEditForm, setToggleEditForm] = useState(false);
+  const [userName, onChangeUserName] = useState("");
+
   const toggleSwitch = () => {
-    setIsEnabled(!isEnabled);
+    setIsDarkMode(!isDarkMode);
     toggleTheme();
   };
 
-  if (loading) {
+  const onUpdate = async () => {
+    try {
+      const newUserData = {
+        full_name: userName,
+      };
+      updateUser({
+        newUserData,
+        userId: user.id,
+      });
+    } catch (error) {
+      Alert.alert("Failed to create listing", error.message);
+    } finally {
+      setToggleEditForm(false);
+    }
+  };
+
+  if (loading || isLoading) {
     return (
       <SafeAreaView
         style={[styles.container, { backgroundColor: theme.bgColor }]}
@@ -71,10 +98,10 @@ const Settings = () => {
           <DefaultText weight="bold">Tema:</DefaultText>
           <Switch
             trackColor={{ false: "#494949", true: "#c5c5c5" }}
-            thumbColor={isEnabled ? "#ff4605" : "#797979"}
+            thumbColor={isDarkMode ? "#ff4605" : "#797979"}
             ios_backgroundColor="#3e3e3e"
             onValueChange={toggleSwitch}
-            value={isEnabled}
+            value={isDarkMode}
           />
         </View>
 
@@ -99,6 +126,37 @@ const Settings = () => {
             </DefaultText>
           </>
         )}
+        <View style={{ paddingVertical: verticalScale(8) }}>
+          {toggleEditForm && (
+            <TextInput
+              value={userName}
+              onChangeText={onChangeUserName}
+              placeholder={user.full_name}
+              placeholderTextColor={theme.text}
+              style={[
+                styles.input,
+                {
+                  backgroundColor: theme.bgColor,
+                  color: theme.text,
+                },
+              ]}
+            />
+          )}
+
+          <OutlineButton
+            textColor={theme.text}
+            onPress={() => {
+              if (toggleEditForm) {
+                onUpdate(); // Save changes and close form
+              } else {
+                setToggleEditForm(true); // Open form
+              }
+            }}
+            disabled={isPending}
+          >
+            {toggleEditForm ? "Sačuvaj izmene" : "Uredi profil"}
+          </OutlineButton>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -115,5 +173,13 @@ const styles = StyleSheet.create({
     paddingVertical: verticalScale(14),
     paddingHorizontal: scale(14),
     rowGap: verticalScale(4),
+  },
+  input: {
+    width: "100%",
+    padding: moderateScale(10),
+    borderWidth: 0.5,
+    borderColor: "#9c9c9c",
+    borderRadius: 5,
+    marginBottom: verticalScale(16),
   },
 });
