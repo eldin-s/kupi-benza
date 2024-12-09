@@ -3,7 +3,6 @@ import {
   Pressable,
   View,
   ActivityIndicator,
-  Text,
   ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -26,7 +25,6 @@ const Parking = () => {
   const router = useRouter();
 
   const { data: parkedCars, error, isLoading } = useParkedListings(user?.id);
-  console.log(parkedCars);
 
   if (isLoading) {
     return (

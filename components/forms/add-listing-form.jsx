@@ -1,4 +1,13 @@
-import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Modal,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Input from "../ui/Input";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
@@ -16,9 +25,13 @@ import { carColors, mercedesModels } from "../../utils.js/models";
 import { useTheme } from "../../providers/ThemeProvider";
 import DefaultText from "../ui/DefaultText";
 import { useCreateListing } from "../../hooks/listings";
+import SafetyAndFeaturesForm from "./safety-and-features-form";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const AddListingForm = () => {
   const { theme } = useTheme();
+  const [modalVisible, setModalVisible] = useState(false);
+
   const [vrstaGoriva, setVrstaGoriva] = useState("");
   const [driveTrain, setDriveTrain] = useState("");
   const [carType, setCarType] = useState("");
@@ -32,6 +45,9 @@ const AddListingForm = () => {
   const [availableEngines, setAvailableEngines] = useState([]);
   const [productionYear, setProductionYear] = useState("");
   const currentYear = new Date().getFullYear();
+
+  const [carSafeties, setCarSafeties] = useState([]);
+  const [carFeatures, setCarFeatures] = useState([]);
 
   // Flatten all models
   const allModels = Object.entries(mercedesModels).flatMap(
@@ -96,13 +112,14 @@ const AddListingForm = () => {
         color,
         car_images: imagesPath,
         profile_id: session.user.id,
+        car_safety: carSafeties,
+        car_features: carFeatures,
       };
 
-      const newCar = createListing(newCarData);
-
-      console.log(newCar);
+      console.log(newCarData);
+      // createListing(newCarData);
     } catch (error) {
-      Alert.alert("Failed to create listing", error.message);
+      Alert.alert("Neuspešno objavljivanje oglasa", error.message);
     }
   };
 
@@ -361,6 +378,32 @@ const AddListingForm = () => {
         </View>
       </View>
 
+      <Pressable
+        style={styles.iconWrapper}
+        onPress={() => setModalVisible(true)}
+      >
+        <DefaultText style={{ textAlign: "center" }}>
+          Oprema i sigurnost
+        </DefaultText>
+      </Pressable>
+
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={{ backgroundColor: theme.bgColor }}>
+          <SafetyAndFeaturesForm
+            carSafeties={carSafeties}
+            setCarSafeties={setCarSafeties}
+            carFeatures={carFeatures}
+            setCarFeatures={setCarFeatures}
+            onClose={() => setModalVisible(false)}
+            theme={theme}
+          />
+        </View>
+      </Modal>
+
       <DefaultText onPress={pickImage} style={styles.imagePick}>
         {images
           ? `${images.length} fotografija otpremljeno`
@@ -379,13 +422,14 @@ export default AddListingForm;
 const styles = StyleSheet.create({
   container: {
     gap: moderateScale(20),
+    flex: 1,
   },
   heading: {
     fontFamily: "Montserrat-SemiBold",
     color: "#ff4605",
     textAlign: "center",
     fontSize: getFontSize(28),
-    paddingVertical: moderateScale(10),
+    paddingBottom: moderateScale(10),
   },
   row: {
     flexDirection: "row",
@@ -425,5 +469,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: moderateScale(-18),
     color: "#f87171",
+  },
+  iconWrapper: {
+    borderRadius: 5,
+    borderWidth: 1,
+    padding: 0,
+    borderColor: "#a1a1a1",
+    padding: moderateScale(8),
+    overflow: "hidden",
+    textAlign: "center",
   },
 });

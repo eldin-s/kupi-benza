@@ -223,7 +223,7 @@ const ListingSingle = () => {
           >
             <View style={styles.shortDetail}>
               <FontAwesome name="road" size={24} color={theme.text} />
-              <Text style={{ color: theme.text }}>2,300km</Text>
+              <Text style={{ color: theme.text }}>{listing.mileage} km</Text>
             </View>
 
             <View style={styles.shortDetail}>
@@ -232,7 +232,7 @@ const ListingSingle = () => {
                 size={24}
                 color={theme.text}
               />
-              <Text style={{ color: theme.text }}>Automatik</Text>
+              <Text style={{ color: theme.text }}>{listing.transmission}</Text>
             </View>
 
             <View style={styles.shortDetail}>
@@ -241,7 +241,7 @@ const ListingSingle = () => {
                 size={24}
                 color={theme.text}
               />
-              <Text style={{ color: theme.text }}>Benzin</Text>
+              <Text style={{ color: theme.text }}>{listing.fuel_type}</Text>
             </View>
 
             <View style={styles.shortDetail}>
@@ -250,7 +250,7 @@ const ListingSingle = () => {
                 size={24}
                 color={theme.text}
               />
-              <Text style={{ color: theme.text }}>450/ks</Text>
+              <Text style={{ color: theme.text }}>{listing.power}/ks</Text>
             </View>
           </View>
 
@@ -305,7 +305,7 @@ const ListingSingle = () => {
           </View>
         </View>
 
-        <Informations />
+        <Informations listing={listing} />
         <Safety />
         <Features />
       </View>

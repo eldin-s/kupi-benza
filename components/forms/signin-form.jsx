@@ -1,5 +1,5 @@
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
-import { moderateScale } from "react-native-size-matters";
+import { moderateScale, verticalScale } from "react-native-size-matters";
 import { useForm } from "react-hook-form";
 import Input from "../ui/Input";
 import { PixelRatio } from "react-native";
@@ -40,12 +40,12 @@ const SigninForm = () => {
       });
 
       if (error) {
-        setError(error.message);
+        setError("Prijava je neuspešna! Proverite podatke i pokušajte ponovo.");
       }
 
       router.replace("/(tabs)/profile");
     } catch (err) {
-      setError("Prijava je neuspešna! Proverite podatke i probajte ponovo.");
+      setError("Prijava je neuspešna! Proverite podatke i pokušajte ponovo.");
     } finally {
       setLoading(false);
     }
@@ -105,20 +105,22 @@ const SigninForm = () => {
             },
           }}
         />
-        {errors.email && (
+        {errors.password && (
           <DefaultText style={styles.error} color="#f87171">
-            {errors.email.message}
+            {errors.password.message}
           </DefaultText>
         )}
       </View>
 
-      <PrimaryButton onPress={handleSubmit(handleFormSubmit)}>
-        {loading ? (
-          <ActivityIndicator size="small" color={theme.text} />
-        ) : (
-          <Text>Prijavi se</Text>
-        )}
-      </PrimaryButton>
+      <View style={{ marginTop: verticalScale(8) }}>
+        <PrimaryButton onPress={handleSubmit(handleFormSubmit)}>
+          {loading ? (
+            <ActivityIndicator size="small" color={theme.text} />
+          ) : (
+            <Text>Prijavi se</Text>
+          )}
+        </PrimaryButton>
+      </View>
 
       <DefaultText
         style={{
@@ -153,6 +155,6 @@ const styles = StyleSheet.create({
   },
   error: {
     position: "absolute",
-    bottom: moderateScale(-5),
+    bottom: moderateScale(-16),
   },
 });

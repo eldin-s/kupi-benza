@@ -106,7 +106,6 @@ const SearchingCard = () => {
     const queryString = params.toString();
 
     // Navigate to the Search screen and pass the query parameters
-    console.log(queryString);
     navigation.navigate("search", { queryString });
   };
 

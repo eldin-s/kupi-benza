@@ -32,9 +32,17 @@ export const useUpdateUser = () => {
         .eq("id", userId)
         .select();
 
+      const { error: errorAuth } = await supabase.auth.updateUser({
+        data: {
+          fullName: newUserData.full_name,
+        },
+      });
+
       if (error) {
-        console.log(error);
         throw new Error(error.message);
+      }
+      if (errorAuth) {
+        throw new Error(errorAuth.message);
       }
 
       return updatedUser;

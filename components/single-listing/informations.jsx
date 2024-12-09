@@ -4,8 +4,22 @@ import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { useTheme } from "../../providers/ThemeProvider";
 
-const Informations = () => {
+const Informations = ({ listing }) => {
   const { theme } = useTheme();
+
+  const {
+    car_state = "",
+    model = "",
+    transmission = "",
+    production_year = "",
+    mileage = "",
+    car_type = "",
+    engine_size = "",
+    power = "",
+    color = "",
+    drivetrain = "",
+    fuel_type = "",
+  } = listing || {};
 
   return (
     <View style={[styles.container, { backgroundColor: theme.bgShade }]}>
@@ -16,40 +30,46 @@ const Informations = () => {
       <View style={styles.column}>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Stanje:</Text>
-          <Text style={[styles.value, { color: theme.text }]}>Polovno</Text>
+          <Text style={[styles.value, { color: theme.text }]}>{car_state}</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Model:</Text>
-          <Text style={[styles.value, { color: theme.text }]}>GLE 63 AMG</Text>
+          <Text style={[styles.value, { color: theme.text }]}>{model}</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Menjac:</Text>
-          <Text style={[styles.value, { color: theme.text }]}>Automatik</Text>
+          <Text style={[styles.value, { color: theme.text }]}>
+            {transmission}
+          </Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Godiste:</Text>
-          <Text style={[styles.value, { color: theme.text }]}>2023</Text>
+          <Text style={[styles.value, { color: theme.text }]}>
+            {production_year}
+          </Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>
-            Kilometraza:
+            Kilometraža:
           </Text>
-          <Text style={[styles.value, { color: theme.text }]}>2.300km</Text>
+          <Text style={[styles.value, { color: theme.text }]}>{mileage}</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Karoserija:</Text>
-          <Text style={[styles.value, { color: theme.text }]}>Dzip/Suv</Text>
+          <Text style={[styles.value, { color: theme.text }]}>{car_type}</Text>
         </View>
       </View>
       <View style={styles.column}>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Kubikaza:</Text>
-          <Text style={[styles.value, { color: theme.text }]}>3982cm</Text>
+          <Text style={[styles.value, { color: theme.text }]}>
+            {engine_size}
+          </Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Snaga:</Text>
           <Text style={[styles.value, { color: theme.text }]}>
-            450/612 (k@/KS)
+            {power} (/KS)
           </Text>
         </View>
         <View style={styles.row}>
@@ -58,15 +78,17 @@ const Informations = () => {
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Boja:</Text>
-          <Text style={[styles.value, { color: theme.text }]}>Crna</Text>
+          <Text style={[styles.value, { color: theme.text }]}>{color}</Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Pogon:</Text>
-          <Text style={[styles.value, { color: theme.text }]}>4x4</Text>
+          <Text style={[styles.value, { color: theme.text }]}>
+            {drivetrain}
+          </Text>
         </View>
         <View style={styles.row}>
           <Text style={[styles.label, { color: theme.text }]}>Gorivo:</Text>
-          <Text style={[styles.value, { color: theme.text }]}>Benzin</Text>
+          <Text style={[styles.value, { color: theme.text }]}>{fuel_type}</Text>
         </View>
       </View>
     </View>
