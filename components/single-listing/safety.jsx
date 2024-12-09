@@ -3,8 +3,9 @@ import { View, Text, StyleSheet } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { useTheme } from "../../providers/ThemeProvider";
+import DefaultText from "../ui/DefaultText";
 
-const Safety = () => {
+const Safety = ({ safeties }) => {
   const { theme } = useTheme();
   return (
     <View
@@ -16,16 +17,9 @@ const Safety = () => {
       <Text style={[styles.title, { color: theme.text }]}>Sigurnost:</Text>
 
       <View style={styles.column}>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Airbag za vozaca
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>ABS</Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Centralno zakljucavanje
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Automatsko kocenje
-        </Text>
+        {safeties?.map((safety, index) => (
+          <DefaultText key={index}>{safety}</DefaultText>
+        ))}
       </View>
     </View>
   );

@@ -13,10 +13,16 @@ import { getFontSize } from "../../utils.js/getFontSize";
 import PrimaryButton from "../ui/PrimaryButton";
 import { useForm } from "react-hook-form";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { carColors, mercedesModels } from "../../utils.js/models";
+import {
+  carColors,
+  carFeatures,
+  carSafety as carSafetyData,
+  mercedesModels,
+} from "../../utils.js/models";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useUpdateListing } from "../../hooks/listings";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const EditListingForm = ({ listing, onClose, theme }) => {
   const { mutate: updateListing, isPending } = useUpdateListing();
@@ -45,7 +51,10 @@ const EditListingForm = ({ listing, onClose, theme }) => {
     color: listing.color,
     carType: listing.car_type,
     carState: listing.car_state,
+    carSafeties: listing.car_safety,
+    carFeatures: listing.car_features,
   });
+  console.log(carData);
 
   const [availableEngines, setAvailableEngines] = useState([]);
 
@@ -100,8 +109,8 @@ const EditListingForm = ({ listing, onClose, theme }) => {
         line: carData.line,
         production_year: carData.productionYear,
         color: carData.color,
-        // car_images: imagesPath,
-        // profile_id: session.user.id,
+        car_safety: carData.carSafeties,
+        car_features: carData.carFeatures,
       };
 
       updateListing({
@@ -447,6 +456,58 @@ const EditListingForm = ({ listing, onClose, theme }) => {
             </View>
           </View>
 
+          <View style={styles.checkboxContainer}>
+            <DefaultText style={{ fontSize: getFontSize(18) }}>
+              Sigurnost
+            </DefaultText>
+            {carSafetyData.map((element, index) => (
+              <BouncyCheckbox
+                key={index}
+                size={25}
+                fillColor="#ff4605"
+                unFillColor={theme.text}
+                text={element}
+                iconStyle={{ borderColor: "#c7c7c7" }}
+                innerIconStyle={{ borderWidth: 1 }}
+                isChecked={carData.carSafeties.includes(element)}
+                onPress={(isChecked) => {
+                  setCarData((prev) => ({
+                    ...prev,
+                    carSafeties: isChecked
+                      ? [...prev.carSafeties, element]
+                      : prev.carSafeties.filter((item) => item !== element),
+                  }));
+                }}
+              />
+            ))}
+          </View>
+
+          <View style={styles.checkboxContainer}>
+            <DefaultText style={{ fontSize: getFontSize(18) }}>
+              Oprema
+            </DefaultText>
+            {carFeatures.map((element, index) => (
+              <BouncyCheckbox
+                key={index}
+                size={25}
+                fillColor="#ff4605"
+                unFillColor={theme.text}
+                text={element}
+                iconStyle={{ borderColor: "#c7c7c7" }}
+                innerIconStyle={{ borderWidth: 1 }}
+                isChecked={carData.carFeatures.includes(element)}
+                onPress={(isChecked) => {
+                  setCarData((prev) => ({
+                    ...prev,
+                    carFeatures: isChecked
+                      ? [...prev.carFeatures, element]
+                      : prev.carFeatures.filter((item) => item !== element),
+                  }));
+                }}
+              />
+            ))}
+          </View>
+
           <View style={{ paddingTop: verticalScale(8) }}>
             <PrimaryButton onPress={handleSubmit(onCreate)}>
               {isPending ? (
@@ -519,5 +580,9 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: moderateScale(-18),
     color: "#f87171",
+  },
+  checkboxContainer: {
+    marginTop: verticalScale(14),
+    gap: verticalScale(10),
   },
 });

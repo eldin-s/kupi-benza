@@ -27,6 +27,7 @@ import { useTheme } from "../../providers/ThemeProvider";
 import EditListingForm from "../../components/forms/edit-listing-form";
 import { useNavigation } from "@react-navigation/native";
 import { supabase } from "../../lib/supabase";
+import DefaultText from "../../components/ui/DefaultText";
 
 const ListingSingle = () => {
   const { theme } = useTheme();
@@ -115,9 +116,9 @@ const ListingSingle = () => {
 
   if (error) {
     return (
-      <Text style={{ color: theme.text, textAlign: "center" }}>
+      <DefaultText style={{ textAlign: "center" }}>
         Trenutno nije moguće prikazati oglas
-      </Text>
+      </DefaultText>
     );
   }
 
@@ -177,7 +178,7 @@ const ListingSingle = () => {
         {listing && listing.car_images ? (
           <ImageSlider images={listing.car_images} />
         ) : (
-          <Text>Loading...</Text>
+          <DefaultText>Loading...</DefaultText>
         )}
 
         <View
@@ -306,8 +307,8 @@ const ListingSingle = () => {
         </View>
 
         <Informations listing={listing} />
-        <Safety />
-        <Features />
+        <Safety safeties={listing.car_safety} />
+        <Features features={listing.car_features} />
       </View>
     </ScrollView>
   );

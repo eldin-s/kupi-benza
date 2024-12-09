@@ -3,58 +3,18 @@ import { View, Text, StyleSheet } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { useTheme } from "../../providers/ThemeProvider";
+import DefaultText from "../ui/DefaultText";
 
-const Features = () => {
+const Features = ({ features }) => {
   const { theme } = useTheme();
   return (
     <View style={[styles.container, { backgroundColor: theme.bgShade }]}>
       <Text style={[styles.title, { color: theme.text }]}>Oprema:</Text>
 
       <View style={styles.column}>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Branici u boji auta
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>Servo volan</Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Multifuncionalni volan
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Daljinsko zakljucavanje
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>Putni racunar</Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Tonirana stakla
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Elektricni odizaci
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Elektricni retrovizori
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Grejaci retrovizora
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Sedista to visini
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Elektro podesiva sedista
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Grejanje sedista
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Svetla za maglu
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Senzori za svetla
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Senzori za kisu
-        </Text>
-        <Text style={[styles.label, { color: theme.text }]}>
-          Parking senzori
-        </Text>
+        {features?.map((feature, index) => (
+          <DefaultText key={index}>{feature}</DefaultText>
+        ))}
       </View>
     </View>
   );
