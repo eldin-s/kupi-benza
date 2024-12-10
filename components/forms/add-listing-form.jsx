@@ -3,17 +3,14 @@ import {
   Alert,
   Modal,
   Pressable,
-  ScrollView,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import Input from "../ui/Input";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { useForm } from "react-hook-form";
-import { Picker } from "@react-native-picker/picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import PrimaryButton from "../ui/PrimaryButton";
 import { supabase, supabaseUrl } from "../../lib/supabase";
@@ -27,27 +24,56 @@ import DefaultText from "../ui/DefaultText";
 import { useCreateListing } from "../../hooks/listings";
 import SafetyAndFeaturesForm from "./safety-and-features-form";
 import { SafeAreaView } from "react-native-safe-area-context";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const AddListingForm = () => {
   const { theme } = useTheme();
   const [modalVisible, setModalVisible] = useState(false);
-
-  const [vrstaGoriva, setVrstaGoriva] = useState("");
-  const [driveTrain, setDriveTrain] = useState("");
-  const [carType, setCarType] = useState("");
-  const [carState, setCarState] = useState("");
-  const [line, setLine] = useState("");
-  const [color, setColor] = useState("");
   const [images, setImages] = useState(null);
 
-  const [selectedModel, setSelectedModel] = useState("");
-  const [engineSize, setEngineSize] = useState([]);
-  const [availableEngines, setAvailableEngines] = useState([]);
-  const [productionYear, setProductionYear] = useState("");
-  const currentYear = new Date().getFullYear();
+  const [open, setOpen] = useState({
+    model: false,
+    linija: false,
+    vrstaGoriva: false,
+    kubikaza: false,
+    pogon: false,
+    snaga: false,
+    godinaProizvodnje: false,
+    boja: false,
+    tip: false,
+    stanje: false,
+  });
 
-  const [carSafeties, setCarSafeties] = useState([]);
-  const [carFeatures, setCarFeatures] = useState([]);
+  const [carData, setCarData] = useState({
+    model: "",
+    line: "",
+    fuelType: "",
+    engineSize: "",
+    drivetrain: "",
+    power: "",
+    productionYear: "",
+    color: "",
+    carType: "",
+    carState: "",
+    carSafeties: [],
+    carFeatures: [],
+  });
+
+  const [availableEngines, setAvailableEngines] = useState([]);
+  useEffect(() => {
+    // Populate available engines based on the initial selected model
+    if (carData?.model) {
+      const modelData = allModels.find((item) => item.model === carData?.model);
+      if (modelData) {
+        const { className } = modelData;
+        setAvailableEngines(mercedesModels[className]?.engines || []);
+      } else {
+        setAvailableEngines([]);
+      }
+    }
+  }, [carData.model, allModels]);
+
+  const currentYear = new Date().getFullYear();
 
   // Flatten all models
   const allModels = Object.entries(mercedesModels).flatMap(
@@ -59,15 +85,18 @@ const AddListingForm = () => {
   );
 
   // Handle model selection
-  const handleModelChange = (value) => {
-    setSelectedModel(value);
-    const modelData = allModels.find((item) => item.model === value);
-    if (modelData) {
-      const { className } = modelData;
-      setAvailableEngines(mercedesModels[className].engines);
-    } else {
-      setAvailableEngines([]);
-    }
+  const handleChangeModal = (key, value) => {
+    setOpen((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const handleChangeCarData = (key, value) => {
+    setCarData((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
   };
 
   const { session } = useAuth();
@@ -160,17 +189,24 @@ const AddListingForm = () => {
           <View
             style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
           >
-            <Picker
-              selectedValue={selectedModel}
-              onValueChange={(value) => handleModelChange(value)}
-              style={[styles.picker, { color: theme.text }]}
-              dropdownIconColor={theme.text}
-            >
-              <Picker.Item label="Odaberi model..." value="" />
-              {allModels.map(({ model }) => (
-                <Picker.Item key={model} label={model} value={model} />
-              ))}
-            </Picker>
+            <DropDownPicker
+              open={open.model}
+              value={carData.model}
+              items={allModels.map((item) => ({
+                label: item.model,
+                value: item.model,
+                key: item.model,
+              }))}
+              theme="DARK"
+              setOpen={(open) => handleChangeModal("model", open)}
+              setValue={(callback) =>
+                handleChangeCarData("model", callback(carData.model))
+              }
+              placeholder="Model"
+              listMode="MODAL"
+              searchable={true}
+              searchPlaceholder="Traži..."
+            />
           </View>
         </View>
       </View>
@@ -181,21 +217,26 @@ const AddListingForm = () => {
           <View
             style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
           >
-            <Picker
-              selectedValue={line}
-              onValueChange={(value) => {
-                setLine(value);
-                setValue("line", value);
-              }}
-              style={[styles.picker, { color: theme.text }]}
-              dropdownIconColor={theme.text}
-            >
-              <Picker.Item label="Odaberi..." value="" />
-              <Picker.Item label="Običan" value="Običan" />
-              <Picker.Item label="AMG" value="AMG" />
-              <Picker.Item label="Maybach" value="Maybach" />
-              <Picker.Item label="EQ" value="EQ" />
-            </Picker>
+            <DropDownPicker
+              open={open.linija}
+              value={carData.line}
+              items={[
+                { label: "Poništi", value: null },
+                { label: "Običan", value: "Običan" },
+                { label: "AMG", value: "AMG" },
+                { label: "Maybach", value: "Maybach" },
+                { label: "EQ", value: "EQ" },
+              ]}
+              theme="DARK"
+              setOpen={(open) => handleChangeModal("linija", open)}
+              setValue={(callback) =>
+                handleChangeCarData("line", callback(carData.line))
+              }
+              placeholder="Linija"
+              listMode="MODAL"
+              searchable={true}
+              searchPlaceholder="Traži..."
+            />
           </View>
         </View>
 
@@ -204,21 +245,25 @@ const AddListingForm = () => {
           <View
             style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
           >
-            <Picker
-              selectedValue={vrstaGoriva}
-              onValueChange={(value) => {
-                setVrstaGoriva(value);
-                setValue("fuel_type", value);
-              }}
-              style={[styles.picker, { color: theme.text }]}
-              dropdownIconColor={theme.text}
-            >
-              <Picker.Item label="Vrsta goriva" value="" />
-              <Picker.Item label="Benzin" value="Benzin" />
-              <Picker.Item label="Dizel" value="Dizel" />
-              <Picker.Item label="Hibrid" value="Hibrid" />
-              <Picker.Item label="Električni" value="Električni" />
-            </Picker>
+            <DropDownPicker
+              open={open.vrstaGoriva}
+              value={carData.fuelType}
+              items={[
+                { label: "Benzin", value: "Benzin" },
+                { label: "Dizel", value: "Dizel" },
+                { label: "Hibrid", value: "Hibrid" },
+                { label: "Električni", value: "Električni" },
+              ]}
+              theme="DARK"
+              setOpen={(open) => handleChangeModal("vrstaGoriva", open)}
+              setValue={(callback) =>
+                handleChangeCarData("fuelType", callback(carData.fuelType))
+              }
+              placeholder="Vrsta goriva"
+              listMode="MODAL"
+              searchable={true}
+              searchPlaceholder="Traži..."
+            />
           </View>
         </View>
       </View>
@@ -229,17 +274,24 @@ const AddListingForm = () => {
           <View
             style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
           >
-            <Picker
-              selectedValue={engineSize}
-              onValueChange={(value) => setEngineSize(value)}
-              style={[styles.picker, { color: theme.text }]}
-              dropdownIconColor={theme.text}
-            >
-              <Picker.Item label="Odaberi kubikažu..." value="" />
-              {availableEngines.map((engine) => (
-                <Picker.Item key={engine} label={engine} value={engine} />
-              ))}
-            </Picker>
+            <DropDownPicker
+              open={open.kubikaza}
+              value={carData.engineSize}
+              items={availableEngines.map((item) => ({
+                label: item,
+                value: item,
+                key: item,
+              }))}
+              theme="DARK"
+              setOpen={(open) => handleChangeModal("kubikaza", open)}
+              setValue={(callback) =>
+                handleChangeCarData("engineSize", callback(carData.engineSize))
+              }
+              placeholder="Kubikaza"
+              listMode="MODAL"
+              searchable={true}
+              searchPlaceholder="Traži..."
+            />
           </View>
         </View>
       </View>
@@ -250,20 +302,24 @@ const AddListingForm = () => {
           <View
             style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
           >
-            <Picker
-              selectedValue={driveTrain}
-              onValueChange={(value) => {
-                setDriveTrain(value);
-                setValue("drivetrain", value);
-              }}
-              style={[styles.picker, { color: theme.text }]}
-              dropdownIconColor={theme.text}
-            >
-              <Picker.Item label="Odaberi..." value="" />
-              <Picker.Item label="Prednji" value="Prednji" />
-              <Picker.Item label="Zadnji" value="Zadnji" />
-              <Picker.Item label="4matic" value="4matic" />
-            </Picker>
+            <DropDownPicker
+              open={open.pogon}
+              value={carData.drivetrain}
+              items={[
+                { label: "Prednji", value: "Prednji" },
+                { label: "Zadnji", value: "Zadnji" },
+                { label: "4matic", value: "4matic" },
+              ]}
+              theme="DARK"
+              setOpen={(open) => handleChangeModal("pogon", open)}
+              setValue={(callback) =>
+                handleChangeCarData("drivetrain", callback(carData.drivetrain))
+              }
+              placeholder="Pogon"
+              listMode="MODAL"
+              searchable={true}
+              searchPlaceholder="Traži..."
+            />
           </View>
         </View>
 
@@ -293,20 +349,30 @@ const AddListingForm = () => {
           <View
             style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
           >
-            <Picker
-              selectedValue={productionYear}
-              onValueChange={(value) => setProductionYear(value)}
-              style={[styles.picker, { color: theme.text }]}
-              dropdownIconColor={theme.text}
-            >
-              <Picker.Item label="Odaberi godinu" value="" />
-              {Array.from(
+            <DropDownPicker
+              open={open.godinaProizvodnje}
+              value={carData.productionYear}
+              items={Array.from(
                 { length: currentYear - 1989 },
                 (_, i) => 1990 + i
-              ).map((year) => (
-                <Picker.Item key={year} label={`${year}`} value={year} />
-              ))}
-            </Picker>
+              ).map((year) => ({
+                label: year,
+                value: year,
+                key: year,
+              }))}
+              theme="DARK"
+              setOpen={(open) => handleChangeModal("godinaProizvodnje", open)}
+              setValue={(callback) =>
+                handleChangeCarData(
+                  "productionYear",
+                  callback(carData.productionYear)
+                )
+              }
+              placeholder="Model"
+              listMode="MODAL"
+              searchable={true}
+              searchPlaceholder="Traži..."
+            />
           </View>
         </View>
 
@@ -315,20 +381,24 @@ const AddListingForm = () => {
           <View
             style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
           >
-            <Picker
-              selectedValue={color}
-              onValueChange={(value) => {
-                setColor(value);
-                setValue("color", value);
-              }}
-              style={[styles.picker, { color: theme.text }]}
-              dropdownIconColor={theme.text}
-            >
-              <Picker.Item label="Odaberi boju" value="" />
-              {carColors.map((color) => (
-                <Picker.Item key={color} label={color} value={color} />
-              ))}
-            </Picker>
+            <DropDownPicker
+              open={open.boja}
+              value={carData.color}
+              items={carColors.map((item) => ({
+                label: item,
+                value: item,
+                key: item,
+              }))}
+              theme="DARK"
+              setOpen={(open) => handleChangeModal("boja", open)}
+              setValue={(callback) =>
+                handleChangeCarData("color", callback(carData.color))
+              }
+              placeholder="Boja"
+              listMode="MODAL"
+              searchable={true}
+              searchPlaceholder="Traži..."
+            />
           </View>
         </View>
       </View>
@@ -339,41 +409,51 @@ const AddListingForm = () => {
           <View
             style={[styles.pickerWrapper, { backgroundColor: theme.bgColor }]}
           >
-            <Picker
-              selectedValue={carType}
-              onValueChange={(value) => {
-                setCarType(value);
-                setValue("car_type", value);
-              }}
-              style={[styles.picker, { color: theme.text }]}
-              dropdownIconColor={theme.text}
-            >
-              <Picker.Item label="Sedan" value="Sedan" />
-              <Picker.Item label="Hatchback" value="Hatchback" />
-              <Picker.Item label="Coupe" value="Coupe" />
-              <Picker.Item label="Karavan" value="Karavan" />
-              <Picker.Item label="Kabrio" value="Kabrio" />
-              <Picker.Item label="SUV" value="SUV" />
-            </Picker>
+            <DropDownPicker
+              open={open.tip}
+              value={carData.carType}
+              items={[
+                { label: "Sedan", value: "Sedan" },
+                { label: "Hatchback", value: "Hatchback" },
+                { label: "Coupe", value: "Coupe" },
+                { label: "Karavan", value: "Karavan" },
+                { label: "Kabrio", value: "Kabrio" },
+                { label: "SUV", value: "SUV" },
+              ]}
+              theme="DARK"
+              setOpen={(open) => handleChangeModal("tip", open)}
+              setValue={(callback) =>
+                handleChangeCarData("carType", callback(carData.carType))
+              }
+              placeholder="Karoserija"
+              listMode="MODAL"
+              searchable={true}
+              searchPlaceholder="Traži..."
+            />
           </View>
         </View>
 
         <View style={styles.pickerContainer}>
           <DefaultText style={styles.label}>Stanje:</DefaultText>
           <View style={styles.pickerWrapper}>
-            <Picker
-              selectedValue={carState}
-              onValueChange={(value) => {
-                setCarState(value);
-                setValue("car_state", value);
-              }}
-              style={[styles.picker, { color: theme.text }]}
-              dropdownIconColor={theme.text}
-            >
-              <Picker.Item label="Novo" value="Novo" />
-              <Picker.Item label="Polovno" value="Polovno" />
-              <Picker.Item label="Klasik" value="Klasik" />
-            </Picker>
+            <DropDownPicker
+              open={open.stanje}
+              value={carData.carState}
+              items={[
+                { label: "Novo", value: "Novo" },
+                { label: "Polovno", value: "Polovno" },
+                { label: "Klasik", value: "Klasik" },
+              ]}
+              theme="DARK"
+              setOpen={(open) => handleChangeModal("stanje", open)}
+              setValue={(callback) =>
+                handleChangeCarData("carState", callback(carData.carState))
+              }
+              placeholder="Stanje"
+              listMode="MODAL"
+              searchable={true}
+              searchPlaceholder="Traži..."
+            />
           </View>
         </View>
       </View>
@@ -394,10 +474,9 @@ const AddListingForm = () => {
       >
         <View style={{ backgroundColor: theme.bgColor }}>
           <SafetyAndFeaturesForm
-            carSafeties={carSafeties}
-            setCarSafeties={setCarSafeties}
-            carFeatures={carFeatures}
-            setCarFeatures={setCarFeatures}
+            carSafeties={carData.carSafeties}
+            setCarData={setCarData}
+            carFeatures={carData.carFeatures}
             onClose={() => setModalVisible(false)}
             theme={theme}
           />

@@ -12,10 +12,9 @@ import { getFontSize } from "../../utils.js/getFontSize";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const SafetyAndFeaturesForm = ({
+  setCarData,
   carSafeties,
-  setCarSafeties,
   carFeatures,
-  setCarFeatures,
   theme,
   onClose,
 }) => {
@@ -55,11 +54,12 @@ const SafetyAndFeaturesForm = ({
                 innerIconStyle={{ borderWidth: 1 }}
                 isChecked={carSafeties.includes(element)}
                 onPress={(isChecked) => {
-                  setCarSafeties((prev) =>
-                    isChecked
-                      ? [...prev, element]
-                      : prev.filter((item) => item !== element)
-                  );
+                  setCarData((prev) => ({
+                    ...prev,
+                    carSafeties: isChecked
+                      ? [...prev.carSafeties, element]
+                      : prev.carSafeties.filter((item) => item !== element),
+                  }));
                 }}
               />
             ))}
@@ -80,11 +80,12 @@ const SafetyAndFeaturesForm = ({
                 innerIconStyle={{ borderWidth: 1 }}
                 isChecked={carFeatures.includes(element)}
                 onPress={(isChecked) => {
-                  setCarFeatures((prev) =>
-                    isChecked
-                      ? [...prev, element]
-                      : prev.filter((item) => item !== element)
-                  );
+                  setCarData((prev) => ({
+                    ...prev,
+                    carFeatures: isChecked
+                      ? [...prev.carFeatures, element]
+                      : prev.carFeatures.filter((item) => item !== element),
+                  }));
                 }}
               />
             ))}

@@ -54,7 +54,6 @@ const EditListingForm = ({ listing, onClose, theme }) => {
     carSafeties: listing.car_safety,
     carFeatures: listing.car_features,
   });
-  console.log(carData);
 
   const [availableEngines, setAvailableEngines] = useState([]);
 
