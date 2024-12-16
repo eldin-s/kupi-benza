@@ -47,7 +47,8 @@
         {
           "photosPermission": "Aplikacija pristupa vašim fotografijama da bi vam omogućila da ih objavite na KupiBenza."
         }
-      ]
+      ],
+      ["@react-native-google-signin/google-signin"]
     ],
     "extra": {
       "eas": {

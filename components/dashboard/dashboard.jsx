@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native";
 import { useCurrentUser } from "../../hooks/user";
 import UserListings from "./user-listings";
 import OutlineButton from "../ui/OutlineButton";

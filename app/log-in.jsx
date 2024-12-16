@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, Stack } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useTheme } from "../providers/ThemeProvider";
+import Auth from "../components/Auth";
 
 const Login = () => {
   const { theme } = useTheme();
@@ -26,7 +27,8 @@ const Login = () => {
         </Link>
       </View>
 
-      <SigninForm />
+      <Auth />
+      {/* <SigninForm /> */}
     </SafeAreaView>
   );
 };
