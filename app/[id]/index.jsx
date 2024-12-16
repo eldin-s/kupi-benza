@@ -134,32 +134,35 @@ const ListingSingle = () => {
           }}
         />
 
-        {/* {session && ( */}
-        <View
-          style={{
-            position: "absolute",
-            zIndex: 10,
-            right: 8,
-            flexDirection: "row",
-            alignItems: "center",
-            gap: scale(8),
-          }}
-        >
-          <Pressable
-            style={styles.iconWrapper}
-            onPress={() => setModalVisible(true)}
+        {session && (
+          <View
+            style={{
+              position: "absolute",
+              zIndex: 10,
+              right: 8,
+              flexDirection: "row",
+              alignItems: "center",
+              gap: scale(8),
+            }}
           >
-            <Text>
-              <FontAwesome name="pencil" size={24} color="black" />
-            </Text>
-          </Pressable>
-          <Pressable style={styles.iconWrapper} onPress={createTwoButtonAlert}>
-            <Text>
-              <FontAwesome name="trash" size={24} color="black" />
-            </Text>
-          </Pressable>
-        </View>
-        {/* )} */}
+            <Pressable
+              style={styles.iconWrapper}
+              onPress={() => setModalVisible(true)}
+            >
+              <Text>
+                <FontAwesome name="pencil" size={24} color="black" />
+              </Text>
+            </Pressable>
+            <Pressable
+              style={styles.iconWrapper}
+              onPress={createTwoButtonAlert}
+            >
+              <Text>
+                <FontAwesome name="trash" size={24} color="black" />
+              </Text>
+            </Pressable>
+          </View>
+        )}
 
         <Modal
           visible={isModalVisible}

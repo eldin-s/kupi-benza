@@ -1,5 +1,6 @@
 import {
   ActivityIndicator,
+  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -23,9 +24,11 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { useUpdateListing } from "../../hooks/listings";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import SafetyAndFeaturesForm from "./safety-and-features-form";
 
 const EditListingForm = ({ listing, onClose, theme }) => {
   const { mutate: updateListing, isPending } = useUpdateListing();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [open, setOpen] = useState({
     model: false,
@@ -87,7 +90,6 @@ const EditListingForm = ({ listing, onClose, theme }) => {
   const {
     control,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -455,57 +457,30 @@ const EditListingForm = ({ listing, onClose, theme }) => {
             </View>
           </View>
 
-          <View style={styles.checkboxContainer}>
-            <DefaultText style={{ fontSize: getFontSize(18) }}>
-              Sigurnost
+          <Pressable
+            style={styles.iconWrapper}
+            onPress={() => setModalVisible(true)}
+          >
+            <DefaultText style={{ textAlign: "center" }}>
+              Oprema i sigurnost
             </DefaultText>
-            {carSafetyData.map((element, index) => (
-              <BouncyCheckbox
-                key={index}
-                size={25}
-                fillColor="#ff4605"
-                unFillColor={theme.text}
-                text={element}
-                iconStyle={{ borderColor: "#c7c7c7" }}
-                innerIconStyle={{ borderWidth: 1 }}
-                isChecked={carData.carSafeties.includes(element)}
-                onPress={(isChecked) => {
-                  setCarData((prev) => ({
-                    ...prev,
-                    carSafeties: isChecked
-                      ? [...prev.carSafeties, element]
-                      : prev.carSafeties.filter((item) => item !== element),
-                  }));
-                }}
-              />
-            ))}
-          </View>
+          </Pressable>
 
-          <View style={styles.checkboxContainer}>
-            <DefaultText style={{ fontSize: getFontSize(18) }}>
-              Oprema
-            </DefaultText>
-            {carFeatures.map((element, index) => (
-              <BouncyCheckbox
-                key={index}
-                size={25}
-                fillColor="#ff4605"
-                unFillColor={theme.text}
-                text={element}
-                iconStyle={{ borderColor: "#c7c7c7" }}
-                innerIconStyle={{ borderWidth: 1 }}
-                isChecked={carData.carFeatures.includes(element)}
-                onPress={(isChecked) => {
-                  setCarData((prev) => ({
-                    ...prev,
-                    carFeatures: isChecked
-                      ? [...prev.carFeatures, element]
-                      : prev.carFeatures.filter((item) => item !== element),
-                  }));
-                }}
+          <Modal
+            visible={modalVisible}
+            animationType="slide"
+            onRequestClose={() => setModalVisible(false)}
+          >
+            <View style={{ backgroundColor: theme.bgColor }}>
+              <SafetyAndFeaturesForm
+                carSafeties={carData.carSafeties}
+                setCarData={setCarData}
+                carFeatures={carData.carFeatures}
+                onClose={() => setModalVisible(false)}
+                theme={theme}
               />
-            ))}
-          </View>
+            </View>
+          </Modal>
 
           <View style={{ paddingTop: verticalScale(8) }}>
             <PrimaryButton onPress={handleSubmit(onCreate)}>
@@ -583,5 +558,15 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     marginTop: verticalScale(14),
     gap: verticalScale(10),
+  },
+  iconWrapper: {
+    borderRadius: 5,
+    borderWidth: 1,
+    padding: 0,
+    borderColor: "#a1a1a1",
+    padding: moderateScale(12),
+    marginVertical: verticalScale(6),
+    overflow: "hidden",
+    textAlign: "center",
   },
 });
