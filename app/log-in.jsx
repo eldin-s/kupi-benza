@@ -1,10 +1,16 @@
-import { StyleSheet, View } from "react-native";
+import { ActivityIndicator, Button, StyleSheet, Text, View } from "react-native";
 import SigninForm from "../components/forms/signin-form";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, Stack } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useTheme } from "../providers/ThemeProvider";
+import {
+    GoogleSignin,
+    GoogleSigninButton,
+    statusCodes,
+  } from '@react-native-google-signin/google-signin';
+import signinGoogle from "../components/forms/signin-google";
 
 const Login = () => {
   const { theme } = useTheme();
@@ -26,7 +32,12 @@ const Login = () => {
         </Link>
       </View>
 
-      <SigninForm />
+      <SigninForm /> 
+        <GoogleSigninButton
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Dark}
+          onPress={signinGoogle}
+        />
     </SafeAreaView>
   );
 };
