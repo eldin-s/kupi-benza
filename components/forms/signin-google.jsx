@@ -13,15 +13,11 @@ import { storeUserInSupabase } from '../../lib/googleAuth';
   // Somewhere in your code
   export default signIn = async () => {
     try {
-      console.log("Checking Play Services...");
       await GoogleSignin.hasPlayServices();
-  
-      console.log("Signing in...");
+
       const response = await GoogleSignin.signIn();
-      console.log("Sign-in response:", response);
       
       if (response.data.idToken) {
-        console.log("ID Token:", response.data.idToken);
         await storeUserInSupabase(response.data.idToken);
       } else {
         console.log("No ID Token received");
