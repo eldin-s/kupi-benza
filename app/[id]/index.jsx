@@ -134,7 +134,7 @@ const ListingSingle = () => {
           }}
         />
 
-        {user.role === "Admin" && (
+        {session && user && user.role === "Admin" && (
           <View
             style={{
               position: "absolute",

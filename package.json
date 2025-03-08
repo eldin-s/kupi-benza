@@ -41,6 +41,7 @@
     "react-native-screens": "^4.0.0",
     "react-native-size-matters": "^0.4.2",
     "react-native-svg": "^15.8.0",
+    "react-native-toast-message": "^2.2.1",
     "typescript": "~5.3.3",
     "undefined": "expo-auth-session/providers/google"
   },
