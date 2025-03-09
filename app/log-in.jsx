@@ -1,15 +1,27 @@
 import { StyleSheet, View } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useTheme } from "../providers/ThemeProvider";
 import signinGoogle from "../components/forms/signin-google";
 import DefaultText from "../components/ui/DefaultText";
 import CustomGoogleSignInButton from "../components/forms/custom-google-button";
+import { useAuth } from "../providers/AuthProvider";
+import { useEffect } from "react";
 
 const Login = () => {
   const { theme } = useTheme();
+  const { session, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && session) {
+      setTimeout(() => {
+        router.replace("/(tabs)/profile");
+      }, 50);
+    }
+  }, [loading, session]);
 
   return (
     <SafeAreaView
@@ -28,11 +40,6 @@ const Login = () => {
         </Link>
       </View>
 
-      {/* <GoogleSigninButton
-        size={GoogleSigninButton.Size.Wide}
-        color={GoogleSigninButton.Color.Dark}
-        onPress={signinGoogle}
-      /> */}
       <CustomGoogleSignInButton onPress={signinGoogle} />
 
       <DefaultText

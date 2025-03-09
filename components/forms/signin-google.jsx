@@ -1,6 +1,7 @@
 // import statusCodes along with GoogleSignin
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
 import { storeUserInSupabase } from '../../lib/googleAuth';
+import Toast from 'react-native-toast-message';
 
   GoogleSignin.configure({
     webClientId: '263936141502-8r9c7qheog5m277cm0emfmj9uqv29p6m.apps.googleusercontent.com',
@@ -21,9 +22,19 @@ import { storeUserInSupabase } from '../../lib/googleAuth';
         await storeUserInSupabase(response.data.idToken);
       } else {
         console.log("No ID Token received");
+        Toast.show({
+          type: 'error',
+          text1: 'Google Sign-In Error',
+          text2: 'No ID Token received',
+        });
       }
     } catch (error) {
       console.error("Google Sign-In Error:", error);
+      Toast.show({
+        type: 'error',
+        text1: 'Google Sign-In Error',
+        text2: error,
+      });
       if (error.code) {
         switch (error.code) {
           case statusCodes.IN_PROGRESS:

@@ -16,9 +16,9 @@ const Profile = () => {
     if (!loading && !session) {
       setTimeout(() => {
         router.replace("/log-in");
-      }, 50); // 50ms delay
+      }, 50);
     }
-  }, [loading, session]);
+  }, [loading, session]);  
 
   if (loading) {
     return <ActivityIndicator />;
