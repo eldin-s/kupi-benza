@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   container: {
     marginHorizontal: scale(14),
     marginVertical: verticalScale(14),
-    paddingBottom: verticalScale(60),
+    // paddingBottom: verticalScale(60),
   },
   content: {
     backgroundColor: "#19212f",

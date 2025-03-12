@@ -50,12 +50,14 @@ const Dashboard = ({ userId }) => {
           onPress={() => supabase.auth.signOut()}
         />
       </View>
-      <OutlineButton
-        textColor={theme.text}
-        onPress={() => router.push("/profile/add-listing")}
-      >
-        + DODAJ OGLAS
-      </OutlineButton>
+      {user && user.role === "Admin" && (
+        <OutlineButton
+          textColor={theme.text}
+          onPress={() => router.push("/profile/add-listing")}
+        >
+          + DODAJ OGLAS
+        </OutlineButton>
+      )}
 
       <UserListings userId={user.id} />
     </View>

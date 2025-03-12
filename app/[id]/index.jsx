@@ -181,7 +181,7 @@ const ListingSingle = () => {
         {listing && listing.car_images ? (
           <ImageSlider images={listing.car_images} />
         ) : (
-          <DefaultText>Loading...</DefaultText>
+          <DefaultText>Učitavanje...</DefaultText>
         )}
 
         <View
