@@ -31,7 +31,7 @@ export default signIn = async () => {
       await storeUserInSupabase(response.data.idToken);
     } else {
       console.log("No ID Token received");
-      Toast.show({
+      Toast.error({
         type: "error",
         text1: "Google Sign-In Error",
         text2: "No ID Token received",
@@ -39,7 +39,7 @@ export default signIn = async () => {
     }
   } catch (error) {
     console.error("Google Sign-In Error:", error);
-    Toast.show({
+    Toast.error({
       type: "error",
       text1: "Google Sign-In Error",
       text2: error,
@@ -51,14 +51,14 @@ export default signIn = async () => {
           break;
         case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
           console.log("Play services not available or outdated.");
-          Toast.show({
+          Toast.error({
             type: "error",
             text1: "Google Play NOT Service available!",
           });
           break;
         default:
           console.log("Other error:", error.message);
-          Toast.show({
+          Toast.error({
             type: "error",
             text1: "Google Sign-In Error",
             text2: error.message || "Unknown error",

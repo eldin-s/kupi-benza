@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
-import { moderateScale, verticalScale } from "react-native-size-matters";
+import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 
 const PrimaryButton = ({ children, onPress, variant = "default" }) => {
   return (
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     letterSpacing: 0.5,
     fontFamily: "Montserrat-Bold",
+    paddingHorizontal: scale(6)
   },
   lightText: {
     color: "#ff4605",
