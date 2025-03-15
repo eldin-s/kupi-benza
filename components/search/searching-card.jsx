@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import { View, Text, StyleSheet, Pressable, Image, TouchableOpacity } from "react-native";
 import { useEffect, useState } from "react";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import mercedesLogo from "../../assets/images/Mercedes-Logo.png";
@@ -37,6 +37,7 @@ const SearchingCard = () => {
   const [carState, setCarState] = useState("Sve");
 
   const [filters, setFilters] = useState({
+    model: model,
     odGodine: "",
     doGodine: "",
     vrstaGoriva: "",
@@ -78,6 +79,10 @@ const SearchingCard = () => {
   const handleSearch = () => {
     const params = new URLSearchParams();
 
+    if (model) {
+      params.set("model", model);
+    }
+
     if (filters.odGodine) {
       params.set("odGodine", filters.odGodine);
     }
@@ -109,6 +114,21 @@ const SearchingCard = () => {
     navigation.navigate("search", { queryString });
   };
 
+  const handleImageClick = (model) => {
+    const params = new URLSearchParams();
+    params.set("model", model);
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      model: model,
+    }));
+    
+    const queryString = params.toString();
+    
+    // Navigate to the Search screen with the updated query string
+    navigation.navigate("search", { queryString });
+  };
+  
   return (
     <View style={styles.mainContainer}>
       <View style={styles.cardContainer}>
@@ -179,6 +199,18 @@ const SearchingCard = () => {
                   S-Class 550
                 </DefaultText>
               </Pressable>
+
+              <Pressable
+                style={styles.dropdownElements}
+                onPress={() => {
+                  setModel("Sve");
+                  setIsOpen(false);
+                }}
+              >
+              <DefaultText color="#000" weight="medium">
+                Sve
+              </DefaultText>
+            </Pressable>
             </View>
           )}
 
@@ -190,26 +222,35 @@ const SearchingCard = () => {
           <View style={styles.cardFooter}>
             <Text style={styles.searchButton}>BRZA PRETRAGA</Text>
             <View style={styles.searchImages}>
-              <Image
-                source={sside}
-                style={styles.searchImage}
-                resizeMode="contain"
-              />
+              <Pressable  onPress={() => handleImageClick("S Class")}>
+                <Image
+                  source={sside}
+                  style={styles.searchImage}
+                  resizeMode="contain"
+                />
+              </Pressable>
+
+            <Pressable onPress={() => handleImageClick("G")}>
               <Image
                 source={gside}
                 style={styles.searchImage}
                 resizeMode="contain"
               />
+            </Pressable>
+            <Pressable onPress={() => handleImageClick("GLE")}>
               <Image
                 source={gleside}
                 style={styles.searchImage}
                 resizeMode="contain"
               />
+            </Pressable>
+            <Pressable onPress={() => handleImageClick("GLS")}>
               <Image
                 source={glsside}
                 style={styles.searchImage}
                 resizeMode="contain"
               />
+            </Pressable>
             </View>
           </View>
         </View>

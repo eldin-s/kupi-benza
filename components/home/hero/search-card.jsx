@@ -22,6 +22,7 @@ const SearchCard = () => {
   const [model, setModel] = useState("GLE");
 
   const [filters, setFilters] = useState({
+    model: model,
     odGodine: "",
     doGodine: "",
     vrstaGoriva: "",
@@ -74,6 +75,22 @@ const SearchCard = () => {
     const queryString = params.toString();
 
     // Navigate to the Search screen and pass the query parameters
+    navigation.navigate("search", { queryString });
+  };
+
+  const handleImageClick = (model) => {
+    console.log("clicked")
+    const params = new URLSearchParams();
+    params.set("model", model);
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      model: model,
+    }));
+    
+    const queryString = params.toString();
+    
+    // Navigate to the Search screen with the updated query string
     navigation.navigate("search", { queryString });
   };
 
@@ -186,6 +203,17 @@ const SearchCard = () => {
                 S Class 550
               </DefaultText>
             </Pressable>
+            <Pressable
+              style={styles.dropdownElements}
+              onPress={() => {
+                setModel("Sve");
+                setIsOpen(false);
+              }}
+            >
+              <DefaultText color="#000" weight="medium">
+                Sve
+              </DefaultText>
+            </Pressable>
           </View>
         )}
 
@@ -201,21 +229,27 @@ const SearchCard = () => {
             BRZA PRETRAGA
           </DefaultText>
           <View style={styles.searchImages}>
-            <Image
-              source={sside}
-              style={styles.searchImage}
-              resizeMode="contain"
-            />
-            <Image
-              source={gside}
-              style={styles.searchImage}
-              resizeMode="contain"
-            />
-            <Image
-              source={gleside}
-              style={styles.searchImage}
-              resizeMode="contain"
-            />
+            <Pressable onPress={() => handleImageClick("S")}>
+              <Image
+                source={sside}
+                style={styles.searchImage}
+                resizeMode="contain"
+              />
+            </Pressable>
+            <Pressable onPress={() => handleImageClick("G")}>
+              <Image
+                source={gside}
+                style={styles.searchImage}
+                resizeMode="contain"
+              />
+            </Pressable>
+            <Pressable onPress={() => handleImageClick("GLE")}>
+              <Image
+                source={gleside}
+                style={styles.searchImage}
+                resizeMode="contain"
+              />
+            </Pressable>
           </View>
         </View>
       </View>

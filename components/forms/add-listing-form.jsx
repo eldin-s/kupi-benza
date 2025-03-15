@@ -130,23 +130,27 @@ const AddListingForm = () => {
 
       const newCarData = {
         ...data,
-        model: selectedModel,
-        engine_size: engineSize,
-        fuel_type: vrstaGoriva,
-        drivetrain: driveTrain,
-        car_type: carType,
-        car_state: carState,
-        line: line,
-        production_year: productionYear,
-        color,
+        model: carData.model,
+        engine_size: carData.engineSize,
+        fuel_type: carData.fuelType,
+        drivetrain: carData.drivetrain,
+        car_type: carData.carType,
+        car_state: carData.carState,
+        line: carData.line,
+        production_year: carData.productionYear,
+        color: carData.color,
         car_images: imagesPath,
         profile_id: session.user.id,
-        car_safety: carSafeties,
-        car_features: carFeatures,
+        car_safety: carData.carSafeties,
+        car_features: carData.carFeatures,
       };
-
-      console.log(newCarData);
-      // createListing(newCarData);
+      
+      const returnData = createListing(newCarData);
+      
+      if (returnData) {
+        console.data("returned", returnData);
+        Alert.alert("Objavljenoo")
+      }
     } catch (error) {
       Alert.alert("Neuspešno objavljivanje oglasa", error.message);
     }
@@ -163,8 +167,9 @@ const AddListingForm = () => {
       const base64 = await FileSystem.readAsStringAsync(image, {
         encoding: "base64",
       });
-      const filePath = `${Math.random()}`.replace(/\s+/g, "-");
-      const contentType = "image/png";
+      const fileExtension = image.split(".").pop() || "png";
+      const filePath = `${Math.random().toString(36).substring(2)}.${fileExtension}`;
+      const contentType = `image/${fileExtension}`;
 
       const { data, error } = await supabase.storage
         .from("pictures")
@@ -368,7 +373,7 @@ const AddListingForm = () => {
                   callback(carData.productionYear)
                 )
               }
-              placeholder="Model"
+              placeholder="Godina proizvodnje"
               listMode="MODAL"
               searchable={true}
               searchPlaceholder="Traži..."
