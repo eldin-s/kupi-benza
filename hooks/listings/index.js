@@ -21,6 +21,23 @@ export function use5CarsList() {
   });
 }
 
+export function useAllCarModels() {
+  return useQuery({
+    queryKey: ["models"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("cars")
+        .select("model", { distinct: true });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
+    },
+  });
+}
+
 export const useListingsForUser = (userId) => {
   return useQuery({
     queryKey: ["cars", userId],
@@ -89,7 +106,7 @@ export const useCreateListing = () => {
         .single();
 
       if (error) {
-        console.log(error)
+        console.log(error);
         Alert.alert("Greska u toku objavljivanja", error.message);
       }
 
@@ -155,8 +172,15 @@ export function useCarsWithFilters(filters) {
   return useQuery({
     queryKey: ["cars", filters],
     queryFn: async () => {
-      const { model, yearRange, priceRange, fuelType, carType, carState, sortBy } =
-        filters;
+      const {
+        model,
+        yearRange,
+        priceRange,
+        fuelType,
+        carType,
+        carState,
+        sortBy,
+      } = filters;
 
       let query = supabase.from("cars").select("*");
 

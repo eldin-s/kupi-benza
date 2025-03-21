@@ -1,4 +1,11 @@
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Button,
+  Modal,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useCurrentUser } from "../../hooks/user";
 import UserListings from "./user-listings";
 import OutlineButton from "../ui/OutlineButton";
@@ -9,11 +16,16 @@ import { useRouter } from "expo-router";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { useTheme } from "../../providers/ThemeProvider";
 import DefaultText from "../ui/DefaultText";
+import { useState } from "react";
+import PrimaryButton from "../ui/PrimaryButton";
+import ServiceCar from "./car-service/ServiceCar";
 
 const Dashboard = ({ userId }) => {
   const { theme } = useTheme();
   const { data: user, error, isLoading } = useCurrentUser(userId);
   const router = useRouter();
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   if (isLoading) {
     return <ActivityIndicator />;
@@ -51,15 +63,28 @@ const Dashboard = ({ userId }) => {
         />
       </View>
       {user && user.role === "Admin" && (
-        <OutlineButton
-          textColor={theme.text}
-          onPress={() => router.push("/profile/add-listing")}
-        >
-          + DODAJ OGLAS
-        </OutlineButton>
+        <>
+          <OutlineButton
+            textColor={theme.text}
+            onPress={() => router.push("/profile/add-listing")}
+          >
+            + DODAJ OGLAS
+          </OutlineButton>
+
+          <UserListings userId={user.id} />
+        </>
       )}
 
-      <UserListings userId={user.id} />
+      <PrimaryButton onPress={() => setModalVisible(true)}>
+        Zakazi servis
+      </PrimaryButton>
+      <Modal
+        animationType="slide"
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <ServiceCar closeModal={() => setModalVisible(false)} />
+      </Modal>
     </View>
   );
 };

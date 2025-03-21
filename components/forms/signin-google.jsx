@@ -22,7 +22,7 @@ export default signIn = async () => {
     await GoogleSignin.hasPlayServices();
     Toast.show({
       type: "success",
-      text1: "Google Play Service available",
+      text1: "Prijava uspesna",
     });
 
     const response = await GoogleSignin.signIn();
@@ -33,7 +33,7 @@ export default signIn = async () => {
       console.log("No ID Token received");
       Toast.error({
         type: "error",
-        text1: "Google Sign-In Error",
+        text1: "Prijava neuspesna",
         text2: "No ID Token received",
       });
     }
@@ -41,7 +41,7 @@ export default signIn = async () => {
     console.error("Google Sign-In Error:", error);
     Toast.error({
       type: "error",
-      text1: "Google Sign-In Error",
+      text1: "Prijava nije uspesna",
       text2: error,
     });
     if (error.code) {

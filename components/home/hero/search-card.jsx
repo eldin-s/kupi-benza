@@ -1,4 +1,10 @@
-import { View, StyleSheet, Pressable, Image } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState } from "react";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import mercedesLogo from "../../../assets/images/Mercedes-Logo.png";
@@ -13,9 +19,12 @@ import { getFontSize } from "../../../utils.js/getFontSize";
 import { useNavigation } from "@react-navigation/native";
 import { useTheme } from "../../../providers/ThemeProvider";
 import DefaultText from "../../ui/DefaultText";
+import { useAllCarModels } from "../../../hooks/listings";
 
 const SearchCard = () => {
   const { theme } = useTheme();
+
+  const { data: carModels, isLoading } = useAllCarModels();
   const [carState, setCarState] = useState("Sve");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -79,7 +88,7 @@ const SearchCard = () => {
   };
 
   const handleImageClick = (model) => {
-    console.log("clicked")
+    console.log("clicked");
     const params = new URLSearchParams();
     params.set("model", model);
 
@@ -87,9 +96,9 @@ const SearchCard = () => {
       ...prevFilters,
       model: model,
     }));
-    
+
     const queryString = params.toString();
-    
+
     // Navigate to the Search screen with the updated query string
     navigation.navigate("search", { queryString });
   };
@@ -173,39 +182,6 @@ const SearchCard = () => {
             <Pressable
               style={styles.dropdownElements}
               onPress={() => {
-                setModel("GLE");
-                setIsOpen(false);
-              }}
-            >
-              <DefaultText color="#000" weight="medium">
-                GLE
-              </DefaultText>
-            </Pressable>
-            <Pressable
-              style={styles.dropdownElements}
-              onPress={() => {
-                setModel("G-SQUARED");
-                setIsOpen(false);
-              }}
-            >
-              <DefaultText color="#000" weight="medium">
-                G-SQUARED
-              </DefaultText>
-            </Pressable>
-            <Pressable
-              style={styles.dropdownElements}
-              onPress={() => {
-                setModel("S Class 550");
-                setIsOpen(false);
-              }}
-            >
-              <DefaultText color="#000" weight="medium">
-                S Class 550
-              </DefaultText>
-            </Pressable>
-            <Pressable
-              style={styles.dropdownElements}
-              onPress={() => {
                 setModel("Sve");
                 setIsOpen(false);
               }}
@@ -214,6 +190,26 @@ const SearchCard = () => {
                 Sve
               </DefaultText>
             </Pressable>
+            {carModels.length > 0 && !isLoading ? (
+              carModels.map((model) => (
+                <Pressable
+                  key={model.model}
+                  style={styles.dropdownElements}
+                  onPress={() => {
+                    setModel(model.model);
+                    setIsOpen(false);
+                  }}
+                >
+                  <DefaultText color="#000" weight="medium">
+                    {model.model}
+                  </DefaultText>
+                </Pressable>
+              ))
+            ) : (
+              <View>
+                <ActivityIndicator size="large" color="#fff" />
+              </View>
+            )}
           </View>
         )}
 
