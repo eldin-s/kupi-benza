@@ -1,4 +1,12 @@
-import { View, Text, StyleSheet, Pressable, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { useEffect, useState } from "react";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 import mercedesLogo from "../../assets/images/Mercedes-Logo.png";
@@ -17,10 +25,13 @@ import { getFontSize } from "../../utils.js/getFontSize";
 import SearchTrack from "./search-track";
 import DefaultText from "../ui/DefaultText";
 import { useTheme } from "../../providers/ThemeProvider";
+import { useAllCarModels } from "../../hooks/listings";
 
 const SearchingCard = () => {
   const { theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data: carModels, isLoading } = useAllCarModels();
 
   const route = useRoute();
   const { queryString } = route.params || "";
@@ -37,6 +48,7 @@ const SearchingCard = () => {
   const [carState, setCarState] = useState("Sve");
 
   const [filters, setFilters] = useState({
+    model: model,
     odGodine: "",
     doGodine: "",
     vrstaGoriva: "",
@@ -78,6 +90,10 @@ const SearchingCard = () => {
   const handleSearch = () => {
     const params = new URLSearchParams();
 
+    if (model) {
+      params.set("model", model);
+    }
+
     if (filters.odGodine) {
       params.set("odGodine", filters.odGodine);
     }
@@ -106,6 +122,21 @@ const SearchingCard = () => {
     const queryString = params.toString();
 
     // Navigate to the Search screen and pass the query parameters
+    navigation.navigate("search", { queryString });
+  };
+
+  const handleImageClick = (model) => {
+    const params = new URLSearchParams();
+    params.set("model", model);
+
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      model: model,
+    }));
+
+    const queryString = params.toString();
+
+    // Navigate to the Search screen with the updated query string
     navigation.navigate("search", { queryString });
   };
 
@@ -149,36 +180,34 @@ const SearchingCard = () => {
               <Pressable
                 style={styles.dropdownElements}
                 onPress={() => {
-                  setModel("GLE");
+                  setModel("Sve");
                   setIsOpen(false);
                 }}
               >
                 <DefaultText color="#000" weight="medium">
-                  GLE
+                  Sve
                 </DefaultText>
               </Pressable>
-              <Pressable
-                style={styles.dropdownElements}
-                onPress={() => {
-                  setModel("G-SQUARED");
-                  setIsOpen(false);
-                }}
-              >
-                <DefaultText color="#000" weight="medium">
-                  G-SQUARED
-                </DefaultText>
-              </Pressable>
-              <Pressable
-                style={styles.dropdownElements}
-                onPress={() => {
-                  setModel("S-Class 550");
-                  setIsOpen(false);
-                }}
-              >
-                <DefaultText color="#000" weight="medium">
-                  S-Class 550
-                </DefaultText>
-              </Pressable>
+              {carModels.length > 0 && !isLoading ? (
+                carModels.map((model) => (
+                  <Pressable
+                    key={model.model}
+                    style={styles.dropdownElements}
+                    onPress={() => {
+                      setModel(model.model);
+                      setIsOpen(false);
+                    }}
+                  >
+                    <DefaultText color="#000" weight="medium">
+                      {model.model}
+                    </DefaultText>
+                  </Pressable>
+                ))
+              ) : (
+                <View>
+                  <ActivityIndicator size="large" color="#fff" />
+                </View>
+              )}
             </View>
           )}
 
@@ -190,26 +219,35 @@ const SearchingCard = () => {
           <View style={styles.cardFooter}>
             <Text style={styles.searchButton}>BRZA PRETRAGA</Text>
             <View style={styles.searchImages}>
-              <Image
-                source={sside}
-                style={styles.searchImage}
-                resizeMode="contain"
-              />
-              <Image
-                source={gside}
-                style={styles.searchImage}
-                resizeMode="contain"
-              />
-              <Image
-                source={gleside}
-                style={styles.searchImage}
-                resizeMode="contain"
-              />
-              <Image
-                source={glsside}
-                style={styles.searchImage}
-                resizeMode="contain"
-              />
+              <Pressable onPress={() => handleImageClick("S Class")}>
+                <Image
+                  source={sside}
+                  style={styles.searchImage}
+                  resizeMode="contain"
+                />
+              </Pressable>
+
+              <Pressable onPress={() => handleImageClick("G")}>
+                <Image
+                  source={gside}
+                  style={styles.searchImage}
+                  resizeMode="contain"
+                />
+              </Pressable>
+              <Pressable onPress={() => handleImageClick("GLE")}>
+                <Image
+                  source={gleside}
+                  style={styles.searchImage}
+                  resizeMode="contain"
+                />
+              </Pressable>
+              <Pressable onPress={() => handleImageClick("GLS")}>
+                <Image
+                  source={glsside}
+                  style={styles.searchImage}
+                  resizeMode="contain"
+                />
+              </Pressable>
             </View>
           </View>
         </View>

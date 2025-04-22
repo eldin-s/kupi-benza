@@ -36,7 +36,7 @@ const UserListings = ({ userId }) => {
           color: "#fff",
           fontSize: getFontSize(16),
           fontFamily: "Montserrat-SemiBold",
-          marginBottom: verticalScale(8),
+          marginBottom: verticalScale(2),
         }}
       >
         Vaši oglasi:

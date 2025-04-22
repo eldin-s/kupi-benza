@@ -1,21 +1,31 @@
 import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Redirect } from "expo-router";
-import { useAuth } from "../../../providers/AuthProvider";
+import { useRouter } from "expo-router";
 import { scale } from "react-native-size-matters";
-import Dashboard from "../../../components/dashboard/dashboard";
+import { useEffect, useState } from "react";
 import { useTheme } from "../../../providers/ThemeProvider";
+import { useAuth } from "../../../providers/AuthProvider";
+import Dashboard from "../../../components/dashboard/dashboard";
 
 const Profile = () => {
   const { theme } = useTheme();
   const { session, loading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !session) {
+      setTimeout(() => {
+        router.replace("/log-in");
+      }, 50);
+    }
+  }, [loading, session]);  
 
   if (loading) {
     return <ActivityIndicator />;
   }
 
   if (!session) {
-    return <Redirect href={"/log-in"} />;
+    return null;
   }
 
   return (

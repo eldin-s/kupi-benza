@@ -131,7 +131,7 @@ const Settings = () => {
             <TextInput
               value={userName}
               onChangeText={onChangeUserName}
-              placeholder={user.full_name}
+              placeholder={user.full_name || "Unesite vase ime"}
               placeholderTextColor={theme.text}
               style={[
                 styles.input,
