@@ -1,0 +1,250 @@
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import React from "react";
+import DefaultText from "../../ui/DefaultText";
+import { useTheme } from "../../../providers/ThemeProvider";
+import { getFontSize } from "../../../utils.js/getFontSize";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { useSingleListing } from "../../../hooks/listings";
+
+const AboutCar = () => {
+  const { theme } = useTheme();
+  const {
+    data: listing,
+    error,
+    isLoading,
+  } = useSingleListing("0984e29a-13ba-4946-9af6-ca33e83b1e0b");
+
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator color={theme.color} />
+      </View>
+    );
+  }
+
+  return (
+    <>
+      <View
+        style={[styles.contentContainer, { backgroundColor: theme.bgShade }]}
+      >
+        <DefaultText
+          style={{ textAlign: "center", fontSize: getFontSize(20) }}
+          weight="semibold"
+        >
+          INFORMACIJE O ISPORUCI
+        </DefaultText>
+
+        <View
+          style={{
+            marginTop: 10,
+            width: "100%",
+            flexDirection: "row",
+            gap: 4,
+            justifyContent: "space-between",
+          }}
+        >
+          <View>
+            <DefaultText
+              weight="semibold"
+              style={{ fontSize: getFontSize(10) }}
+            >
+              DATUM ISPORUKE
+            </DefaultText>
+            <DefaultText
+              color={theme.primary}
+              weight="semibold"
+              style={{ textAlign: "center", fontSize: getFontSize(10) }}
+            >
+              02.02.2025
+            </DefaultText>
+          </View>
+
+          <View>
+            <DefaultText
+              weight="semibold"
+              style={{ fontSize: getFontSize(10) }}
+            >
+              PRVA REGISTRACIJA
+            </DefaultText>
+            <DefaultText
+              color={theme.primary}
+              weight="semibold"
+              style={{ textAlign: "center", fontSize: getFontSize(10) }}
+            >
+              05.02.2025
+            </DefaultText>
+          </View>
+
+          <View>
+            <DefaultText
+              weight="semibold"
+              style={{ fontSize: getFontSize(10) }}
+            >
+              NACIN ISPORUKE
+            </DefaultText>
+            <DefaultText
+              color={theme.primary}
+              weight="semibold"
+              style={{ textAlign: "center", fontSize: getFontSize(10) }}
+            >
+              LICNO PREUZETO
+            </DefaultText>
+          </View>
+        </View>
+      </View>
+
+      <View
+        style={[styles.contentContainer, { backgroundColor: theme.bgShade }]}
+      >
+        <DefaultText
+          style={{ textAlign: "center", fontSize: getFontSize(20) }}
+          weight="semibold"
+        >
+          SPECIFIKACIJE
+        </DefaultText>
+
+        <View
+          style={{
+            marginTop: 10,
+            width: "100%",
+            flexDirection: "row",
+            gap: 4,
+            justifyContent: "space-between",
+          }}
+        >
+          <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
+            <MaterialCommunityIcons
+              name="engine-outline"
+              size={20}
+              color="#ff4605"
+            />
+            <DefaultText
+              weight="semibold"
+              style={{ fontSize: getFontSize(10) }}
+            >
+              4.0l AMG
+            </DefaultText>
+          </View>
+
+          <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
+            <MaterialCommunityIcons
+              name="engine-outline"
+              size={20}
+              color="#ff4605"
+            />
+            <DefaultText
+              weight="semibold"
+              style={{ fontSize: getFontSize(10) }}
+            >
+              585KS
+            </DefaultText>
+          </View>
+
+          <View style={{ flexDirection: "row", gap: 4, alignItems: "center" }}>
+            <MaterialCommunityIcons
+              name="engine-outline"
+              size={20}
+              color="#ff4605"
+            />
+            <DefaultText
+              weight="semibold"
+              style={{ fontSize: getFontSize(10) }}
+            >
+              AUTOMATSKI
+            </DefaultText>
+          </View>
+        </View>
+
+        <View
+          style={{
+            marginTop: 10,
+            width: "100%",
+            flexDirection: "row",
+            gap: 4,
+            justifyContent: "space-between",
+          }}
+        >
+          <View>
+            <DefaultText
+              weight="semibold"
+              style={{ fontSize: getFontSize(10), textAlign: "center" }}
+            >
+              GODISTE
+            </DefaultText>
+            <DefaultText
+              color={theme.primary}
+              weight="semibold"
+              style={{ textAlign: "center", fontSize: getFontSize(10) }}
+            >
+              02.01.2025
+            </DefaultText>
+          </View>
+
+          <View>
+            <DefaultText
+              weight="semibold"
+              style={{ fontSize: getFontSize(10), textAlign: "center" }}
+            >
+              UBRZANJE
+            </DefaultText>
+            <DefaultText
+              color={theme.primary}
+              weight="semibold"
+              style={{ textAlign: "center", fontSize: getFontSize(10) }}
+            >
+              5,5S (0-100KM/H)
+            </DefaultText>
+          </View>
+
+          <View>
+            <DefaultText
+              weight="semibold"
+              style={{ fontSize: getFontSize(10), textAlign: "center" }}
+            >
+              GORIVO
+            </DefaultText>
+            <DefaultText
+              color={theme.primary}
+              weight="semibold"
+              style={{ textAlign: "center", fontSize: getFontSize(10) }}
+            >
+              BENZIN
+            </DefaultText>
+          </View>
+        </View>
+      </View>
+
+      <View
+        style={[styles.contentContainer, { backgroundColor: theme.bgShade }]}
+      >
+        <DefaultText
+          style={{ textAlign: "center", fontSize: getFontSize(20) }}
+          weight="semibold"
+        >
+          LISTA OPREME
+        </DefaultText>
+
+        <View>
+          {listing.car_features.map((feature, index) => (
+            <DefaultText key={index}>*{feature}</DefaultText>
+          ))}
+        </View>
+      </View>
+    </>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  contentContainer: {
+    marginTop: 20,
+    padding: 20,
+    backgroundColor: "#f9f9f9",
+    borderRadius: 16,
+  },
+});
+
+export default AboutCar;

@@ -134,7 +134,7 @@ const ListingSingle = () => {
           }}
         />
 
-        {session && (
+        {session && user && user.role === "Admin" && (
           <View
             style={{
               position: "absolute",
@@ -181,7 +181,7 @@ const ListingSingle = () => {
         {listing && listing.car_images ? (
           <ImageSlider images={listing.car_images} />
         ) : (
-          <DefaultText>Loading...</DefaultText>
+          <DefaultText>Učitavanje...</DefaultText>
         )}
 
         <View

@@ -66,6 +66,14 @@ const ImageSlider = ({ images }) => {
     resetSlideInterval(); // Reset interval on click
   };
 
+  const handleChangeImage = (direction) => {
+    if (direction === "next") {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    } else if (direction === "prev") {
+      setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    }
+  };
+
   // Start the autoplay when the component mounts
   useEffect(() => {
     if (isModalVisible) {
@@ -94,6 +102,9 @@ const ImageSlider = ({ images }) => {
         visible={isModalVisible}
         onClose={handleClose}
         imageSource={{ uri: images[currentIndex] }}
+        images={images} // Pass all images to allow swipe
+        currentIndex={currentIndex}
+        onChangeImage={handleChangeImage}
       />
 
       {/* Left and Right buttons */}

@@ -5,14 +5,14 @@ import { getFontSize } from "../../utils.js/getFontSize";
 
 const SearchSingleCard = ({ listing }) => {
   const {
-    car_images = [],
-    model = "",
-    power = "",
-    car_state = "",
-    production_year = "",
-    engine_size = "",
-    price = "",
-  } = listing.cars || {};
+    car_images,
+    model,
+    power,
+    car_state,
+    production_year,
+    engine_size,
+    price,
+  } = listing;
 
   return (
     <View style={styles.container}>

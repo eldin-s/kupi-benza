@@ -1,11 +1,11 @@
-import { ActivityIndicator, ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Redirect, useRouter } from "expo-router";
-import { useTheme } from "../../providers/ThemeProvider";
-import { useAuth } from "../../providers/AuthProvider";
-import Dashboard from "../../components/dashboard/dashboard";
+import { useRouter } from "expo-router";
 import { scale } from "react-native-size-matters";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useTheme } from "../../../providers/ThemeProvider";
+import { useAuth } from "../../../providers/AuthProvider";
+import Dashboard from "../../../components/dashboard/dashboard";
 
 const Profile = () => {
   const { theme } = useTheme();
@@ -14,9 +14,11 @@ const Profile = () => {
 
   useEffect(() => {
     if (!loading && !session) {
-      router.push("/log-in");
+      setTimeout(() => {
+        router.replace("/log-in");
+      }, 50);
     }
-  }, [loading, session]);
+  }, [loading, session]);  
 
   if (loading) {
     return <ActivityIndicator />;
@@ -27,14 +29,13 @@ const Profile = () => {
   }
 
   return (
-    <View
+    <SafeAreaView
       style={[styles.container, { backgroundColor: theme.bgColor }]}
-      key={session.user.id}
     >
       <ScrollView>
         <Dashboard userId={session.user.id} />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

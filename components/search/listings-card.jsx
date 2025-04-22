@@ -3,6 +3,7 @@ import { useSearch } from "../../hooks/useSearch";
 import { useRouter } from "expo-router";
 import SearchSingleCard from "./search-single-card";
 import { scale, verticalScale } from "react-native-size-matters";
+import DefaultText from "../ui/DefaultText";
 
 const ListingsCard = () => {
   const { data, isLoading } = useSearch();
@@ -17,7 +18,7 @@ const ListingsCard = () => {
   }
 
   if (data.length <= 0) {
-    return <Text style={{ color: "#fff" }}>Nema rezultata!</Text>;
+    return <DefaultText style={{ paddingBottom: verticalScale(20)}}>Nema rezultata!</DefaultText>;
   }
 
   return (
@@ -26,7 +27,7 @@ const ListingsCard = () => {
         flex: 1,
         paddingHorizontal: scale(14),
         rowGap: verticalScale(10),
-        paddingBottom: verticalScale(70),
+        paddingBottom: verticalScale(22),
       }}
     >
       {data.map((listing) => (

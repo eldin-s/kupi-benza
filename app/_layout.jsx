@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import QueryProvider from "../providers/QueryProvider";
 import { ThemeProvider } from "../providers/ThemeProvider";
+import Toast from 'react-native-toast-message';
 
 const RootLayout = () => {
   const [fontsLoaded, error] = useFonts({
@@ -38,6 +39,7 @@ const RootLayout = () => {
             />
           </Stack>
           <StatusBar backgroundColor="#0f141e" style="light" />
+          <Toast />
         </ThemeProvider>
       </QueryProvider>
     </AuthProvider>

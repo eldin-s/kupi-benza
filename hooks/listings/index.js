@@ -21,9 +21,26 @@ export function use5CarsList() {
   });
 }
 
+export function useAllCarModels() {
+  return useQuery({
+    queryKey: ["models"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("cars")
+        .select("model", { distinct: true });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      return data;
+    },
+  });
+}
+
 export const useListingsForUser = (userId) => {
   return useQuery({
-    queryKey: ["listings", userId],
+    queryKey: ["cars", userId],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("cars")
@@ -41,7 +58,7 @@ export const useListingsForUser = (userId) => {
 
 export const useSingleListing = (id) => {
   return useQuery({
-    queryKey: ["listings", id],
+    queryKey: ["cars", id],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("cars")
@@ -89,7 +106,8 @@ export const useCreateListing = () => {
         .single();
 
       if (error) {
-        throw new Error(error.message);
+        console.log(error);
+        Alert.alert("Greska u toku objavljivanja", error.message);
       }
 
       return newListing;
@@ -97,7 +115,7 @@ export const useCreateListing = () => {
 
     async onSuccess() {
       Alert.alert("Oglas uspješno objavljen");
-      await queryClient.invalidateQueries({ queryKey: ["listings"] });
+      await queryClient.invalidateQueries({ queryKey: ["cars"] });
     },
   });
 };
@@ -122,7 +140,7 @@ export const useUpdateListing = () => {
 
     async onSuccess() {
       Alert.alert("Oglas uspješno ažuriran");
-      await queryClient.invalidateQueries({ queryKey: ["listings"] });
+      await queryClient.invalidateQueries({ queryKey: ["cars"] });
     },
   });
 };
@@ -141,7 +159,7 @@ export const useDeleteListing = () => {
 
     async onSuccess() {
       Alert.alert("Oglas uspešno obrisan");
-      await queryClient.invalidateQueries({ queryKey: ["listings"] });
+      await queryClient.invalidateQueries({ queryKey: ["cars"] });
     },
 
     async onError() {
@@ -154,10 +172,21 @@ export function useCarsWithFilters(filters) {
   return useQuery({
     queryKey: ["cars", filters],
     queryFn: async () => {
-      const { yearRange, priceRange, fuelType, carType, carState, sortBy } =
-        filters;
+      const {
+        model,
+        yearRange,
+        priceRange,
+        fuelType,
+        carType,
+        carState,
+        sortBy,
+      } = filters;
 
       let query = supabase.from("cars").select("*");
+
+      if (model && !model !== "Sve") {
+        query = query.ilike("model", `%${model}%`);
+      }
 
       // Apply filters if they are provided
       if (yearRange?.min !== undefined || yearRange?.max !== undefined) {

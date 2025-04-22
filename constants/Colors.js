@@ -8,6 +8,7 @@ export default {
   dark: {
     primary: "#ff4605",
     text: "#fff",
+    textShade: "#575757",
     bgColor: "#0f141e",
     bgShade: tintColorDark,
     logo: benzLogo,
@@ -15,6 +16,7 @@ export default {
   light: {
     primary: "#ff4605",
     text: "#000",
+    textShade: "#373737",
     bgColor: "#eee",
     bgShade: tintColorLight,
     logo: benzLogoDark,

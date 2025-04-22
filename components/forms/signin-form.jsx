@@ -10,6 +10,7 @@ import { supabase } from "../../lib/supabase";
 import { getFontSize } from "../../utils.js/getFontSize";
 import { useTheme } from "../../providers/ThemeProvider";
 import DefaultText from "../ui/DefaultText";
+import Toast from "react-native-toast-message";
 
 const SigninForm = () => {
   const { theme } = useTheme();
@@ -53,7 +54,7 @@ const SigninForm = () => {
 
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ headerShown: false }} />
+      {/* <Stack.Screen options={{ headerShown: false }} /> */}
 
       <DefaultText
         style={styles.heading}
