@@ -5,6 +5,7 @@ import { useTheme } from "../../../providers/ThemeProvider";
 import { getFontSize } from "../../../utils.js/getFontSize";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useSingleListing } from "../../../hooks/listings";
+import { scale, verticalScale } from "react-native-size-matters";
 
 const AboutCar = () => {
   const { theme } = useTheme();
@@ -24,7 +25,7 @@ const AboutCar = () => {
 
   return (
     <>
-      <View
+      {/* <View
         style={[styles.contentContainer, { backgroundColor: theme.bgShade }]}
       >
         <DefaultText
@@ -91,7 +92,7 @@ const AboutCar = () => {
             </DefaultText>
           </View>
         </View>
-      </View>
+      </View> */}
 
       <View
         style={[styles.contentContainer, { backgroundColor: theme.bgShade }]}
@@ -224,9 +225,24 @@ const AboutCar = () => {
           LISTA OPREME
         </DefaultText>
 
-        <View>
+        <View
+          style={{
+            flexDirection: "row",
+            flexWrap: "wrap",
+            gap: scale(4),
+            justifyContent: "space-between",
+          }}
+        >
           {listing.car_features.map((feature, index) => (
-            <DefaultText key={index}>*{feature}</DefaultText>
+            <View
+              key={index}
+              style={{
+                width: "48%", // Each item takes up approximately half the width
+                marginBottom: verticalScale(2), // Add spacing between rows
+              }}
+            >
+              <DefaultText>*{feature}</DefaultText>
+            </View>
           ))}
         </View>
       </View>

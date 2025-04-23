@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Text } from "react-native";
 import React from "react";
 import DefaultText from "../../ui/DefaultText";
 import PrimaryButton from "../../ui/PrimaryButton";
@@ -9,7 +9,7 @@ import { getFontSize } from "../../../utils.js/getFontSize";
 import QuickDetails from "./quick-details";
 import Tabs from "../../Tabs";
 
-const ServiceCar = ({ closeModal }) => {
+const ServiceCar = ({ closeModal, user }) => {
   const { theme } = useTheme();
 
   return (
@@ -27,8 +27,11 @@ const ServiceCar = ({ closeModal }) => {
         >
           MERCEDES BENZ G63 AMG
         </DefaultText>
+        <Text style={{color: theme.primary, textAlign: "center", marginTop: verticalScale(4)}}>
+          KJHSV834HVH3894VHSJDH8HU743
+        </Text>
       </View>
-      <QuickDetails />
+      {/* <QuickDetails /> */}
       <Tabs closeModal={closeModal} />
     </ScrollView>
   );

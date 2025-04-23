@@ -4,13 +4,16 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTheme } from "../../../providers/ThemeProvider";
 import DefaultText from "../../ui/DefaultText";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import PrimaryButton from "../../ui/PrimaryButton";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 LocaleConfig.locales["sr"] = {
   monthNames: [
@@ -58,62 +61,102 @@ LocaleConfig.defaultLocale = "sr";
 const ScheduleService = ({ closeModal }) => {
   const { theme } = useTheme();
 
+  const [isCalendarVisible, setIsCalendarVisible] = useState(false);
+
   const [text, setText] = useState("");
-  const [selectedOption, setSelectedOption] = useState("option1");
+  const [selectedOption, setSelectedOption] = useState("Service A");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
+
+  const handleReserve = async () => {
+    if (!phoneNumber.trim()) {
+      Alert.alert("Greska", "Molimo unesite broj telefona.");
+      return;
+    }
+    if (!text.trim()) {
+      Alert.alert("Greska", "Molimo unesite napomenu.");
+      return;
+    }
+    if (!selectedDate) {
+      Alert.alert("Greska", "Molimo izaberite datum.");
+      return;
+    }
+    const payload = {
+      carModel: "MERCEDES BENZ G63 AMG",
+      date: selectedDate,
+      userEmail: "eldinskenderi95@gmail.com",
+      chassisNumber: "KJHSV834HVH3894VHSJDH8HU743",
+      serviceCat: selectedOption,
+      phoneNumber: phoneNumber,
+      notes: text
+    };
+
+    try {
+      const res = await fetch(
+        "https://ikyedgjktjmgrjexpokc.supabase.co/functions/v1/send-reservation-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (res.ok) {
+        Alert.alert("Uspesno", "Vas email za zakazivanje je poslat!");
+      } else {
+        Alert.alert("Error", "Failed to send email.");
+        console.log("error");
+      }
+    } catch (err) {
+      Alert.alert("Error", err.message);
+      console.log(err);
+    }
+  };
 
   return (
     <>
       <View
         style={[styles.contentContainer, { backgroundColor: theme.bgShade }]}
       >
-        <View style={styles.radioContainer}>
-          <TouchableOpacity onPress={() => setSelectedOption("option1")}>
+        <TouchableOpacity onPress={() => setSelectedOption("Service A")}>
+          <View
+            style={[styles.radioContainer, { backgroundColor: theme.bgColor }]}
+          >
             <Text
               style={[
-                selectedOption === "option1"
+                selectedOption === "Service A"
                   ? styles.selectedRadio
                   : styles.radio,
               ]}
             ></Text>
-          </TouchableOpacity>
-          <DefaultText>SERVICE A</DefaultText>
-        </View>
-        <View style={styles.radioContainer}>
-          <TouchableOpacity onPress={() => setSelectedOption("option2")}>
+            <DefaultText>SERVICE A</DefaultText>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setSelectedOption("Service B")}>
+          <View
+            style={[styles.radioContainer, { backgroundColor: theme.bgColor }]}
+          >
             <Text
               style={
-                selectedOption === "option2"
+                selectedOption === "Service B"
                   ? styles.selectedRadio
                   : styles.radio
               }
             >
               ●
             </Text>
-          </TouchableOpacity>
-          <DefaultText>SERVICE B</DefaultText>
-        </View>
-        <View style={styles.radioContainer}>
-          <TouchableOpacity onPress={() => setSelectedOption("option3")}>
-            <Text
-              style={
-                selectedOption === "option3"
-                  ? styles.selectedRadio
-                  : styles.radio
-              }
-            >
-              ●
-            </Text>
-          </TouchableOpacity>
-          <DefaultText>DETALJNI PREGLED VOZILA</DefaultText>
-        </View>
+            <DefaultText>SERVICE B</DefaultText>
+          </View>
+        </TouchableOpacity>
       </View>
       <View
         style={{
           borderRadius: 16,
           backgroundColor: theme.bgShade,
           padding: moderateScale(10),
-          marginTop: verticalScale(20),
+          marginTop: verticalScale(16),
           color: theme.text,
           placeholder: theme.text,
         }}
@@ -129,70 +172,99 @@ const ScheduleService = ({ closeModal }) => {
         />
       </View>
 
-      <View style={{ flexDirection: "row", gap: scale(6) }}>
+      <View
+        style={{
+          borderRadius: 16,
+          backgroundColor: theme.bgShade,
+          padding: moderateScale(10),
+          marginTop: verticalScale(16),
+          color: theme.text,
+          placeholder: theme.text,
+        }}
+      >
+        <TextInput
+          style={styles.input}
+          numberOfLines={1} // Controls height
+          placeholder="Vas broj telefona"
+          placeholderTextColor={theme.textShade}
+          value={phoneNumber}
+          onChangeText={setPhoneNumber}
+        />
+      </View>
+
+      <View style={{ flexDirection: "row", gap: scale(10) }}>
         <View
           style={{
             flex: 1,
             borderRadius: 16,
             overflow: "hidden",
-            marginTop: verticalScale(20),
+            marginTop: verticalScale(16),
           }}
         >
-          <Calendar
-            onDayPress={(day) => setSelectedDate(day.dateString)}
-            theme={{
-              backgroundColor: theme.bgShade,
-              calendarBackground: theme.bgShade,
-              textSectionTitleColor: theme.textShade, // Day names color
-              dayTextColor: theme.text, // Regular day color
-              todayTextColor: theme.text, // Today’s color
-              selectedDayBackgroundColor: theme.bgColor,
-              selectedDayTextColor: theme.text,
-              arrowColor: theme.text,
-              monthTextColor: theme.text, // Month color
-              yearTextColor: theme.textShade, // Year color
-              textDisabledColor: theme.textShade, // Previous/Next month’s days color
-            }}
-            markedDates={{
-              [selectedDate]: { selected: true, selectedColor: theme.bgColor },
-            }}
-            disableAllTouchEventsForDisabledDays={true} // Optional: Prevents clicking on disabled days
-          />
-        </View>
-        <View>
-          <View
+          <TouchableOpacity
+            onPress={() => setIsCalendarVisible(!isCalendarVisible)}
             style={{
-              borderRadius: 16,
+              padding: moderateScale(13),
+              width: "100%",
               backgroundColor: theme.bgShade,
-              padding: moderateScale(10),
-              marginTop: verticalScale(20),
-              color: theme.text,
-              placeholder: theme.text,
+              borderRadius: 16,
+              alignItems: "center",
             }}
           >
-            <DefaultText weight="semibold">NAPOMENA</DefaultText>
-            <DefaultText style={{ color: theme.textShade }}>
-              Rando vreme:
-            </DefaultText>
-            <DefaultText style={{ color: theme.textShade }}>
-              09:00 - 17:00
-            </DefaultText>
-            <DefaultText style={{ color: theme.textShade }}>
-              Subota:
-            </DefaultText>
-            <DefaultText style={{ color: theme.textShade }}>
-              09:00 - 14:00
-            </DefaultText>
-            <DefaultText style={{ color: theme.textShade }}>
-              Nedelja:
-            </DefaultText>
-            <DefaultText style={{ color: theme.textShade }}>
-              Zatvoreno
-            </DefaultText>
-          </View>
-          <View style={{ marginTop: verticalScale(6) }}>
-            <PrimaryButton onPress={closeModal}>Zakazi</PrimaryButton>
-          </View>
+            <View
+              style={{
+                color: theme.text,
+                alignItems: "center",
+                gap: 5,
+                flexDirection: "row",
+              }}
+            >
+              <DefaultText>
+                <Ionicons name="calendar" size={16} />
+              </DefaultText>
+              <DefaultText>{selectedDate || "Izaberite datum"}</DefaultText>
+              <DefaultText>
+                <MaterialIcons name="keyboard-arrow-down" size={16}  />
+              </DefaultText>
+            </View>
+          </TouchableOpacity>
+
+          {isCalendarVisible && (
+            <Calendar
+              onDayPress={(day) => {
+                setSelectedDate(day.dateString);
+                setIsCalendarVisible(false);
+              }}
+              style={{
+                borderRadius: 16,
+                marginTop: verticalScale(2),
+              }}
+              theme={{
+                backgroundColor: theme.bgShade,
+                calendarBackground: theme.bgShade,
+                textSectionTitleColor: theme.textShade, // Day names color
+                dayTextColor: theme.text, // Regular day color
+                todayTextColor: theme.text, // Today’s color
+                selectedDayBackgroundColor: theme.bgColor,
+                selectedDayTextColor: theme.text,
+                arrowColor: theme.text,
+                monthTextColor: theme.text, // Month color
+                yearTextColor: theme.textShade, // Year color
+                textDisabledColor: theme.textShade, // Previous/Next month’s days color
+              }}
+              markedDates={{
+                [selectedDate]: {
+                  selected: true,
+                  selectedColor: theme.bgColor,
+                },
+              }}
+              minDate={new Date().toISOString().split("T")[0]}
+              disableAllTouchEventsForDisabledDays={true}
+            />
+          )}
+        </View>
+        <View style={{ marginTop: verticalScale(16), width: "30%" }}>
+          <PrimaryButton onPress={handleReserve}>Zakazi</PrimaryButton>
         </View>
       </View>
     </>
@@ -207,7 +279,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexDirection: "row",
     gap: 10,
-    marginTop: 20,
+    marginTop: 16,
     padding: 20,
     borderRadius: 16,
     flexWrap: "wrap",
@@ -218,7 +290,10 @@ const styles = StyleSheet.create({
   radioContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
+    backgroundColor: "#000",
+    paddingHorizontal: scale(14),
+    paddingVertical: verticalScale(8),
+    borderRadius: 999,
     flexWrap: "wrap",
   },
   radio: {
@@ -245,6 +320,11 @@ const styles = StyleSheet.create({
     textAlignVertical: "top",
     minHeight: 100,
     color: "#fff",
+  },
+  input: {
+    width: "100%",
+    color: "#fff",
+    borderRadius: 5,
   },
 });
 

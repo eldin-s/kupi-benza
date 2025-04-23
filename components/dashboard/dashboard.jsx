@@ -83,7 +83,7 @@ const Dashboard = ({ userId }) => {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <ServiceCar closeModal={() => setModalVisible(false)} />
+        <ServiceCar closeModal={() => setModalVisible(false)} user={user} />
       </Modal>
     </View>
   );
