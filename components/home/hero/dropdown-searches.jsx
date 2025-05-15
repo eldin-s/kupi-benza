@@ -12,6 +12,8 @@ const DropdownSearches = ({ filters, handleChangeFilters }) => {
     { label: "Električni", value: "Električni" },
   ];
 
+  console.log("filters", filters);
+
   const bodyTypes = [
     { label: "Poništi", value: null },
     { label: "Sedan", value: "Sedan" },

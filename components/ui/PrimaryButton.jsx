@@ -1,11 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { moderateScale, scale, verticalScale } from "react-native-size-matters";
 
-const PrimaryButton = ({ children, onPress, variant = "default" }) => {
+const PrimaryButton = ({ children, onPress, variant = "default", buttonStyle }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[styles.button, variant === "light" ? styles.lightButton : null]}
+      style={[styles.button, buttonStyle, variant === "light" ? styles.lightButton : null]}
     >
       <Text
         style={[styles.text, variant === "light" ? styles.lightText : null]}

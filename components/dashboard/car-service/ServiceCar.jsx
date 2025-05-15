@@ -9,12 +9,12 @@ import { getFontSize } from "../../../utils.js/getFontSize";
 import QuickDetails from "./quick-details";
 import Tabs from "../../Tabs";
 
-const ServiceCar = ({ closeModal, user }) => {
+const ServiceCar = ({ closeModal, user, listing }) => {
   const { theme } = useTheme();
 
   return (
     <ScrollView style={[styles.container, { backgroundColor: theme.bgColor }]}>
-      <Hero />
+      <Hero listing={listing} />
       <View
         style={{
           paddingVertical: verticalScale(8),
@@ -25,14 +25,14 @@ const ServiceCar = ({ closeModal, user }) => {
           style={{ textAlign: "center", fontSize: getFontSize(20) }}
           weight="semibold"
         >
-          MERCEDES BENZ G63 AMG
+          {listing.model}
         </DefaultText>
         <Text style={{color: theme.primary, textAlign: "center", marginTop: verticalScale(4)}}>
-          KJHSV834HVH3894VHSJDH8HU743
+          {listing.chassis_number}
         </Text>
       </View>
       {/* <QuickDetails /> */}
-      <Tabs closeModal={closeModal} />
+      <Tabs closeModal={closeModal} listing={listing} />
     </ScrollView>
   );
 };

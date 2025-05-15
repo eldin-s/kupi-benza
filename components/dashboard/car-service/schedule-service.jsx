@@ -58,7 +58,7 @@ LocaleConfig.locales["sr"] = {
 };
 LocaleConfig.defaultLocale = "sr";
 
-const ScheduleService = ({ closeModal }) => {
+const ScheduleService = ({ closeModal, listing }) => {
   const { theme } = useTheme();
 
   const [isCalendarVisible, setIsCalendarVisible] = useState(false);
@@ -82,10 +82,10 @@ const ScheduleService = ({ closeModal }) => {
       return;
     }
     const payload = {
-      carModel: "MERCEDES BENZ G63 AMG",
+      carModel: listing.model,
       date: selectedDate,
       userEmail: "eldinskenderi95@gmail.com",
-      chassisNumber: "KJHSV834HVH3894VHSJDH8HU743",
+      chassisNumber: listing.chassis_number,
       serviceCat: selectedOption,
       phoneNumber: phoneNumber,
       notes: text

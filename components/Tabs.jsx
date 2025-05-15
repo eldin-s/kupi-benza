@@ -11,7 +11,7 @@ import DefaultText from "./ui/DefaultText";
 import AboutCar from "./dashboard/car-service/about-car";
 import ScheduleService from "./dashboard/car-service/schedule-service";
 
-const Tabs = ({ closeModal }) => {
+const Tabs = ({ closeModal, listing }) => {
   const { theme } = useTheme();
   const [selectedTab, setSelectedTab] = useState("about");
   const animatedValue = useState(new Animated.Value(0))[0];
@@ -53,9 +53,9 @@ const Tabs = ({ closeModal }) => {
         </TouchableOpacity>
       </View>
       {selectedTab === "about" ? (
-        <AboutCar />
+        <AboutCar listing={listing} />
       ) : (
-        <ScheduleService closeModal={closeModal} />
+        <ScheduleService closeModal={closeModal} listing={listing} />
       )}
     </View>
   );

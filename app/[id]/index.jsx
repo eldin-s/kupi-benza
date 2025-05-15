@@ -28,6 +28,8 @@ import EditListingForm from "../../components/forms/edit-listing-form";
 import { useNavigation } from "@react-navigation/native";
 import { supabase } from "../../lib/supabase";
 import DefaultText from "../../components/ui/DefaultText";
+import PrimaryButton from "../../components/ui/PrimaryButton";
+import ServiceCar from "../../components/dashboard/car-service/ServiceCar";
 
 const ListingSingle = () => {
   const { theme } = useTheme();
@@ -36,6 +38,7 @@ const ListingSingle = () => {
   const [isParking, setIsParking] = useState(false);
 
   const [isModalVisible, setModalVisible] = useState(false);
+  const [serviceModalVisible, setServiceModalVisible] = useState(false);
 
   const { session } = useAuth();
   const { data: user } = useCurrentUser(session?.user?.id);
@@ -308,6 +311,20 @@ const ListingSingle = () => {
             </View>
           </View>
         </View>
+
+        <View style={{ paddingVertical: verticalScale(10), marginBottom: -verticalScale(12), width: "100%", justifyContent: "center", alignItems: "center" }}>
+
+          <PrimaryButton onPress={() => setServiceModalVisible(true)} buttonStyle={{ width: "90%" }}>
+            Zakazi servis
+          </PrimaryButton>
+        </View>
+        <Modal
+          animationType="slide"
+          visible={serviceModalVisible}
+          onRequestClose={() => setServiceModalVisible(false)}
+        >
+          <ServiceCar closeModal={() => setServiceModalVisible(false)} user={user} listing={listing} />
+        </Modal>
 
         <Informations listing={listing} />
         <Safety safeties={listing.car_safety} />

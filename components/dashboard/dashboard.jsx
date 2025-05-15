@@ -1,9 +1,5 @@
 import {
   ActivityIndicator,
-  Button,
-  Modal,
-  StyleSheet,
-  Text,
   View,
 } from "react-native";
 import { useCurrentUser } from "../../hooks/user";
@@ -17,8 +13,6 @@ import { getFontSize } from "../../utils.js/getFontSize";
 import { useTheme } from "../../providers/ThemeProvider";
 import DefaultText from "../ui/DefaultText";
 import { useState } from "react";
-import PrimaryButton from "../ui/PrimaryButton";
-import ServiceCar from "./car-service/ServiceCar";
 
 const Dashboard = ({ userId }) => {
   const { theme } = useTheme();
@@ -74,17 +68,6 @@ const Dashboard = ({ userId }) => {
           <UserListings userId={user.id} />
         </>
       )}
-
-      <PrimaryButton onPress={() => setModalVisible(true)}>
-        Zakazi servis
-      </PrimaryButton>
-      <Modal
-        animationType="slide"
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <ServiceCar closeModal={() => setModalVisible(false)} user={user} />
-      </Modal>
     </View>
   );
 };

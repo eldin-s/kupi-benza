@@ -37,6 +37,7 @@ const SearchingCard = () => {
   const { queryString } = route.params || "";
   const params = new URLSearchParams(queryString);
 
+  const modelParam = params.get("model");
   const yearMin = params.get("odGodine");
   const yearMax = params.get("doGodine");
   const priceMin = params.get("odCene");
@@ -44,7 +45,7 @@ const SearchingCard = () => {
   const fuelType = params.get("vrstaGoriva");
   const carType = params.get("karoserija");
 
-  const [model, setModel] = useState("GLE");
+  const [model, setModel] = useState(modelParam);
   const [carState, setCarState] = useState("Sve");
 
   const [filters, setFilters] = useState({
@@ -55,7 +56,24 @@ const SearchingCard = () => {
     odCene: "",
     doCene: "",
     karoserija: "",
+    carState: carState,
   });
+
+  // Sync model and filters.model with modelParam changes
+  useEffect(() => {
+    setModel(modelParam);
+    setFilters((prev) => ({
+      ...prev,
+      model: modelParam,
+      odGodine: yearMin || "",
+      doGodine: yearMax || "",
+      odCene: priceMin || "",
+      doCene: priceMax || "",
+      vrstaGoriva: fuelType || "",
+      karoserija: carType || "",
+      carState: carState,
+    }));
+  }, [modelParam, yearMin, yearMax, priceMin, priceMax, fuelType, carType]);
 
   const handleChangeFilters = (key, value) => {
     setFilters((prev) => ({
@@ -63,27 +81,6 @@ const SearchingCard = () => {
       [key]: value,
     }));
   };
-
-  useEffect(() => {
-    if (yearMin !== null) {
-      handleChangeFilters("odGodine", yearMin);
-    }
-    if (yearMax !== null) {
-      handleChangeFilters("doGodine", yearMax);
-    }
-    if (priceMin !== null) {
-      handleChangeFilters("odCene", priceMin);
-    }
-    if (priceMax !== null) {
-      handleChangeFilters("doCene", priceMax);
-    }
-    if (fuelType !== null) {
-      handleChangeFilters("vrstaGoriva", fuelType);
-    }
-    if (carType !== null) {
-      handleChangeFilters("karoserija", carType);
-    }
-  }, []);
 
   const navigation = useNavigation();
 

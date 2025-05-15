@@ -184,7 +184,8 @@ export function useCarsWithFilters(filters) {
 
       let query = supabase.from("cars").select("*");
 
-      if (model && !model !== "Sve") {
+      // Only apply model filter if model is set and not "Sve"
+      if (model && model !== "Sve") {
         query = query.ilike("model", `%${model}%`);
       }
 

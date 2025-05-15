@@ -7,21 +7,9 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useSingleListing } from "../../../hooks/listings";
 import { scale, verticalScale } from "react-native-size-matters";
 
-const AboutCar = () => {
+const AboutCar = ({listing}) => {
   const { theme } = useTheme();
-  const {
-    data: listing,
-    error,
-    isLoading,
-  } = useSingleListing("0984e29a-13ba-4946-9af6-ca33e83b1e0b");
-
-  if (isLoading) {
-    return (
-      <View>
-        <ActivityIndicator color={theme.color} />
-      </View>
-    );
-  }
+  console.log("listing", listing);
 
   return (
     <>
@@ -123,7 +111,7 @@ const AboutCar = () => {
               weight="semibold"
               style={{ fontSize: getFontSize(10) }}
             >
-              4.0l AMG
+              {listing.engine_size} L
             </DefaultText>
           </View>
 
@@ -137,7 +125,7 @@ const AboutCar = () => {
               weight="semibold"
               style={{ fontSize: getFontSize(10) }}
             >
-              585KS
+              {listing.power} KS
             </DefaultText>
           </View>
 
@@ -151,7 +139,7 @@ const AboutCar = () => {
               weight="semibold"
               style={{ fontSize: getFontSize(10) }}
             >
-              AUTOMATSKI
+              {listing.transmission}
             </DefaultText>
           </View>
         </View>
@@ -177,7 +165,7 @@ const AboutCar = () => {
               weight="semibold"
               style={{ textAlign: "center", fontSize: getFontSize(10) }}
             >
-              02.01.2025
+              {listing.production_year}
             </DefaultText>
           </View>
 
@@ -209,7 +197,7 @@ const AboutCar = () => {
               weight="semibold"
               style={{ textAlign: "center", fontSize: getFontSize(10) }}
             >
-              BENZIN
+              {listing.fuel_type}
             </DefaultText>
           </View>
         </View>

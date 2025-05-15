@@ -8,12 +8,13 @@ import Logo from "../../home/logo";
 import { useTheme } from "../../../providers/ThemeProvider";
 import { getFontSize } from "../../../utils.js/getFontSize";
 
-const Hero = () => {
+const Hero = ({listing}) => {
   const { theme } = useTheme();
+  console.log("listing", listing.car_images[0]);
 
   return (
     <View>
-      <ImageBackground source={mountainBg} style={styles.bgContainer}>
+      <ImageBackground source={{ uri: listing.car_images[0] }} style={styles.bgContainer}>
         <View
           style={{
             width: "100%",
@@ -46,11 +47,11 @@ const Hero = () => {
           >
             Pozdrav {"\n"}Aldine
           </DefaultText>
-          <Image
-            source={gClass}
+          {/* <Image
+            source={{ uri: listing.car_images[0] }}
             style={styles.imageSize}
             resizeMode="contain"
-          />
+          /> */}
         </View>
       </ImageBackground>
     </View>
@@ -59,7 +60,8 @@ const Hero = () => {
 
 const styles = StyleSheet.create({
   bgContainer: {
-    paddingVertical: verticalScale(6),
+    paddingBottom: verticalScale(36),
+    paddingTop: verticalScale(16),
     backgroundColor: "#19212f",
     flexDirection: "column",
     gap: scale(8),
@@ -69,9 +71,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: moderateScale(24),
   },
   imageSize: {
-    width: "auto",
+    width: scale(200),
     height: verticalScale(115),
+    maxWidth: scale(200),
+    maxHeight: verticalScale(200),
     marginTop: verticalScale(-25),
+    zIndex: 20
   },
 });
 
